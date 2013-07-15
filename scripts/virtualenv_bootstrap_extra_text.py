@@ -1,5 +1,12 @@
 import os
 import subprocess
 
+dependencies = [
+                'mock',
+                'nose',
+                'nose-parameterized',
+               ]
+
 def after_install(options, home_dir):
-    subprocess.call([os.path.join(home_dir, 'bin', 'pip'), 'install', 'mock'])
+    for package in dependencies:
+        subprocess.call([os.path.join(home_dir, 'bin', 'pip'), 'install', package])

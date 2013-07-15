@@ -2,10 +2,10 @@ import unittest
 from mock import Mock, call, ANY
 from depict.data_collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 
-def test_function1():
+def function1():
     return 1
 
-def test_function2(arg):
+def function2(arg):
     return arg
 
 class TestThreadScopedTracer(unittest.TestCase):
@@ -14,41 +14,38 @@ class TestThreadScopedTracer(unittest.TestCase):
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
         thread_scoped_tracer.start()
-        test_function1()
+        function1()
         thread_scoped_tracer.stop()
-        observer.on_call.assert_called_once_with('test_function1')
+        observer.on_call.assert_called_once_with('function1')
 
     def test_notifies_two_function_calls(self):
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
         thread_scoped_tracer.start()
-        test_function1()
-        test_function2(1)
+        function1()
+        function2(1)
         thread_scoped_tracer.stop()
-        expected_calls = [call('test_function1'), call('test_function2')]
+        expected_calls = [call('function1'), call('function2')]
         self.assertEqual(observer.on_call.call_args_list, expected_calls)
 
     def test_notifies_return_from_function(self):
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
         thread_scoped_tracer.start()
-        test_function1()
-        test_function2(1)
+        function1()
+        function2(1)
         thread_scoped_tracer.stop()
-        expected_calls = [call('test_function1'), call('test_function2')]
+        expected_calls = [call('function1'), call('function2')]
         self.assertEqual(observer.on_call.call_args_list, expected_calls)
 
     def test_does_not_notify_after_stop(self):
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
         thread_scoped_tracer.start()
-        test_function1()
+        function1()
         thread_scoped_tracer.stop()
-        test_function2(1)
-        observer.on_return.assert_called_once_with('test_function1')
-
-if __name__ == '__main__':
-    unittest.main()
+        function2(1)
+        observer.on_return.assert_called_once_with('function1')
 
 if __name__ == '__main__':
     unittest.main()
