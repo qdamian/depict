@@ -1,0 +1,2 @@
+class ActorFinder():
+    pass
