@@ -1,5 +1,6 @@
 import sys
 import os
+from depict.data_collection.dynamic.frame_digest import FrameDigest
 
 def _get_filename_without_extension(filepath):
     base = os.path.basename(filepath)
@@ -38,7 +39,7 @@ class ThreadScopedTracer():
         return event_filename == self.filename
 
     def _on_call(self, frame):
-        self.observer.on_call(frame.f_code.co_name)
+        self.observer.on_call(FrameDigest(frame))
 
     def _on_return(self, frame):
-        self.observer.on_return(frame.f_code.co_name)
+        self.observer.on_return(FrameDigest(frame))
