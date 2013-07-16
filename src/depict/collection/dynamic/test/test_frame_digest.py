@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock, MagicMock, call, ANY, patch
-from depict.data_collection.dynamic.frame_digest import FrameDigest
+from depict.collection.dynamic.frame_digest import FrameDigest
 from nose_parameterized import parameterized
 import inspect
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from depict.plain_text import function_list
+from depict.representation.function_list import FunctionList
 
 def say_hi():
     print 'hello world'
@@ -9,7 +9,8 @@ def main():
     say_hi()
 
 if __name__ == '__main__':
-    function_list.start('out_file')
+    function_list = FunctionList('out_file')
+    function_list.start()
     main()
     function_list.stop()
 

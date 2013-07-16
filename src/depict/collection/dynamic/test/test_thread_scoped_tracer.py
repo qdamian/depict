@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock, call, ANY
-from depict.data_collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
+from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 
 def function1():
     return 1

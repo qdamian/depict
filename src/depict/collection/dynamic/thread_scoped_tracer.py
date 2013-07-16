@@ -1,12 +1,12 @@
 import sys
 import os
-from depict.data_collection.dynamic.frame_digest import FrameDigest
+from depict.collection.dynamic.frame_digest import FrameDigest
 
 def _get_filename_without_extension(filepath):
     base = os.path.basename(filepath)
     return os.path.splitext(base)[0]
 
-class ThreadScopedTracer():
+class ThreadScopedTracer(object):
     '''
     Trace function calls & returns using the system's trace function.
 
