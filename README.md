@@ -1,23 +1,23 @@
-> /dɪˈpɪkt/: to represent or show something in a picture or story
-
 depict
 ======
 
-Represent the execution flow of a Python program.
+A python module to create 'representations' of a program which can be static (based on source code), dynamic (based on one or more executions) or a mix of both.
 
-What is depict?
----------------
-A python module than can be used to generate different representations of the executions of a Python program such as a listing of all funcion calls or a sequence diagram.
-
-See also doc/overview.md
+> /dɪˈpɪkt/: to represent or show something in a picture or story
 
 Status of the project
 ---------------------
 
 Not yet useful in any way.
 
+Development
+-----------
+
+See doc/overview.md
+
 Alternatives
 ------------
 
-Here is a similar, much more mature, seemingly not currently maintained project:
-https://github.com/atsuoishimoto/disptrace
+[pyreverse](http://www.logilab.org/2560) PyReverse is a Python Reverse engineering tool. It's able to generate UML like diagram from Python source code.
+
+[disptrace](https://github.com/atsuoishimoto/disptrace "disptrace") A great project that traces a program and creates an HTML5 document displaying called functions.
