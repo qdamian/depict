@@ -15,8 +15,9 @@ class FunctionDefinitionLocator():
         
     def on_function(self, name, id_, class_id):
         if class_id:
-            Class_ = GlobalClassRepo.get(class_id)
-            _function_ = Method(name, id_, Class_)
+            class_ = GlobalClassRepo.get(class_id)
+            function = Method(name, id_, class_)
+            class_.add_method(function)
         else:
-            _function_ = Function(name, id_) 
-        self.function_repo.add(_function_)
+            function = Function(name, id_) 
+        self.function_repo.add(function)
