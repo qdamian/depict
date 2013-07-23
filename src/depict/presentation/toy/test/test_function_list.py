@@ -1,17 +1,17 @@
 from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
-from depict.representation.function_list import FunctionList
+from depict.presentation.toy.function_list import FunctionList
 from depict.collection.dynamic.frame_digest import FrameDigest
 from depict.model.function_call import FunctionCall
 from depict.model.function import Function
 
-@patch('depict.representation.function_list.open', create=True)
+@patch('depict.presentation.toy.function_list.open', create=True)
 class TestFunctionList():
     def test_init_opens_output_file(self, open_mock):
         FunctionList('file_name')
         open_mock.assert_called_once_with('file_name', 'w')
 
     def test_init_createsFunctioncall_notifier(self, open_mock):
-        with patch('depict.representation.function_list.FunctionCallNotifier') as function_call_notifierClass_mock:
+        with patch('depict.presentation.toy.function_list.FunctionCallNotifier') as function_call_notifierClass_mock:
             function_list = FunctionList('file_name')
             function_call_notifierClass_mock.assert_called_once_with(function_list)
 
