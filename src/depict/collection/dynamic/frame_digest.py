@@ -1,6 +1,7 @@
 import os
 
 class FrameDigest(object):
+    '''Summary of a frame object'''
 
     def __init__(self, frame):
         self.frame = frame

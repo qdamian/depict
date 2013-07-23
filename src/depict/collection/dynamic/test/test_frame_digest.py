@@ -1,26 +1,30 @@
-import unittest
-from mock import Mock, MagicMock, call, ANY, patch
 from depict.collection.dynamic.frame_digest import FrameDigest
+from mock import Mock, MagicMock, patch
 from nose_parameterized import parameterized
 import inspect
+import unittest
 
 class TestFrameDigest(unittest.TestCase):
 
     @parameterized.expand([('module1',), ('module2',)])
-    def test_extracts_module_name(self, expected_module_name):
+    def test_init_gets_module_name_from_frame(self, expected_module_name):
         frame_mock = Mock()
         frame_mock.f_globals = MagicMock()
         frame_mock.f_globals.__getitem__.return_value = expected_module_name
+        
         frame_digest = FrameDigest(frame_mock)
         actual_module_name = frame_digest.module_name
+
         self.assertEqual(actual_module_name, expected_module_name)
 
     @parameterized.expand([('func1',), ('func2',)])
-    def test_extracts_function_name(self, expected_function_name):
+    def test_init_gets_function_name_from_frame(self, expected_function_name):
         frame_mock = Mock()
         frame_mock.f_code.co_name = expected_function_name
+        
         frame_digest = FrameDigest(frame_mock)
         actual_function_name = frame_digest.function_name
+
         self.assertEqual(actual_function_name, expected_function_name)
 
     @patch('os.path.abspath')
@@ -28,8 +32,10 @@ class TestFrameDigest(unittest.TestCase):
         abspath_mock.return_value = 'absolute/path/to/file'
         frame_mock = Mock()
         frame_mock.f_code.co_filename = 'path/to/file'
+
         frame_digest = FrameDigest(frame_mock)
         actual_filename = frame_digest.file_name
+
         abspath_mock.assert_called_once_with('path/to/file')
         self.assertEqual(actual_filename, 'absolute/path/to/file')
 
@@ -37,8 +43,10 @@ class TestFrameDigest(unittest.TestCase):
     def test_line_number_returns_source_code_line_number(self, expected_lineno):
         frame_mock = Mock()
         frame_mock.f_lineno = expected_lineno 
+
         frame_digest = FrameDigest(frame_mock)
         actual_lineno = frame_digest.line_number
+
         self.assertEqual(actual_lineno, expected_lineno)
 
     def test_works_on_a_real_frame_object(self):

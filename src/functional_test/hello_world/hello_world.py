@@ -6,15 +6,19 @@ def say_hi():
     print 'hello world'
 
 def main():
-    say_hi()
+    p = Person()
+    p.say_hi()
+    p.say_bye()
+
+class Person():
+    def say_hi(self):
+        print 'Hello, world'
+
+    def say_bye(self):
+        print 'Bye'
 
 if __name__ == '__main__':
     function_list = FunctionList('out_file')
     function_list.start()
     main()
     function_list.stop()
-
-    expected_output = ['main\n', 'say_hi\n']
-    with open('out_file', 'r') as f:
-        actual_output = f.readlines()
-        assert actual_output == expected_output

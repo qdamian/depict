@@ -1,20 +1,21 @@
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
+from depict.processing.function_call_notifier import FunctionCallNotifier
 from depict.collection.dynamic import frame_digest
 
 class FunctionList(object):
     def __init__(self, file_name):
-        self.tracer = None
         self.out_file = open(file_name, 'w')
+        self.function_call_notifier = FunctionCallNotifier(self)
         
     def start(self):
-        self.tracer = ThreadScopedTracer(self)
-        self.tracer.start()
-        
+        self.function_call_notifier.start()
+    
     def stop(self):
-        self.tracer.stop()
-        
-    def on_call(self, frame_digest):
-        self.out_file.write(frame_digest.function_name + '\n')
-        
-    def on_return(self, frame_digest):
-        pass
+        self.function_call_notifier.stop()
+    
+    def on_call(self, function_call):
+        try:
+            self.out_file.write(function_call.function.Class_.name + '.')
+        except AttributeError:
+            pass
+        self.out_file.write(function_call.function.name + '\n')
