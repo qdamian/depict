@@ -1,6 +1,4 @@
-from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 from depict.processing.function_call_notifier import FunctionCallNotifier
-from depict.collection.dynamic import frame_digest
 
 class FunctionList(object):
     def __init__(self, file_name):

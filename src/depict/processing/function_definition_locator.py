@@ -5,7 +5,8 @@ from depict.model.function_repo import GlobalFunctionRepo
 from depict.collection.static.source_code_parser import GlobalSourceCodeParser
 
 class FunctionDefinitionLocator():
-    def __init__(self, source_code_parser = GlobalSourceCodeParser, function_repo = GlobalFunctionRepo):
+    def __init__(self, source_code_parser = GlobalSourceCodeParser,
+                 function_repo = GlobalFunctionRepo):
         self.source_code_parser = source_code_parser
         self.source_code_parser.register(self)
         self.function_repo = function_repo

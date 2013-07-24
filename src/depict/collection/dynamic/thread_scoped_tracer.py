@@ -6,6 +6,7 @@ def _get_filename_without_extension(filepath):
     base = os.path.basename(filepath)
     return os.path.splitext(base)[0]
 
+# pylint: disable=R0903
 class ThreadScopedTracer(object):
     '''
     Trace function calls & returns using the system's trace function.
@@ -27,7 +28,7 @@ class ThreadScopedTracer(object):
         sys.settrace(None)
         self.running = False
 
-    def _trace_dispatcher(self, frame, event, arg):
+    def _trace_dispatcher(self, frame, event, _):
         if event == 'call':
             self._on_call(frame)
         elif event == 'return':

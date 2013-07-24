@@ -1,6 +1,6 @@
-import unittest
 from depict.processing.static_data_collector import StaticDataCollector
 from mock import Mock, patch, ANY
+import unittest
 
 @patch('depict.processing.static_data_collector.open', create=True)
 class TestStaticDataCollector(unittest.TestCase):

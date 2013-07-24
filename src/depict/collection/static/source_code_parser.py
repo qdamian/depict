@@ -4,7 +4,10 @@ class SourceCodeParser(ast.NodeVisitor):
     def __init__(self):
         self.class_id = None
         self.class_col_offset = 0
+        self.file_name = ''
+        self.observer = None
 
+    #pylint: disable=C0103
     def visit_ClassDef(self, node):
         id_ = self.file_name + ":" + str(node.lineno)
         self.class_id = id_
@@ -15,6 +18,7 @@ class SourceCodeParser(ast.NodeVisitor):
             pass
         return super(SourceCodeParser, self).generic_visit(node)
   
+    #pylint: disable=C0103
     def visit_FunctionDef(self, node):
         if node.col_offset <= self.class_col_offset:
             self.class_id = None
@@ -38,5 +42,6 @@ class SourceCodeParser(ast.NodeVisitor):
 
     def register(self, observer):
         self.observer = observer
-        
+
+# pylint: disable=C0103
 GlobalSourceCodeParser = SourceCodeParser()

@@ -11,4 +11,5 @@ class StaticDataCollector(object):
                 instance = collector()
                 instance.process(file_name, input_file)
 
+# pylint: disable=C0103
 GlobalStaticDataCollector = StaticDataCollector()

@@ -5,6 +5,7 @@ dependencies = [
                 'mock',
                 'nose',
                 'nose-parameterized',
+                'pylint',
                ]
 
 def after_install(options, home_dir):

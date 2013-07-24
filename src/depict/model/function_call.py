@@ -1,5 +1,6 @@
 from depict.model.function_repo import GlobalFunctionRepo
 
+# pylint: disable=R0903
 class FunctionCall():
     def __init__(self, function_id):
         self.function_id = function_id
