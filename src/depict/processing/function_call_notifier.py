@@ -10,12 +10,10 @@ class FunctionCallNotifier():
         self.observer = observer
         GlobalStaticDataCollector.include(ClassDefinitionLocator)
         GlobalStaticDataCollector.include(FunctionDefinitionLocator)
+        self.stop = self.thread_scoped_tracer.stop
 
     def start(self):
         self.thread_scoped_tracer.start()
-        
-    def stop(self):
-        self.thread_scoped_tracer.stop()
         
     def on_call(self, frame_digest):
         function_id = frame_digest.file_name + ':' + str(frame_digest.line_number)

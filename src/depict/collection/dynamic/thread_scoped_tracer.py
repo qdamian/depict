@@ -16,31 +16,31 @@ class ThreadScopedTracer(object):
     def __init__(self, observer):
         self.observer = observer
         self.filename = _get_filename_without_extension(__file__)
+        self.stop = self.__stop_trace__
+        self.running = False
 
     def start(self):
         sys.settrace(self._trace_dispatcher)
+        self.running = True
 
-    def stop(self):
+    def __stop_trace__(self):
         sys.settrace(None)
+        self.running = False
 
     def _trace_dispatcher(self, frame, event, arg):
-        if self._calling_ourselves(frame):
-            return
-
         if event == 'call':
             self._on_call(frame)
         elif event == 'return':
             self._on_return(frame)
         return self._trace_dispatcher
 
-    def _calling_ourselves(self, frame):
-        event_filename = _get_filename_without_extension(
-                                                     frame.f_code.co_filename)
-        return event_filename == self.filename
-
     def _on_call(self, frame):
+        frame_digest = FrameDigest(frame)
+        if frame_digest.function_name == '__stop_trace__':
+            return
+        
         try:
-            self.observer.on_call(FrameDigest(frame))
+            self.observer.on_call(frame_digest)
         except AttributeError:
             pass
 
