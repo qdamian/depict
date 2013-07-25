@@ -8,3 +8,9 @@ The big picture:
 Main classes:
 
 ![](main_classes.png)
+
+Model
+
+![](model.png)
+
+
