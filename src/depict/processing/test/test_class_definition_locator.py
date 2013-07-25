@@ -29,19 +29,14 @@ class TestClassDefinitionLocator(unittest.TestCase):
                                                    class_repo)
         code_parser_mock.register.assert_called_once_with(class_def_locator)
 
-    def test_adds_oneClass_to_repo(self):
-        class_repo_mock = Mock()
+    def test_registers_itself_in_source_code_parser(self):
         code_parser_mock = Mock()
-        class_def_locator = ClassDefinitionLocator(code_parser_mock,
-                                                   class_repo_mock)
-        expected_class = Class_('fakeClass_name', 'fakeClass_id')
-        code_parser_mock.parse.side_effect = (lambda a, b:
-                                class_def_locator.on_class(expected_class.name,
-                                                           expected_class.id_))
-        class_def_locator.process('fake_file_name', 'fake_code') 
-        code_parser_mock.parse.assert_called_once_with('fake_file_name',
-                                                       'fake_code')
-        (args, _) = class_repo_mock.add.call_args
-        actual_class = args[0]
-        self.assertEqual(actual_class.name, expected_class.name)
-        self.assertEqual(actual_class.id_, expected_class.id_)
+        class_def_locator = ClassDefinitionLocator(code_parser_mock, Mock())
+        code_parser_mock.register.assert_called_once_with(class_def_locator)
+
+    def test_adds_one_class_to_repo(self):
+        class_repo = Mock()
+        class_def_locator = ClassDefinitionLocator(Mock(), class_repo)
+        class_def_locator.on_class('fake_name', 'fake_id')
+        expected_class = Class_('fake_name', 'fake_id')
+        class_repo.add.assert_called_once_with(expected_class)

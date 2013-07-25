@@ -23,3 +23,6 @@ class Class_:
         
     def add_method(self, method):
         pass
+
+    def __eq__(self, other):
+        return self.id_ == other.id_

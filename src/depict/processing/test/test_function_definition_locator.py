@@ -33,37 +33,30 @@ class TestFunctionDefinitionLocator(unittest.TestCase):
                                                    Functionrepo_)
         code_parser_mock.register.assert_called_once_with(class_def_locator)
 
+    def test_register_itself_with_source_code_parser(self):
+        code_parser_mock = Mock()
+        class_def_locator = FunctionDefinitionLocator(code_parser_mock, Mock())
+        code_parser_mock.register.assert_called_once_with(class_def_locator)
+
     def test_one_function_is_added_to_function_repo(self):
         function_repo_mock = Mock()
-        code_parser_mock = Mock()
-        class_def_locator = FunctionDefinitionLocator(code_parser_mock,
-                                                   function_repo_mock)
-        expected_function = Function('dummy_function_name',
-                                      'dummy_function_id')
-        code_parser_mock.parse.side_effect = (lambda file_name, src_file:
-                                class_def_locator.on_function(expected_function.name,
-                                                           expected_function.id_,
-                                                           None))
-        class_def_locator.process('fake_file_name', 'fake_code') 
- 
-        code_parser_mock.parse.assert_called_once_with('fake_file_name', 'fake_code')
+        function_definition_locator = FunctionDefinitionLocator(Mock(),
+                                                                function_repo_mock)
+        function_definition_locator.on_function('fake_function_name',
+                                                'fake_function_id', None)
+        expected_function = Function('fake_function_name', 'fake_function_id')
         function_repo_mock.add.assert_called_once_with(expected_function)
- 
-    def test_one_method_is_added_to_class(self):
+
+    def test_one_method_is_added_to_function_repo(self):
         function_repo_mock = Mock()
-        code_parser_mock = Mock()
-        class_def_locator = FunctionDefinitionLocator(code_parser_mock,
-                                                   function_repo_mock)
+        function_definition_locator = FunctionDefinitionLocator(Mock(),
+                                                                function_repo_mock)
         class_mock = create_autospec(Class_)
         class_mock.id_ = 'fake_class_id'
         GlobalClassRepo.add(class_mock)
-        expected_method = Method('fake_function_name', 'fake_function_id',
-                                 class_mock.id_)
-        code_parser_mock.parse.side_effect = (lambda file_name, src_file:
-                                class_def_locator.on_function(expected_method.name,
-                                                           expected_method.id_,
-                                                           class_mock.id_))
 
-        class_def_locator.process('fake_file_name', 'fake_code')
-
-        class_mock.add_method.assert_called_once_with(expected_method)
+        function_definition_locator.on_function('fake_function_name',
+                                                'fake_function_id',
+                                                class_mock.id_)
+        expected_function = Function('fake_function_name', 'fake_function_id')
+        function_repo_mock.add.assert_called_once_with(expected_function)

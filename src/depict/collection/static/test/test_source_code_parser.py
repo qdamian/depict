@@ -16,13 +16,17 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from StringIO import StringIO
-from depict.collection.static.source_code_parser import SourceCodeParser
+from depict.collection.static.source_code_parser import SourceCodeParser, \
+                                                        PerformanceError
 from mock import Mock, call, ANY
 import unittest
 
 class TestSourceCodeParser(unittest.TestCase):
     '''Only testing some basic cases in the assumption that AST does all
        the hard work well'''
+
+    def setUp(self):
+        SourceCodeParser.parsed_files = []
 
     def test_no_notification(self):
         src_file = StringIO('')
@@ -152,3 +156,10 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.register(observer)
         
         source_code_parser.parse('', src_file)
+
+    def test_complains_if_a_file_is_parsed_more_than_once(self):
+        src_file = StringIO('pass')
+        source_code_parser = SourceCodeParser()
+        source_code_parser.parse('fake_file_name.py', src_file)
+        self.assertRaises(PerformanceError, source_code_parser.parse,
+                          'fake_file_name.py', src_file)

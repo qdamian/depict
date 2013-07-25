@@ -17,8 +17,9 @@
 
 from depict.model.class_ import Class_
 from depict.model.method import Method
+import unittest
 
-class TestClass():
+class TestClass(unittest.TestCase):
     def test_creation(self):
         Class_('fake_class_name', 'fake_class_id')
 
@@ -26,3 +27,8 @@ class TestClass():
         class_ = Class_('dummy_class_name', 'dummy_class_id')
         method = Method('dummy_name', 'dummy_id', class_)
         class_.add_method(method)
+
+    def test_eq_comparison(self):
+        class_1 = Class_('dummy_class_name1', 'fake_class_id1')
+        class_2 = Class_('dummy_class_name2', 'fake_class_id1')
+        self.assertEqual(class_1, class_2)

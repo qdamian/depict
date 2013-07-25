@@ -15,18 +15,25 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.collection.static.source_code_parser import GlobalSourceCodeParser
+
 class StaticDataCollector(object):
     def __init__(self):
         self.collectors = []
+        self.processed_files = []
     
     def include(self, collector):
         self.collectors.append(collector)
     
     def process(self, file_name):
-        for collector in self.collectors:
-            with open(file_name, 'r') as input_file:
-                instance = collector()
-                instance.process(file_name, input_file)
+        if file_name in self.processed_files:
+            return
+
+        with open(file_name, 'r') as input_file:
+            for collector in self.collectors:
+                collector()
+            GlobalSourceCodeParser.parse(file_name, input_file)
+        self.processed_files.append(file_name)
 
 # pylint: disable=C0103
 GlobalStaticDataCollector = StaticDataCollector()
