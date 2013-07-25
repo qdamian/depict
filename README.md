@@ -3,7 +3,7 @@ Depict
 
 > /dɪˈpɪkt/: to represent or show something in a picture or story
 
-A python module to create 'representations' of a program which can be static (based on source code), dynamic (based on one or more executions) or a mix of both.
+A python module to create *representations* of a program based on static data (i.e. source code), dynamic data (gathered during program execution) or a combination of both.
 
 Status of the project
 ---------------------
