@@ -21,7 +21,7 @@ from depict.model.class_repo import GlobalClassRepo
 from depict.model.function_repo import GlobalFunctionRepo
 from depict.collection.static.source_code_parser import GlobalSourceCodeParser
 
-class FunctionDefinitionLocator():
+class FunctionDefinitionCollector():
     def __init__(self, source_code_parser = GlobalSourceCodeParser,
                  function_repo = GlobalFunctionRepo):
         source_code_parser.register(self)

@@ -19,8 +19,8 @@ from mock import Mock, patch, PropertyMock, ANY, mock_open, call
 from depict.processing.function_call_notifier import FunctionCallNotifier
 from depict.model.class_repo import GlobalClassRepo
 from depict.model.function_repo import GlobalFunctionRepo
-from depict.processing.class_definition_locator import ClassDefinitionLocator
-from depict.processing.function_definition_locator import FunctionDefinitionLocator
+from depict.processing.class_definition_collector import ClassDefinitionCollector
+from depict.processing.function_definition_collector import FunctionDefinitionCollector
 
 class TestFunctionCallNotifier():
     def test_init_creates_thread_scoped_tracer(self):
@@ -48,7 +48,7 @@ class TestFunctionCallNotifier():
             tracer_mock.stop.assert_called_once_with()
 
     def test_processes_static_data_for_each_call(self):
-        with patch('depict.processing.function_call_notifier.GlobalDefinitionCollectionOrchestrator') as global_definition_locator_orchestrator_mock:
+        with patch('depict.processing.function_call_notifier.GlobalDefinitionCollectionOrchestrator') as global_definition_collector_orchestrator_mock:
             observer_mock = Mock()
             function_call_notifier = FunctionCallNotifier(observer_mock)
             frame_digest_mock = Mock()
@@ -56,6 +56,6 @@ class TestFunctionCallNotifier():
             type(frame_digest_mock).file_name = PropertyMock(return_value='fake_file_name')
             type(frame_digest_mock).line_number = PropertyMock(return_value=1)
             function_call_notifier.on_call(frame_digest_mock)
-            calls = [call(ClassDefinitionLocator), call(FunctionDefinitionLocator)]
-            global_definition_locator_orchestrator_mock.include.assert_has_calls(calls)
-            global_definition_locator_orchestrator_mock.process.assert_called_once_with('fake_file_name')
+            calls = [call(ClassDefinitionCollector), call(FunctionDefinitionCollector)]
+            global_definition_collector_orchestrator_mock.include.assert_has_calls(calls)
+            global_definition_collector_orchestrator_mock.process.assert_called_once_with('fake_file_name')

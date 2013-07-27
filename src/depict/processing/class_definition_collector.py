@@ -19,7 +19,7 @@ from depict.model.class_ import Class_
 from depict.model.class_repo import GlobalClassRepo
 from depict.collection.static.source_code_parser import GlobalSourceCodeParser
 
-class ClassDefinitionLocator():
+class ClassDefinitionCollector():
     def __init__(self, source_code_parser = GlobalSourceCodeParser,
                  class_repo = GlobalClassRepo):
         source_code_parser.register(self)
