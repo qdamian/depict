@@ -30,3 +30,6 @@ class Repo(object):
             return self.elements[id_]
         except KeyError:
             return None
+    
+    def get_all(self):
+        return self.elements.values()
