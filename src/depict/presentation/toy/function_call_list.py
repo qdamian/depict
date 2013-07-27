@@ -17,7 +17,7 @@
 
 from depict.processing.function_call_notifier import FunctionCallNotifier
 
-class FunctionList(object):
+class FunctionCallList(object):
     def __init__(self, file_name):
         self.out_file = open(file_name, 'w')
         self.function_call_notifier = FunctionCallNotifier(self)
