@@ -48,7 +48,7 @@ class TestFunctionCallNotifier():
             tracer_mock.stop.assert_called_once_with()
 
     def test_processes_static_data_for_each_call(self):
-        with patch('depict.processing.function_call_notifier.GlobalStaticDataCollector') as global_static_data_collector_mock:
+        with patch('depict.processing.function_call_notifier.GlobalDefinitionCollectionOrchestrator') as global_definition_locator_orchestrator_mock:
             observer_mock = Mock()
             function_call_notifier = FunctionCallNotifier(observer_mock)
             frame_digest_mock = Mock()
@@ -57,5 +57,5 @@ class TestFunctionCallNotifier():
             type(frame_digest_mock).line_number = PropertyMock(return_value=1)
             function_call_notifier.on_call(frame_digest_mock)
             calls = [call(ClassDefinitionLocator), call(FunctionDefinitionLocator)]
-            global_static_data_collector_mock.include.assert_has_calls(calls)
-            global_static_data_collector_mock.process.assert_called_once_with('fake_file_name')
+            global_definition_locator_orchestrator_mock.include.assert_has_calls(calls)
+            global_definition_locator_orchestrator_mock.process.assert_called_once_with('fake_file_name')

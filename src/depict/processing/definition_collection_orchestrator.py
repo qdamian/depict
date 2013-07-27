@@ -17,7 +17,7 @@
 
 from depict.collection.static.source_code_parser import GlobalSourceCodeParser
 
-class StaticDataCollector(object):
+class DefinitionCollectionOrchestrator(object):
     def __init__(self):
         self.collectors = []
         self.processed_files = []
@@ -36,4 +36,4 @@ class StaticDataCollector(object):
         self.processed_files.append(file_name)
 
 # pylint: disable=C0103
-GlobalStaticDataCollector = StaticDataCollector()
+GlobalDefinitionCollectionOrchestrator = DefinitionCollectionOrchestrator()
