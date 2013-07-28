@@ -21,26 +21,38 @@ from mock import patch, Mock, call
 from depict.model.class_ import Class_
 from depict.model.function import Function
 from depict.model.method import Method
+from depict.processing.class_definition_collector import ClassDefinitionCollector
+from depict.processing.function_definition_collector import FunctionDefinitionCollector
 
 @patch('depict.processing.static_data_notifier.GlobalDefinitionCollectionOrchestrator')
+
+
 class TestStaticDataNotifier(unittest.TestCase):
 
-    def test_init(self, collection_orchestrator_class_mock):
+    def test_init(self, collection_orchestrator_mock):
         dummy_file_list = ['a.py', 'path/to/b.py']
         dummy_observer = Mock()
         StaticDataNotifier(dummy_file_list, dummy_observer)
         
-    def test_collects_data_from_each_file(self, collection_orchestrator_class_mock):
-        collection_orchestrator_mock = Mock()
-        collection_orchestrator_class_mock.return_value = collection_orchestrator_mock
+    def test_collects_data_from_each_file(self, collection_orchestrator_mock):
         fake_file_list = ['a.py', 'path/to/b.py']
         dummy_observer = Mock()
         static_data_notifier = StaticDataNotifier(fake_file_list, dummy_observer)
         static_data_notifier.run()
         expected_calls = [call('a.py'), call('path/to/b.py')]
         collection_orchestrator_mock.process.assert_has_calls(expected_calls)
+
+    def test_includes_class_definitions(self, collection_orchestrator_mock):
+        static_data_notifier = StaticDataNotifier('dummy_file.py', Mock())
+        static_data_notifier.run()
+        collection_orchestrator_mock.include.assert_has_calls(call(ClassDefinitionCollector))
+
+    def test_includes_function_definitions(self, collection_orchestrator_mock):
+        static_data_notifier = StaticDataNotifier('dummy_file.py', Mock())
+        static_data_notifier.run()
+        collection_orchestrator_mock.include.assert_has_calls(call(FunctionDefinitionCollector))
         
-    def test_notifies_collected_classes(self, collection_orchestrator_class_mock):
+    def test_notifies_collected_classes(self, collection_orchestrator_mock):
         with patch('depict.processing.static_data_notifier.GlobalClassRepo') as class_repo_mock:
             fake_class_1 = Class_('fake_class_name1', 'fake_class_id1')
             fake_class_2 = Class_('fake_class_name2', 'fake_class_id2')
@@ -51,7 +63,7 @@ class TestStaticDataNotifier(unittest.TestCase):
             expected_calls = [call(fake_class_1), call(fake_class_2)]
             fake_observer.on_class.assert_has_calls(expected_calls)
 
-    def test_notifies_collected_functions(self, collection_orchestrator_class_mock):
+    def test_notifies_collected_functions(self, collection_orchestrator_mock):
         with patch('depict.processing.static_data_notifier.GlobalFunctionRepo') as function_repo_mock:
             fake_function = Function('fake_function_name', 'fake_function_id')
             fake_class = Class_('fake_class_name', 'fake_class_id')

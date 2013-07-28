@@ -17,7 +17,8 @@
 
 #!/usr/bin/env python
 
-from depict.presentation.toy.function_list import FunctionList
+from depict.presentation.toy.function_call_list import FunctionCallList
+from depict.presentation.toy.definition_list import DefinitionList
 
 from one import One
 import two
@@ -30,7 +31,9 @@ def main():
     print 'And the winner is: %s' % Addition(n_one, n_two)
 
 if __name__ == '__main__':
-    function_list = FunctionList('three.out')
-    function_list.start()
+    function_call_list = FunctionCallList('three.function_call_list.out')
+    definition_list = DefinitionList(__file__, 'three.definition_list.out')
+    function_call_list.start()
     main()
-    function_list.stop()
+    function_call_list.stop()
+    definition_list.run()

@@ -1917,6 +1917,7 @@ dependencies = [
                 'nose',
                 'nose-parameterized',
                 'pylint',
+                'formic',
                ]
 
 def after_install(options, home_dir):

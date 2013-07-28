@@ -15,16 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.class_ import Class_
-from depict.model.class_repo import GlobalClassRepo
-from depict.collection.static.source_code_parser import GlobalSourceCodeParser
+#!/usr/bin/env python
 
-# pylint: disable=R0903
-class ClassDefinitionCollector():
-    def __init__(self, source_code_parser = GlobalSourceCodeParser,
-                 class_repo = GlobalClassRepo):
-        source_code_parser.register(self)
-        self.class_repo = class_repo
-        
-    def on_class(self, name, id_):
-        self.class_repo.add(Class_(name, id_))
+from depict.presentation.toy.definition_list import DefinitionList
+
+if __name__ == '__main__':
+    definition_list = DefinitionList('*.py', 'self.definition_list.out')
+    definition_list.run()

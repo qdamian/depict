@@ -19,16 +19,25 @@ from depict.processing.definition_collection_orchestrator import \
                                           GlobalDefinitionCollectionOrchestrator
 from depict.model.class_repo import GlobalClassRepo
 from depict.model.function_repo import GlobalFunctionRepo
+from depict.processing.class_definition_collector import \
+                                                        ClassDefinitionCollector
+from depict.processing.function_definition_collector import \
+                                                     FunctionDefinitionCollector
 
+# pylint: disable=R0903
 class StaticDataNotifier():
     def __init__(self, file_list, observer):
         self.observer = observer
         self.file_list = file_list
     
     def run(self):
-        collection_orchestrator = GlobalDefinitionCollectionOrchestrator()
-        for f in self.file_list:
-            collection_orchestrator.process(f)
+        collection_orchestrator = GlobalDefinitionCollectionOrchestrator
+        
+        collection_orchestrator.include(ClassDefinitionCollector)
+        collection_orchestrator.include(FunctionDefinitionCollector)
+        
+        for file_name in self.file_list:
+            collection_orchestrator.process(file_name)
         
         for class_ in GlobalClassRepo.get_all():
             self.observer.on_class(class_)

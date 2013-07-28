@@ -16,9 +16,10 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
-from depict.processing.class_definition_collector import ClassDefinitionCollector
+from depict.processing.class_definition_collector import \
+                                                        ClassDefinitionCollector
 from depict.processing.function_definition_collector import \
-                                                       FunctionDefinitionCollector
+                                                     FunctionDefinitionCollector
 from depict.model.function_call import FunctionCall
 from depict.processing.definition_collection_orchestrator import \
                                           GlobalDefinitionCollectionOrchestrator
@@ -28,7 +29,8 @@ class FunctionCallNotifier():
         self.thread_scoped_tracer = ThreadScopedTracer(self)
         self.observer = observer
         GlobalDefinitionCollectionOrchestrator.include(ClassDefinitionCollector)
-        GlobalDefinitionCollectionOrchestrator.include(FunctionDefinitionCollector)
+        GlobalDefinitionCollectionOrchestrator.include(
+                                                    FunctionDefinitionCollector)
         self.stop = self.thread_scoped_tracer.stop
 
     def start(self):

@@ -17,7 +17,8 @@
 
 #!/usr/bin/env python
 
-from depict.presentation.toy.function_list import FunctionList
+from depict.presentation.toy.function_call_list import FunctionCallList
+from depict.presentation.toy.definition_list import DefinitionList
 
 def say_hi():
     print 'hello world'
@@ -35,7 +36,9 @@ class Person():
         print 'Bye'
 
 if __name__ == '__main__':
-    function_list = FunctionList('hello_world.out')
-    function_list.start()
+    function_call_list = FunctionCallList('hello_world.function_call_list.out')
+    definition_list = DefinitionList(__file__, 'hello_world.definition_list.out')
+    function_call_list.start()
     main()
-    function_list.stop()
+    function_call_list.stop()
+    definition_list.run()

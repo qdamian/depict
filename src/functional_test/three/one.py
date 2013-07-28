@@ -22,3 +22,6 @@ class One:
     @property
     def value(self):
         return self.val
+
+    def some_func(self):
+        pass
