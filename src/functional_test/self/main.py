@@ -18,7 +18,20 @@
 #!/usr/bin/env python
 
 from depict.presentation.toy.definition_list import DefinitionList
+from depict.persistency.sqlite_db import SQLiteDB
+import sqlite3
 
 if __name__ == '__main__':
     definition_list = DefinitionList('*.py', 'self.definition_list.out')
+    db_name = 'self.sqlite.db'
+    sqlite_db = SQLiteDB('*.py', db_name)
     definition_list.run()
+    sqlite_db.run()
+
+    print 'Methods of the TestSQLiteDB class:'
+    query = '''SELECT name FROM function WHERE id IN
+          (SELECT  method.function_id FROM method, class
+               WHERE method.class_id = class.id AND class.name = 'TestSQLiteDB')'''
+    con = sqlite3.connect(db_name)
+    for row in con.execute(query):
+        print row

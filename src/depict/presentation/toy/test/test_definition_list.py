@@ -24,7 +24,7 @@ import unittest
 from depict.model.class_ import Class_
 
 @patch('depict.presentation.toy.definition_list.open', create=True)
-class TestFunctionCallList(unittest.TestCase):
+class TestDefinitionList(unittest.TestCase):
     def test_init_opens_output_file(self, open_mock):
         DefinitionList('dummy_input_glob', 'mock_output_file_name')
         open_mock.assert_called_once_with('mock_output_file_name', 'w')
