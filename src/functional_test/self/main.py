@@ -24,7 +24,6 @@ if __name__ == '__main__':
     db_name = 'self.sqlite.db'
     sqlite_db = SQLiteDB('depict/**/*.py', db_name)
     sqlite_db.run()
-
     print 'Methods of the TestSQLiteDB class:'
     query = '''SELECT name FROM function WHERE id IN
           (SELECT  method.function_id FROM method, class
@@ -32,3 +31,14 @@ if __name__ == '__main__':
     con = sqlite3.connect(db_name)
     for row in con.execute(query):
         print row
+    print '\nClasses in the model:'
+    query = '''SELECT class.name FROM class, module
+               WHERE module.name LIKE '%model%'
+               AND NOT module.name LIKE '%test%'
+               AND class.module_id = module.id
+               ORDER BY class.name'''
+    con = sqlite3.connect(db_name)
+    for row in con.execute(query):
+        print row
+
+

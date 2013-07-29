@@ -21,7 +21,13 @@ class ClassTable():
 
     def create(self):
         self._connection.execute('''CREATE TABLE class(id VARCHAR PRIMARY KEY,
-                                name VARCHAR)''')
+                                name VARCHAR,
+                                module_id VARCHAR,
+                                FOREIGN KEY(module_id) REFERENCES module(id))
+                                ''')
     def insert(self, class_):
-        self._connection.execute('INSERT INTO class(id, name) VALUES (?, ?)',
-                               (class_.id_, class_.name))
+        self._connection.execute('''INSERT INTO class(id, name, module_id)
+                                    VALUES (?, ?, ?)''',
+                                    (class_.id_,
+                                     class_.name,
+                                     class_.module.id_))

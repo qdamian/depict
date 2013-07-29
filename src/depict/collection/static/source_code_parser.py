@@ -30,6 +30,7 @@ class SourceCodeParser(ast.NodeVisitor):
         self.class_col_offset = 0
         self.file_name = ''
         self.observers = []
+        self.current_module_id = None
 
     def _safely_notify(self, function, args):
         for observer in self.observers:
@@ -45,7 +46,8 @@ class SourceCodeParser(ast.NodeVisitor):
         id_ = self.file_name + ":" + str(node.lineno)
         self.class_id = id_
         self.class_col_offset = node.col_offset
-        self._safely_notify('on_class', [id_, node.name])
+        self._safely_notify('on_class', [id_, node.name,
+                                         self.current_module_id])
         return super(SourceCodeParser, self).generic_visit(node)
 
     #pylint: disable=C0103
@@ -74,9 +76,9 @@ class SourceCodeParser(ast.NodeVisitor):
         return super(SourceCodeParser, self).visit(root)
 
     def notify_module(self):
-        module_id = entity_id.create(self.file_name)
-        module_name = '.'.join((os.path.splitext(module_id)[0]).split('/'))
-        self._safely_notify('on_module', [module_id, module_name])
+        self.current_module_id = entity_id.create(self.file_name)
+        module_name = '.'.join((os.path.splitext(self.current_module_id)[0]).split('/'))
+        self._safely_notify('on_module', [self.current_module_id, module_name])
 
     def register(self, observer):
         self.observers.append(observer)

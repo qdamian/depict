@@ -17,7 +17,7 @@
 
 from depict.processing.class_definition_collector import ClassDefinitionCollector
 from depict.model.class_repo import ClassRepo
-from mock import Mock
+from mock import Mock, patch
 from depict.model.class_ import Class_
 import unittest
 
@@ -37,6 +37,17 @@ class TestClassDefinitionCollector(unittest.TestCase):
     def test_adds_one_class_to_repo(self):
         class_repo = Mock()
         class_def_locator = ClassDefinitionCollector(Mock(), class_repo)
-        class_def_locator.on_class('fake_name', 'fake_id')
-        expected_class = Class_('fake_name', 'fake_id')
+        class_def_locator.on_class('fake_id', 'fake_name', 'dummy_module_id')
+        expected_class = Class_('fake_id', 'fake_name')
+        class_repo.add.assert_called_once_with(expected_class)
+        
+    @patch('depict.processing.class_definition_collector.GlobalModuleRepo')
+    def test_finds_module_to_init_the_class(self, module_repo_mock):
+        fake_module = Mock()
+        module_repo_mock.get.return_value = fake_module
+        class_repo = Mock()
+        class_def_locator = ClassDefinitionCollector(Mock(), class_repo)
+        class_def_locator.on_class('fake_class_id', 'dummy_class_name', 'fake_module_id')
+        module_repo_mock.get.assert_called_once_with('fake_module_id')
+        expected_class = Class_('fake_class_id', 'dummy_class_name', fake_module)
         class_repo.add.assert_called_once_with(expected_class)

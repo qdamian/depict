@@ -58,7 +58,7 @@ class TestSourceCodeParser(unittest.TestCase):
 
         source_code_parser.parse('', src_file)
 
-        observer.on_class.assert_called_once_with(ANY, 'MyClass')
+        observer.on_class.assert_called_once_with(ANY, 'MyClass', ANY)
 
     def test_notifies_two_classes(self):
         src_file = StringIO('class Class1():\n'
@@ -71,7 +71,7 @@ class TestSourceCodeParser(unittest.TestCase):
 
         source_code_parser.parse('', src_file)
 
-        calls = [call(ANY, 'Class1'), call(ANY, 'Class2')]
+        calls = [call(ANY, 'Class1', ANY), call(ANY, 'Class2', ANY)]
         observer.on_class.assert_has_calls(calls)
 
     def test_notifies_nested_class_definition(self):
@@ -85,7 +85,7 @@ class TestSourceCodeParser(unittest.TestCase):
 
         source_code_parser.parse('', src_file)
 
-        calls = [call(ANY, 'Class1'), call(ANY, 'Class2')]
+        calls = [call(ANY, 'Class1', ANY), call(ANY, 'Class2', ANY)]
         observer.on_class.assert_has_calls(calls)
 
     def test_notifies_classes_with_unique_id(self):
@@ -100,11 +100,27 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.parse('fake_file_name', src_file)
 
         (args1, _) = observer.on_class.call_args_list[0]
-        (id1, _) = args1
+        (id1, _, _) = args1
         (args2, _) = observer.on_class.call_args_list[1]
-        (id2, _) = args2
+        (id2, _, _) = args2
         self.assertEquals(id1, 'fake_file_name:1')
         self.assertEquals(id2, 'fake_file_name:3')
+        self.entity_id_mock.create.return_value = 'to/fake_module.pyc'
+
+    def test_notifies_classes_with_module_id(self):
+        src_file = StringIO('class Class1():\n'
+                            '    pass\n')
+        expected_module_id = 'to/fake_module.pyc'
+        self.entity_id_mock.create.return_value = expected_module_id
+        observer = Mock()
+        source_code_parser = SourceCodeParser()
+        source_code_parser.register(observer)
+
+        source_code_parser.parse('to/fake_module.pyc', src_file)
+
+        (actual_args, _) = observer.on_class.call_args_list[0]
+        (_, _, actual_module) = actual_args
+        self.assertEquals(actual_module, expected_module_id)
 
     def test_notifies_one_function(self):
         src_file = StringIO('def my_function():\n'

@@ -19,6 +19,7 @@ from depict.model.class_ import Class_
 from depict.persistence.sqlite.class_table import ClassTable
 import sqlite3
 import unittest
+from depict.model.module import Module
 
 class TestClassTable(unittest.TestCase):
     def test_table_creation(self):
@@ -31,10 +32,25 @@ class TestClassTable(unittest.TestCase):
         connection = sqlite3.connect(':memory:')
         class_table = ClassTable(connection)
         class_table.create()
-        fake_class = Class_('fake_class_id', 'fake_class_name')
+        dummy_module = Module('fake_module_id', 'fake_module_name')
+        fake_class = Class_('fake_class_id', 'fake_class_name', dummy_module)
         class_table.insert(fake_class)
         cursor = connection.cursor()
         cursor.execute('''SELECT id, name FROM class
                           WHERE id = 'fake_class_id' AND
                           name = 'fake_class_name' ''')
         self.assertTrue(cursor.fetchone())
+
+    def test_insert_class_relates_it_to_module(self):
+        connection = sqlite3.connect(':memory:')
+        class_table = ClassTable(connection)
+        class_table.create()
+        fake_module = Module('fake_module_id', 'fake_module_name')
+        fake_class = Class_('fake_class_id', 'fake_class_name', fake_module)
+        class_table.insert(fake_class)
+        cursor = connection.cursor()
+        cursor.execute('''SELECT module_id FROM class
+                          WHERE id = 'fake_class_id' ''')
+        actual_module_id = cursor.fetchone()
+        self.assertEqual(actual_module_id[0], 'fake_module_id')
+        
