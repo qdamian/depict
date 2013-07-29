@@ -25,6 +25,6 @@ class ClassDefinitionCollector():
                  class_repo = GlobalClassRepo):
         source_code_parser.register(self)
         self.class_repo = class_repo
-        
+
     def on_class(self, id_, name):
         self.class_repo.add(Class_(id_, name))

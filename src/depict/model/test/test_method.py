@@ -23,7 +23,7 @@ class TestMethod(unittest.TestCase):
         Method('fake_function_name',
                    'fake_function_id',
                    'fake_parent')
-        
+
     def test_eq_comparison(self):
         method1 = Method('fake_id1', 'dummy_function_name1', 'dummy_parent1')
         method2 = Method('fake_id1', 'dummy_function_name2', 'dummy_parent2')

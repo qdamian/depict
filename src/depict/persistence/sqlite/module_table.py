@@ -18,12 +18,12 @@
 class ModuleTable():
     def __init__(self, connection):
         self._connection = connection
-    
+
     def create(self):
         self._connection.execute('''CREATE TABLE module(
                                         id VARCHAR PRIMARY KEY,
                                         name VARCHAR)''')
-    
+
     def insert(self, function):
         self._connection.execute('''INSERT INTO module(id, name)
                                     VALUES (?, ?)''',

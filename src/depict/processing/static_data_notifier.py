@@ -32,7 +32,7 @@ class StaticDataNotifier():
     def __init__(self, file_list, observer):
         self.observer = observer
         self.file_list = file_list
-    
+
     def _safely_notify(self, function_name, value):
         try:
             notification_function = getattr(self.observer, function_name)
@@ -42,11 +42,11 @@ class StaticDataNotifier():
 
     def run(self):
         collection_orchestrator = GlobalDefinitionCollectionOrchestrator
-        
+
         collection_orchestrator.include(ModuleDefinitionCollector)
         collection_orchestrator.include(ClassDefinitionCollector)
         collection_orchestrator.include(FunctionDefinitionCollector)
-        
+
         for file_name in self.file_list:
             collection_orchestrator.process(file_name)
 

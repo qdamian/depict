@@ -23,7 +23,7 @@ import unittest
 class TestFunctionCall(unittest.TestCase):
     def test_creation(self):
         FunctionCall('fake_function_id')
-        
+
     def test_function_property(self):
         fake_function_id = 'fake_function_id'
         expected_function = Function(fake_function_id, 'function_name')
@@ -31,5 +31,4 @@ class TestFunctionCall(unittest.TestCase):
         function_call = FunctionCall(fake_function_id)
         actual_function = function_call.function
         self.assertEqual(actual_function, expected_function)
-        
-    
+

@@ -21,7 +21,7 @@ import unittest
 class TestFunction(unittest.TestCase):
     def test_creation(self):
         Function('fake_function_id', 'fake_function_name')
-        
+
     def test_equal_comparison(self):
         function1 = Function('fake_id1', 'dummy_name1')
         function2 = Function('fake_id1', 'dummy_name2')

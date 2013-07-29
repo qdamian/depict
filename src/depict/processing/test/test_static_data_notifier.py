@@ -38,7 +38,7 @@ class TestStaticDataNotifier(unittest.TestCase):
         dummy_file_list = ['a.py', 'path/to/b.py']
         dummy_observer = Mock()
         StaticDataNotifier(dummy_file_list, dummy_observer)
-        
+
     def test_collects_data_from_each_file(self, collection_orchestrator_mock):
         fake_file_list = ['a.py', 'path/to/b.py']
         dummy_observer = Mock()
@@ -51,7 +51,7 @@ class TestStaticDataNotifier(unittest.TestCase):
         static_data_notifier = StaticDataNotifier('dummy_file.py', Mock())
         static_data_notifier.run()
         collection_orchestrator_mock.include.assert_has_calls(call(ModuleDefinitionCollector))
-        
+
     def test_includes_class_definitions(self, collection_orchestrator_mock):
         static_data_notifier = StaticDataNotifier('dummy_file.py', Mock())
         static_data_notifier.run()
@@ -71,7 +71,7 @@ class TestStaticDataNotifier(unittest.TestCase):
             static_data_notifier.run()
             expected_calls = [call(fake_module)]
             fake_observer.on_module.assert_has_calls(expected_calls)
-        
+
     def test_notifies_collected_classes(self, collection_orchestrator_mock):
         with patch('depict.processing.static_data_notifier.GlobalClassRepo') as class_repo_mock:
             fake_class_1 = Class_('fake_class_id1', 'fake_class_name1')

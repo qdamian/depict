@@ -20,7 +20,7 @@ class Class_:
     def __init__(self, id_, name):
         self.id_ = id_
         self.name = name
-        
+
     def add_method(self, method):
         pass
 

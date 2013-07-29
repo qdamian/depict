@@ -26,7 +26,7 @@ class TestModuleTable(unittest.TestCase):
         module_table = ModuleTable(connection)
         module_table.create()
         connection.execute('SELECT id, name FROM module')
- 
+
     def test_inserts_a_module(self):
         connection = sqlite3.connect(':memory:')
         module_table = ModuleTable(connection)

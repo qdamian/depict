@@ -26,7 +26,7 @@ class TestFunctionTable(unittest.TestCase):
         function_table = FunctionTable(connection)
         function_table.create()
         connection.execute('SELECT id, name FROM function')
- 
+
     def test_inserts_a_function(self):
         connection = sqlite3.connect(':memory:')
         function_table = FunctionTable(connection)

@@ -63,7 +63,7 @@ class TestSQLiteDB(unittest.TestCase):
             fake_include_glob = 'path/to/**/files*.py'
             SQLiteDB(fake_include_glob, ':memory:')
             fileset_mock.assert_called_once_with(fake_include_glob)
- 
+
     def test_init_creates_static_data_notifier(self):
         with patch('depict.persistence.sqlite.sqlite_db.StaticDataNotifier') as static_data_notifier_mock:
             with patch('depict.persistence.sqlite.sqlite_db.FileSet') as fileset_class_mock:
@@ -73,13 +73,13 @@ class TestSQLiteDB(unittest.TestCase):
                 fileset_class_mock.return_value = fileset_mock
                 sqlite_db = SQLiteDB('dummy_input_glob', ':memory:')
                 static_data_notifier_mock.assert_called_once_with(expected_paths, sqlite_db)
-  
+
     def test_runs_static_definition_notifier(self):
         sqlite_db = SQLiteDB('dummy_input_glob', ':memory:')
         sqlite_db.static_data_notifier = Mock()
         sqlite_db.run()
         sqlite_db.static_data_notifier.run.assert_called_once_with()
-  
+
     def test_stores_each_module_definition(self):
         with patch('depict.persistence.sqlite.sqlite_db.ModuleTable') as module_table_class_mock:
             module_table_mock = Mock()
@@ -97,7 +97,7 @@ class TestSQLiteDB(unittest.TestCase):
             fake_function = Function('fake_function_id', 'fake_function_name')
             sqlite_db.on_function(fake_function)
             function_table_mock.insert.assert_called_with(fake_function)
-        
+
     def test_stores_each_class_definition(self):
         with patch('depict.persistence.sqlite.sqlite_db.ClassTable') as class_table_class_mock:
             class_table_mock = Mock()
@@ -120,7 +120,7 @@ class TestSQLiteDB(unittest.TestCase):
         sqlite_db.on_function(fake_method)
         function_table_mock.insert.assert_called_once_with(fake_method)
         method_table_mock.insert.assert_called_with(fake_method)
-        
+
     def test_commits_sql_transactions(self):
         sqlite_db = SQLiteDB('dummy_input_glob', ':memory:')
         sqlite_db._connection = Mock()

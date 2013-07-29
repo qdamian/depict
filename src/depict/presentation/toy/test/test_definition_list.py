@@ -44,7 +44,7 @@ class TestDefinitionList(unittest.TestCase):
                 fileset_class_mock.return_value = fileset_mock
                 definition_list = DefinitionList('dummy_input_glob', 'dummy_filename')
                 static_data_notifier_mock.assert_called_once_with(expected_paths, definition_list)
- 
+
     def test_runs_static_definition_notifier(self, open_mock):
         definition_list = DefinitionList('dummy_input_glob', 'dummy_filename')
         definition_list.static_data_notifier = Mock()

@@ -47,7 +47,7 @@ class SourceCodeParser(ast.NodeVisitor):
         self.class_col_offset = node.col_offset
         self._safely_notify('on_class', [id_, node.name])
         return super(SourceCodeParser, self).generic_visit(node)
-  
+
     #pylint: disable=C0103
     def visit_FunctionDef(self, node):
         if node.col_offset <= self.class_col_offset:
@@ -58,7 +58,7 @@ class SourceCodeParser(ast.NodeVisitor):
 
     def generic_visit(self, node):
         return super(SourceCodeParser, self).generic_visit(node)
-    
+
     def parse(self, file_name, src_file):
         '''Raises any exception that ast.visit raises.
            E.g. SyntaxError, IndentationError'''
@@ -67,7 +67,7 @@ class SourceCodeParser(ast.NodeVisitor):
 
         self.file_name = file_name
         self.notify_module()
-        
+
         content = str(src_file.read())
         root = ast.parse(content)
         SourceCodeParser.parsed_files.append(file_name)

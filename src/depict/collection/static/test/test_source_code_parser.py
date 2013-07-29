@@ -32,7 +32,7 @@ class TestSourceCodeParser(unittest.TestCase):
         self.entity_id_patcher = patch('depict.collection.static.source_code_parser.entity_id',
                                        self.entity_id_mock)
         self.entity_id_patcher.start()
-        
+
     def tearDown(self):
         self.entity_id_patcher.stop()
 
@@ -43,7 +43,7 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.register(observer)
 
         source_code_parser.parse('', src_file)
-        
+
         self.assertEquals(observer.on_class.call_count, 0)
 
     def test_notifies_one_class(self):
@@ -55,9 +55,9 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('', src_file)
-        
+
         observer.on_class.assert_called_once_with(ANY, 'MyClass')
 
     def test_notifies_two_classes(self):
@@ -68,9 +68,9 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('', src_file)
-        
+
         calls = [call(ANY, 'Class1'), call(ANY, 'Class2')]
         observer.on_class.assert_has_calls(calls)
 
@@ -82,9 +82,9 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('', src_file)
-        
+
         calls = [call(ANY, 'Class1'), call(ANY, 'Class2')]
         observer.on_class.assert_has_calls(calls)
 
@@ -96,9 +96,9 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('fake_file_name', src_file)
-        
+
         (args1, _) = observer.on_class.call_args_list[0]
         (id1, _) = args1
         (args2, _) = observer.on_class.call_args_list[1]
@@ -112,9 +112,9 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('fake_file_name', src_file)
-        
+
         observer.on_function.assert_called_once_with('fake_file_name:1',
                                                      'my_function',
                                                      None)
@@ -126,9 +126,9 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('fake_file_name', src_file)
-        
+
         observer.on_function.assert_called_once_with('fake_file_name:2',
                                                      'some_method',
                                                      'fake_file_name:1')
@@ -142,12 +142,12 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('fake_file_name', src_file)
-        
+
         calls = [call('fake_file_name:2', 'some_method', 'fake_file_name:1'),
                  call('fake_file_name:4', 'some_function', None)]
-        observer.on_function.assert_has_calls(calls)        
+        observer.on_function.assert_has_calls(calls)
 
     def test_ignores_error_if_observer_does_not_expect_notification(self):
         src_file = StringIO(
@@ -162,7 +162,7 @@ class TestSourceCodeParser(unittest.TestCase):
         observer.on_function.side_effect = AttributeError
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         source_code_parser.parse('', src_file)
 
     def test_notifies_one_module(self):
@@ -171,12 +171,12 @@ class TestSourceCodeParser(unittest.TestCase):
         observer = Mock()
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
-        
+
         self.entity_id_mock.create.return_value = 'to/fake_module.pyc'
         source_code_parser.parse('path/to/fake_module.pyc', src_file)
-        
+
         observer.on_module.assert_called_once_with('to/fake_module.pyc',
-                                                   'to.fake_module')  
+                                                   'to.fake_module')
 
     def test_complains_if_a_file_is_parsed_more_than_once(self):
         src_file = StringIO('pass')
@@ -184,5 +184,4 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.parse('fake_file_name.py', src_file)
         self.assertRaises(PerformanceError, source_code_parser.parse,
                           'fake_file_name.py', src_file)
-        
-        
+

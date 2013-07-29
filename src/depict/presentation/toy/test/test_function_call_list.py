@@ -58,4 +58,4 @@ class TestFunctionCallList(unittest.TestCase):
         type(function_call_mock).function = function_mock
         function_call_list.on_call(function_call_mock)
         file_mock.write.assert_called_once_with('fake_name\n')
- 
+

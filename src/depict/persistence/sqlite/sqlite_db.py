@@ -47,7 +47,7 @@ class SQLiteDB(object):
     def run(self):
         self.static_data_notifier.run()
         self._connection.commit()
-    
+
     def on_function(self, function):
         self.function_table.insert(function)
         try:
@@ -57,6 +57,6 @@ class SQLiteDB(object):
 
     def on_class(self, class_):
         self.class_table.insert(class_)
-    
+
     def on_module(self, module):
         self.module_table.insert(module)

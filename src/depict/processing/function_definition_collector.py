@@ -27,7 +27,7 @@ class FunctionDefinitionCollector():
                  function_repo = GlobalFunctionRepo):
         source_code_parser.register(self)
         self.function_repo = function_repo
-    
+
     def on_function(self, id_, name, class_id):
         if class_id:
             class_ = GlobalClassRepo.get(class_id)

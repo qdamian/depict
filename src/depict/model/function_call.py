@@ -28,6 +28,6 @@ class FunctionCall():
 
     def __eq__(self, other):
         return self.function_id == other.function_id
-    
+
     def __repr__(self):
         return 'ID: ' + self.function_id

@@ -33,7 +33,7 @@ class TestModuleDefinitionCollector(unittest.TestCase):
         code_parser_mock = Mock()
         module_def_collector = ModuleDefinitionCollector(code_parser_mock, Mock())
         code_parser_mock.register.assert_called_once_with(module_def_collector)
- 
+
     def test_adds_one_module_to_repo(self):
         module_repo = Mock()
         module_def_collector = ModuleDefinitionCollector(Mock(), module_repo)

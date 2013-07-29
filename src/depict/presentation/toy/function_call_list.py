@@ -22,10 +22,10 @@ class FunctionCallList(object):
         self.out_file = open(file_name, 'w')
         self.function_call_notifier = FunctionCallNotifier(self)
         self.stop = self.function_call_notifier.stop
-            
+
     def start(self):
         self.function_call_notifier.start()
-   
+
     def on_call(self, function_call):
         try:
             self.out_file.write(function_call.function.Class_.name + '.')

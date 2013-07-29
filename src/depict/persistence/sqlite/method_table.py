@@ -18,7 +18,7 @@
 class MethodTable():
     def __init__(self, connection):
         self._connection = connection
-    
+
     def create(self):
         self._connection.execute('''CREATE TABLE method(
                     class_id VARCHAR,
@@ -26,7 +26,7 @@ class MethodTable():
                     PRIMARY KEY(class_id, function_id),
                     FOREIGN KEY(class_id) REFERENCES class(id),
                     FOREIGN KEY(function_id) REFERENCES function(id))''')
-    
+
     def insert(self, function):
         self._connection.execute('''INSERT INTO method(class_id,
                                     function_id) VALUES (?, ?)''',

@@ -29,7 +29,7 @@ class TestFunctionCallNotifier():
             tracerClass_mock.return_value = tracer_mock
             function_call_notifier = FunctionCallNotifier(Mock())
             tracerClass_mock.assert_called_once_with(function_call_notifier)
-    
+
     def test_start_creates_thread_scoped_tracer(self):
         with patch('depict.processing.function_call_notifier.ThreadScopedTracer') as tracerClass_mock:
             tracer_mock = Mock()

@@ -18,12 +18,12 @@
 class FunctionTable():
     def __init__(self, connection):
         self._connection = connection
-    
+
     def create(self):
         self._connection.execute('''CREATE TABLE function(
                                         id VARCHAR PRIMARY KEY,
                                         name VARCHAR)''')
-    
+
     def insert(self, function):
         self._connection.execute('''INSERT INTO function(id, name)
                                     VALUES (?, ?)''',

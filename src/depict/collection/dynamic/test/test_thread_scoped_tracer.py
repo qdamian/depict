@@ -89,7 +89,7 @@ class TestThreadScopedTracer(unittest.TestCase):
         observer.on_call.side_effect = AttributeError
         observer.on_return.side_effect = AttributeError
         thread_scoped_tracer = ThreadScopedTracer(observer)
-        
+
         thread_scoped_tracer.start()
         function1()
         thread_scoped_tracer.stop()

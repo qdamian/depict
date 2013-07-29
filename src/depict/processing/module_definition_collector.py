@@ -25,6 +25,6 @@ class ModuleDefinitionCollector():
                  module_repo = GlobalModuleRepo):
         source_code_parser.register(self)
         self.module_repo = module_repo
-        
+
     def on_module(self, id_, name):
         self.module_repo.add(Module(id_, name))

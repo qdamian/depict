@@ -22,4 +22,4 @@ class Function(object):
         self.name = name
 
     def __eq__(self, other):
-        return other.id_ == self.id_ 
+        return other.id_ == self.id_

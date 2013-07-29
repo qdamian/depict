@@ -56,7 +56,7 @@ class ThreadScopedTracer(object):
         frame_digest = FrameDigest(frame)
         if frame_digest.function_name == '__stop_trace__':
             return
-        
+
         try:
             self.observer.on_call(frame_digest)
         except AttributeError:

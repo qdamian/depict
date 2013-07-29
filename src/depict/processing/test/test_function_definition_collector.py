@@ -25,7 +25,7 @@ from depict.model.class_repo import GlobalClassRepo
 from depict.model.method import Method
 
 class TestFunctionDefinitionCollector(unittest.TestCase):
-    
+
     def test_creation(self):
         Functionrepo_ = FunctionRepo()
         code_parser_mock = Mock()

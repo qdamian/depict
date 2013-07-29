@@ -35,7 +35,7 @@ class FunctionCallNotifier():
 
     def start(self):
         self.thread_scoped_tracer.start()
-        
+
     def on_call(self, frame_digest):
         function_id = (frame_digest.file_name + ':' +
                        str(frame_digest.line_number))

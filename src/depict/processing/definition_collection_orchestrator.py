@@ -21,10 +21,10 @@ class DefinitionCollectionOrchestrator(object):
     def __init__(self):
         self.collectors = []
         self.processed_files = []
-    
+
     def include(self, collector):
         self.collectors.append(collector)
-    
+
     def process(self, file_name):
         if file_name in self.processed_files:
             return

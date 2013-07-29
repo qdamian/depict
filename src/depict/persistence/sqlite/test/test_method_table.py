@@ -27,7 +27,7 @@ class TestMethodTable(unittest.TestCase):
         method_table = MethodTable(connection)
         method_table.create()
         connection.execute('SELECT class_id, function_id FROM method')
- 
+
     def test_inserts_method(self):
         connection = sqlite3.connect(':memory:')
         method_table = MethodTable(connection)

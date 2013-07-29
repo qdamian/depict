@@ -21,7 +21,7 @@ from mock import patch
 
 class TestEntityId(unittest.TestCase):
     @patch('depict.model.entity_id.os.path.relpath')
-    def test_removes_working_directory_from_file_name(self, relpath_mock):   
+    def test_removes_working_directory_from_file_name(self, relpath_mock):
         relpath_mock.return_value = 'some/file.py'
         actual_id = entity_id.create('full/path/to/some/file.py', '12')
         expected_id = 'some/file.py:12'
@@ -31,7 +31,7 @@ class TestEntityId(unittest.TestCase):
         expected_id = 'dummy_file_name'
         actual_id = entity_id.create('dummy_file_name')
         self.assertEqual(actual_id, expected_id)
-        
+
     def test_works_with_int_line_number(self):
         expected_id = 'dummy_file_name:3'
         actual_id = entity_id.create('dummy_file_name', 3)

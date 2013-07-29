@@ -39,11 +39,11 @@ class TestRepo(unittest.TestCase):
         out_element1 = repo.get('fake_id1')
         self.assertEqual(in_element1, out_element1)
         self.assertNotEqual(in_element2, out_element1)
-        
+
     def test_get_returns_none_if_element_not_found(self):
         repo = Repo()
         self.assertEqual(repo.get('fake_id'), None)
-        
+
     def test_get_all_returns_all_elements(self):
         repo = Repo()
         in_element1 = Mock()
@@ -53,4 +53,3 @@ class TestRepo(unittest.TestCase):
         in_element2.id_ = 'fake_id2'
         repo.add(in_element2)
         self.assertEqual(set(repo.get_all()), set([in_element1, in_element2]))
-        
