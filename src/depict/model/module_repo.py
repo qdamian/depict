@@ -15,14 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=C0103, R0903
-class Class_:
-    def __init__(self, id_, name):
-        self.id_ = id_
-        self.name = name
-        
-    def add_method(self, method):
-        pass
+from depict.model.repo import Repo
 
-    def __eq__(self, other):
-        return self.id_ == other.id_
+class ModuleRepo(Repo):
+    pass
+
+# pylint: disable=C0103
+GlobalModuleRepo = ModuleRepo()

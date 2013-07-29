@@ -55,7 +55,7 @@ class TestDefinitionList(unittest.TestCase):
         file_mock = Mock()
         open_mock.return_value = file_mock
         definition_list = DefinitionList('dummy_input_glob', 'dummy_filename')
-        fake_function = Function('fake_name', 'fake_id')
+        fake_function = Function('fake_id', 'fake_name')
         definition_list.on_function(fake_function)
         expected_call = call('fake_name\n')
         self.assertTrue(expected_call in file_mock.write.mock_calls)
@@ -64,7 +64,7 @@ class TestDefinitionList(unittest.TestCase):
         file_mock = Mock()
         open_mock.return_value = file_mock
         definition_list = DefinitionList('dummy_input_glob', 'dummy_filename')
-        fake_class = Class_('fake_name', 'fake_id')
+        fake_class = Class_('fake_id', 'fake_name')
         definition_list.on_class(fake_class)
         expected_call = call('fake_name\n')
         self.assertTrue(expected_call in file_mock.write.mock_calls)

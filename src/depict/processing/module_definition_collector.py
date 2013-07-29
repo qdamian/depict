@@ -15,14 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=C0103, R0903
-class Class_:
-    def __init__(self, id_, name):
-        self.id_ = id_
-        self.name = name
-        
-    def add_method(self, method):
-        pass
+from depict.collection.static.source_code_parser import GlobalSourceCodeParser
+from depict.model.module import Module
+from depict.model.module_repo import GlobalModuleRepo
 
-    def __eq__(self, other):
-        return self.id_ == other.id_
+# pylint: disable=R0903
+class ModuleDefinitionCollector():
+    def __init__(self, source_code_parser = GlobalSourceCodeParser,
+                 module_repo = GlobalModuleRepo):
+        source_code_parser.register(self)
+        self.module_repo = module_repo
+        
+    def on_module(self, id_, name):
+        self.module_repo.add(Module(id_, name))

@@ -55,8 +55,8 @@ class TestFunctionDefinitionCollector(unittest.TestCase):
         class_mock.id_ = 'fake_class_id'
         GlobalClassRepo.add(class_mock)
 
-        function_definition_collector.on_function('fake_function_name',
-                                                'fake_function_id',
-                                                class_mock.id_)
-        expected_function = Function('fake_function_name', 'fake_function_id')
+        function_definition_collector.on_function('fake_function_id',
+                                                  'fake_function_name',
+                                                  class_mock.id_)
+        expected_function = Function('fake_function_id', 'fake_function_name')
         function_repo_mock.add.assert_called_once_with(expected_function)

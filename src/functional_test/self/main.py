@@ -18,11 +18,11 @@
 #!/usr/bin/env python
 
 from depict.presentation.toy.definition_list import DefinitionList
-from depict.persistency.sqlite_db import SQLiteDB
+from depict.persistence.sqlite.sqlite_db import SQLiteDB
 import sqlite3
 
 if __name__ == '__main__':
-    definition_list = DefinitionList('*.py', 'self.definition_list.out')
+    definition_list = DefinitionList('src/*.py', 'self.definition_list.out')
     db_name = 'self.sqlite.db'
     sqlite_db = SQLiteDB('*.py', db_name)
     definition_list.run()

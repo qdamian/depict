@@ -15,14 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=C0103, R0903
-class Class_:
-    def __init__(self, id_, name):
-        self.id_ = id_
-        self.name = name
-        
-    def add_method(self, method):
-        pass
-
-    def __eq__(self, other):
-        return self.id_ == other.id_
+class ClassTable():
+    def __init__(self, connection):
+        self._connection = connection
+    
+    def create(self):
+        self._connection.execute('''CREATE TABLE class(id VARCHAR PRIMARY KEY,
+                                name VARCHAR)''')
+    def insert(self, class_):
+        self._connection.execute('INSERT INTO class(id, name) VALUES (?, ?)',
+                               (class_.id_, class_.name))  

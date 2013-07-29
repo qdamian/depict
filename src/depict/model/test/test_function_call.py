@@ -26,7 +26,7 @@ class TestFunctionCall(unittest.TestCase):
         
     def test_function_property(self):
         fake_function_id = 'fake_function_id'
-        expected_function = Function('function_name', fake_function_id)
+        expected_function = Function(fake_function_id, 'function_name')
         GlobalFunctionRepo.add(expected_function)
         function_call = FunctionCall(fake_function_id)
         actual_function = function_call.function

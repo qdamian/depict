@@ -53,7 +53,7 @@ class TestFunctionCallList(unittest.TestCase):
         open_mock.return_value = file_mock
         function_call_list = FunctionCallList('dummy_filename')
         function_call_mock = Mock()
-        fake_function = Function('fake_name', 'fake_id')
+        fake_function = Function('fake_id', 'fake_name')
         function_mock = PropertyMock(return_value=fake_function)
         type(function_call_mock).function = function_mock
         function_call_list.on_call(function_call_mock)

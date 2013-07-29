@@ -25,6 +25,6 @@ class TestMethod(unittest.TestCase):
                    'fake_parent')
         
     def test_eq_comparison(self):
-        method1 = Method('dummy_function_name1', 'fake_id1', 'dummy_parent1')
-        method2 = Method('dummy_function_name2', 'fake_id1', 'dummy_parent2')
+        method1 = Method('fake_id1', 'dummy_function_name1', 'dummy_parent1')
+        method2 = Method('fake_id1', 'dummy_function_name2', 'dummy_parent2')
         self.assertEqual(method1, method2)

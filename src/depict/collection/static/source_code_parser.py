@@ -16,6 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import ast
+import os
 
 class PerformanceError(Exception):
     pass
@@ -30,16 +31,21 @@ class SourceCodeParser(ast.NodeVisitor):
         self.file_name = ''
         self.observers = []
 
+    def _safely_notify(self, function, args):
+        for observer in self.observers:
+            try:
+                method = getattr(observer, function)
+                # pylint: disable=W0142
+                method(*args)
+            except AttributeError:
+                pass
+
     #pylint: disable=C0103
     def visit_ClassDef(self, node):
         id_ = self.file_name + ":" + str(node.lineno)
         self.class_id = id_
         self.class_col_offset = node.col_offset
-        for observer in self.observers:
-            try:
-                observer.on_class(node.name, id_)
-            except AttributeError:
-                pass
+        self._safely_notify('on_class', [id_, node.name])
         return super(SourceCodeParser, self).generic_visit(node)
   
     #pylint: disable=C0103
@@ -47,13 +53,9 @@ class SourceCodeParser(ast.NodeVisitor):
         if node.col_offset <= self.class_col_offset:
             self.class_id = None
         id_ = self.file_name + ":" + str(node.lineno)
-        for observer in self.observers:
-            try:
-                observer.on_function(node.name, id_, self.class_id)
-            except AttributeError:
-                pass
+        self._safely_notify('on_function', [id_, node.name, self.class_id])
         return super(SourceCodeParser, self).generic_visit(node)
-          
+
     def generic_visit(self, node):
         return super(SourceCodeParser, self).generic_visit(node)
     
@@ -64,10 +66,16 @@ class SourceCodeParser(ast.NodeVisitor):
             raise PerformanceError(file_name)
 
         self.file_name = file_name
+        self.notify_module()
+        
         content = str(src_file.read())
         root = ast.parse(content)
         SourceCodeParser.parsed_files.append(file_name)
         return super(SourceCodeParser, self).visit(root)
+
+    def notify_module(self):
+        module_name = '.'.join((os.path.splitext(self.file_name)[0]).split('/'))
+        self._safely_notify('on_module', [self.file_name, module_name])
 
     def register(self, observer):
         self.observers.append(observer)

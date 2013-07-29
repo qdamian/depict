@@ -50,7 +50,7 @@ class TestSourceCodeParser(unittest.TestCase):
         
         source_code_parser.parse('', src_file)
         
-        observer.on_class.assert_called_once_with('MyClass', ANY)
+        observer.on_class.assert_called_once_with(ANY, 'MyClass')
 
     def test_notifies_two_classes(self):
         src_file = StringIO('class Class1():\n'
@@ -63,10 +63,10 @@ class TestSourceCodeParser(unittest.TestCase):
         
         source_code_parser.parse('', src_file)
         
-        calls = [call('Class1', ANY), call('Class2', ANY)]
+        calls = [call(ANY, 'Class1'), call(ANY, 'Class2')]
         observer.on_class.assert_has_calls(calls)
 
-    def test_notifies_nestedClass_definitions(self):
+    def test_notifies_nested_class_definition(self):
         src_file = StringIO('class Class1():\n'
                             '    pass\n'
                             '    class Class2():\n'
@@ -77,7 +77,7 @@ class TestSourceCodeParser(unittest.TestCase):
         
         source_code_parser.parse('', src_file)
         
-        calls = [call('Class1', ANY), call('Class2', ANY)]
+        calls = [call(ANY, 'Class1'), call(ANY, 'Class2')]
         observer.on_class.assert_has_calls(calls)
 
     def test_notifies_classes_with_unique_id(self):
@@ -92,9 +92,9 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.parse('fake_file_name', src_file)
         
         (args1, _) = observer.on_class.call_args_list[0]
-        (_, id1) = args1
+        (id1, _) = args1
         (args2, _) = observer.on_class.call_args_list[1]
-        (_, id2) = args2
+        (id2, _) = args2
         self.assertEquals(id1, 'fake_file_name:1')
         self.assertEquals(id2, 'fake_file_name:3')
 
@@ -107,8 +107,8 @@ class TestSourceCodeParser(unittest.TestCase):
         
         source_code_parser.parse('fake_file_name', src_file)
         
-        observer.on_function.assert_called_once_with('my_function',
-                                                     'fake_file_name:1',
+        observer.on_function.assert_called_once_with('fake_file_name:1',
+                                                     'my_function',
                                                      None)
 
     def test_notifies_one_method(self):
@@ -121,8 +121,8 @@ class TestSourceCodeParser(unittest.TestCase):
         
         source_code_parser.parse('fake_file_name', src_file)
         
-        observer.on_function.assert_called_once_with('some_method',
-                                                     'fake_file_name:2',
+        observer.on_function.assert_called_once_with('fake_file_name:2',
+                                                     'some_method',
                                                      'fake_file_name:1')
 
     def test_notifies_one_function_and_one_method(self):
@@ -137,8 +137,8 @@ class TestSourceCodeParser(unittest.TestCase):
         
         source_code_parser.parse('fake_file_name', src_file)
         
-        calls = [call('some_method', 'fake_file_name:2', 'fake_file_name:1'),
-                 call('some_function', 'fake_file_name:4', None)]
+        calls = [call('fake_file_name:2', 'some_method', 'fake_file_name:1'),
+                 call('fake_file_name:4', 'some_function', None)]
         observer.on_function.assert_has_calls(calls)        
 
     def test_ignores_error_if_observer_does_not_expect_notification(self):
@@ -157,9 +157,23 @@ class TestSourceCodeParser(unittest.TestCase):
         
         source_code_parser.parse('', src_file)
 
+    def test_notifies_one_module(self):
+        src_file = StringIO('import os\n'
+                            'os.path.join("a", "b")')
+        observer = Mock()
+        source_code_parser = SourceCodeParser()
+        source_code_parser.register(observer)
+        
+        source_code_parser.parse('path/to/fake_module.pyc', src_file)
+        
+        observer.on_module.assert_called_once_with('path/to/fake_module.pyc',
+                                                   'path.to.fake_module')  
+
     def test_complains_if_a_file_is_parsed_more_than_once(self):
         src_file = StringIO('pass')
         source_code_parser = SourceCodeParser()
         source_code_parser.parse('fake_file_name.py', src_file)
         self.assertRaises(PerformanceError, source_code_parser.parse,
                           'fake_file_name.py', src_file)
+        
+        

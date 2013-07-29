@@ -16,13 +16,10 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 # pylint: disable=C0103, R0903
-class Class_:
+class Module:
     def __init__(self, id_, name):
         self.id_ = id_
         self.name = name
-        
-    def add_method(self, method):
-        pass
 
     def __eq__(self, other):
         return self.id_ == other.id_

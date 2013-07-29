@@ -19,8 +19,8 @@ from depict.model.function import Function
 
 # pylint: disable=C0103, R0903
 class Method(Function):
-    def __init__(self, name, id_, Class_):
-        super(Method, self).__init__(name, id_)
+    def __init__(self, id_, name, Class_):
+        super(Method, self).__init__(id_, name)
         self.Class_ = Class_
         
     def __repr__(self):

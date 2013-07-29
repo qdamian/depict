@@ -3,9 +3,11 @@ Depict
 
 > /dɪˈpɪkt/: to represent or show something in a picture or story
 
-A python module to create *representations* of a program based on the program's source code and data gathered during the program execution.
+Depict has two components:
 
-The representations are tipically diagrams, such as a class or call sequence diagram or a dependency graph. These are UML-like diagrams but no attempt is made to conform to UML. 
+* A python module to model the structure and behavior of a program based on the program's source code and data gathered during the program execution.
+
+* An HTML application to display a graphical representation of that model.
 
 See some [alternatives](https://github.com/qdamian/depict#alternatives) below.
 

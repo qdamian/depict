@@ -28,11 +28,11 @@ class FunctionDefinitionCollector():
         source_code_parser.register(self)
         self.function_repo = function_repo
     
-    def on_function(self, name, id_, class_id):
+    def on_function(self, id_, name, class_id):
         if class_id:
             class_ = GlobalClassRepo.get(class_id)
-            function = Method(name, id_, class_)
+            function = Method(id_, name, class_)
             class_.add_method(function)
         else:
-            function = Function(name, id_) 
+            function = Function(id_, name) 
         self.function_repo.add(function)

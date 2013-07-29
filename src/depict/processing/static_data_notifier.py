@@ -15,14 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.processing.definition_collection_orchestrator import \
-                                          GlobalDefinitionCollectionOrchestrator
 from depict.model.class_repo import GlobalClassRepo
 from depict.model.function_repo import GlobalFunctionRepo
 from depict.processing.class_definition_collector import \
-                                                        ClassDefinitionCollector
+    ClassDefinitionCollector
+from depict.processing.definition_collection_orchestrator import \
+    GlobalDefinitionCollectionOrchestrator
 from depict.processing.function_definition_collector import \
-                                                     FunctionDefinitionCollector
+    FunctionDefinitionCollector
+from depict.processing.module_definition_collector import \
+    ModuleDefinitionCollector
+from depict.model.module_repo import GlobalModuleRepo
 
 # pylint: disable=R0903
 class StaticDataNotifier():
@@ -30,17 +33,25 @@ class StaticDataNotifier():
         self.observer = observer
         self.file_list = file_list
     
+    def _safely_notify(self, function_name, value):
+        try:
+            notification_function = getattr(self.observer, function_name)
+            notification_function(value)
+        except AttributeError:
+            pass
+
     def run(self):
         collection_orchestrator = GlobalDefinitionCollectionOrchestrator
         
+        collection_orchestrator.include(ModuleDefinitionCollector)
         collection_orchestrator.include(ClassDefinitionCollector)
         collection_orchestrator.include(FunctionDefinitionCollector)
         
         for file_name in self.file_list:
             collection_orchestrator.process(file_name)
-        
-        for class_ in GlobalClassRepo.get_all():
-            self.observer.on_class(class_)
 
-        for function in GlobalFunctionRepo.get_all():
-            self.observer.on_function(function)
+        for (func_name, repo) in [('on_module', GlobalModuleRepo),
+                                  ('on_class', GlobalClassRepo),
+                                  ('on_function', GlobalFunctionRepo)]:
+            for value in repo.get_all():
+                self._safely_notify(func_name, value)

@@ -26,5 +26,5 @@ class ClassDefinitionCollector():
         source_code_parser.register(self)
         self.class_repo = class_repo
         
-    def on_class(self, name, id_):
-        self.class_repo.add(Class_(name, id_))
+    def on_class(self, id_, name):
+        self.class_repo.add(Class_(id_, name))
