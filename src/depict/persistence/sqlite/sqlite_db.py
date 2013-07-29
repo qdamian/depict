@@ -25,14 +25,12 @@ from depict.persistence.sqlite.module_table import ModuleTable
 
 class SQLiteDB(object):
 
+    # pylint: disable=W0201
     def __init__(self, input_glob, out_db):
         file_set = FileSet(input_glob)
         file_names = [name for name in file_set]
         self.static_data_notifier = StaticDataNotifier(file_names, self)
         self._connection = sqlite3.connect(out_db)
-        self.class_table = None
-        self.function_table = None
-        self.method_table = None
         self._create_tables()
 
     def _create_tables(self):

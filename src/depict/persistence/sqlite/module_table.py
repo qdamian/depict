@@ -25,7 +25,6 @@ class ModuleTable():
                                         name VARCHAR)''')
     
     def insert(self, function):
-        pass
         self._connection.execute('''INSERT INTO module(id, name)
                                     VALUES (?, ?)''',
                                     (function.id_, function.name))
