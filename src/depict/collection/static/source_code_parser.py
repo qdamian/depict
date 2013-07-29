@@ -17,12 +17,12 @@
 
 import ast
 import os
+from depict.model import entity_id
 
 class PerformanceError(Exception):
     pass
 
 class SourceCodeParser(ast.NodeVisitor):
-
     parsed_files = []
 
     def __init__(self):
@@ -74,8 +74,9 @@ class SourceCodeParser(ast.NodeVisitor):
         return super(SourceCodeParser, self).visit(root)
 
     def notify_module(self):
-        module_name = '.'.join((os.path.splitext(self.file_name)[0]).split('/'))
-        self._safely_notify('on_module', [self.file_name, module_name])
+        module_id = entity_id.create(self.file_name)
+        module_name = '.'.join((os.path.splitext(module_id)[0]).split('/'))
+        self._safely_notify('on_module', [module_id, module_name])
 
     def register(self, observer):
         self.observers.append(observer)

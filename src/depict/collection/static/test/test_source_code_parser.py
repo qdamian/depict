@@ -18,7 +18,7 @@
 from StringIO import StringIO
 from depict.collection.static.source_code_parser import SourceCodeParser, \
                                                         PerformanceError
-from mock import Mock, call, ANY
+from mock import Mock, call, ANY, patch
 import unittest
 
 class TestSourceCodeParser(unittest.TestCase):
@@ -27,6 +27,14 @@ class TestSourceCodeParser(unittest.TestCase):
 
     def setUp(self):
         SourceCodeParser.parsed_files = []
+        self.entity_id_mock = Mock()
+        self.entity_id_mock.create.return_value = 'fake_id'
+        self.entity_id_patcher = patch('depict.collection.static.source_code_parser.entity_id',
+                                       self.entity_id_mock)
+        self.entity_id_patcher.start()
+        
+    def tearDown(self):
+        self.entity_id_patcher.stop()
 
     def test_no_notification(self):
         src_file = StringIO('')
@@ -164,10 +172,11 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser = SourceCodeParser()
         source_code_parser.register(observer)
         
+        self.entity_id_mock.create.return_value = 'to/fake_module.pyc'
         source_code_parser.parse('path/to/fake_module.pyc', src_file)
         
-        observer.on_module.assert_called_once_with('path/to/fake_module.pyc',
-                                                   'path.to.fake_module')  
+        observer.on_module.assert_called_once_with('to/fake_module.pyc',
+                                                   'to.fake_module')  
 
     def test_complains_if_a_file_is_parsed_more_than_once(self):
         src_file = StringIO('pass')

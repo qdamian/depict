@@ -15,20 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-#!/usr/bin/env python
+import os
 
-from depict.persistence.sqlite.sqlite_db import SQLiteDB
-import sqlite3
-
-if __name__ == '__main__':
-    db_name = 'self.sqlite.db'
-    sqlite_db = SQLiteDB('depict/**/*.py', db_name)
-    sqlite_db.run()
-
-    print 'Methods of the TestSQLiteDB class:'
-    query = '''SELECT name FROM function WHERE id IN
-          (SELECT  method.function_id FROM method, class
-               WHERE method.class_id = class.id AND class.name = 'TestSQLiteDB')'''
-    con = sqlite3.connect(db_name)
-    for row in con.execute(query):
-        print row
+def create(file_name, line_number=None):
+    generated_id = '%s' % os.path.relpath(file_name)
+    if line_number:
+        generated_id += ':%s' % line_number
+    return generated_id

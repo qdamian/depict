@@ -34,5 +34,5 @@ class FunctionDefinitionCollector():
             function = Method(id_, name, class_)
             class_.add_method(function)
         else:
-            function = Function(id_, name) 
+            function = Function(id_, name)
         self.function_repo.add(function)
