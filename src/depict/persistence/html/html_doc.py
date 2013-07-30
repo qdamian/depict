@@ -15,7 +15,38 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-class HtmlDoc(object):
+import pyratemp
 
-    def __init__(self, out_file):
-        pass
+class HtmlDoc(object):
+    header_template = '''
+    <!doctype html>
+    <html lang=en>
+    <meta charset=utf-8>
+    <title>@!title!@</title>
+    <body>
+    <li>Modules
+      <ul>'''
+
+    module_template = '''
+        <li>@!module_name!@</li>'''
+    
+    footer_template = '''
+      </ul>
+    </li>    
+    '''
+
+    def __init__(self, title, out_filename):
+        self.out_filename = out_filename
+        header_temp = pyratemp.Template(HtmlDoc.header_template)
+        self.html_content = header_temp(title=title)
+    
+    def on_module(self, module):
+        module_temp = pyratemp.Template(HtmlDoc.module_template)
+        self.html_content += module_temp(module_name=module.name)
+
+    def render(self):
+        footer_temp = pyratemp.Template(HtmlDoc.footer_template)
+        self.html_content += footer_temp()
+        with open(self.out_filename, 'w') as out_file:
+            out_file.write(self.html_content)
+    
