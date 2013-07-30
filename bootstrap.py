@@ -1912,17 +1912,8 @@ def create_bootstrap_script(extra_text, python_version=''):
 import os
 import subprocess
 
-dependencies = [
-                'mock',
-                'nose',
-                'nose-parameterized',
-                'pylint',
-                'formic',
-               ]
-
 def after_install(options, home_dir):
-    for package in dependencies:
-        subprocess.call([os.path.join(home_dir, 'bin', 'pip'), 'install', package])
+    subprocess.call([os.path.join(home_dir, 'bin', 'pip'), 'install', '-r', 'requirements'])
 
 
 def convert(s):
