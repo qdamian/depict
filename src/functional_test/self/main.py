@@ -17,13 +17,13 @@
 
 #!/usr/bin/env python
 
-from depict.persistence.sqlite.sqlite_db import SQLiteDB
+from depict.output.sqlite import SQLite
 import sqlite3
 
 if __name__ == '__main__':
     db_name = 'self.sqlite.db'
-    sqlite_db = SQLiteDB('depict/**/*.py', db_name)
-    sqlite_db.run()
+    sqlite = SQLite('depict/**/*.py', db_name)
+    sqlite.run()
     print 'Methods of the TestSQLiteDB class:'
     query = '''SELECT name FROM function WHERE id IN
           (SELECT  method.function_id FROM method, class

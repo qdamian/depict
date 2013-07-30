@@ -16,20 +16,20 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
-from depict.presentation.toy.function_call_list import FunctionCallList
+from depict.output.toy.function_call_list import FunctionCallList
 from depict.collection.dynamic.frame_digest import FrameDigest
 from depict.model.function_call import FunctionCall
 from depict.model.function import Function
 import unittest
 
-@patch('depict.presentation.toy.function_call_list.open', create=True)
+@patch('depict.output.toy.function_call_list.open', create=True)
 class TestFunctionCallList(unittest.TestCase):
     def test_init_opens_output_file(self, open_mock):
         FunctionCallList('file_name')
         open_mock.assert_called_once_with('file_name', 'w')
 
     def test_init_creates_function_call_notifier(self, open_mock):
-        with patch('depict.presentation.toy.function_call_list.FunctionCallNotifier') as function_call_notifier_class_mock:
+        with patch('depict.output.toy.function_call_list.FunctionCallNotifier') as function_call_notifier_class_mock:
             function_call_list = FunctionCallList('file_name')
             function_call_notifier_class_mock.assert_called_once_with(function_call_list)
 
@@ -42,7 +42,7 @@ class TestFunctionCallList(unittest.TestCase):
     def test_stops_function_call_notifier(self, open_mock):
         call_notifier_mock = Mock()
         call_notifier_class_mock = Mock(return_value=call_notifier_mock)
-        with patch('depict.presentation.toy.function_call_list.FunctionCallNotifier', call_notifier_class_mock):
+        with patch('depict.output.toy.function_call_list.FunctionCallNotifier', call_notifier_class_mock):
             function_call_list = FunctionCallList('file_name')
             function_call_list.start()
             function_call_list.stop()

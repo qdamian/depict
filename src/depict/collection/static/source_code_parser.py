@@ -77,7 +77,8 @@ class SourceCodeParser(ast.NodeVisitor):
 
     def notify_module(self):
         self.current_module_id = entity_id.create(self.file_name)
-        module_name = '.'.join((os.path.splitext(self.current_module_id)[0]).split('/'))
+        module_name = '.'.join((os.path.splitext(
+                                        self.current_module_id)[0]).split('/'))
         self._safely_notify('on_module', [self.current_module_id, module_name])
 
     def register(self, observer):

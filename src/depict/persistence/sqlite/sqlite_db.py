@@ -16,8 +16,6 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import sqlite3
-from formic.formic import FileSet
-from depict.processing.static_data_notifier import StaticDataNotifier
 from depict.persistence.sqlite.class_table import ClassTable
 from depict.persistence.sqlite.function_table import FunctionTable
 from depict.persistence.sqlite.method_table import MethodTable
@@ -26,10 +24,7 @@ from depict.persistence.sqlite.module_table import ModuleTable
 class SQLiteDB(object):
 
     # pylint: disable=W0201
-    def __init__(self, input_glob, out_db):
-        file_set = FileSet(input_glob)
-        file_names = [name for name in file_set]
-        self.static_data_notifier = StaticDataNotifier(file_names, self)
+    def __init__(self, out_db):
         self._connection = sqlite3.connect(out_db)
         self._create_tables()
 
@@ -44,8 +39,7 @@ class SQLiteDB(object):
                       self.method_table]:
             table.create()
 
-    def run(self):
-        self.static_data_notifier.run()
+    def populate(self):
         self._connection.commit()
 
     def on_function(self, function):

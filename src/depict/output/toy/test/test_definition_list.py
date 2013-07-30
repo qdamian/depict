@@ -16,28 +16,28 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
-from depict.presentation.toy.definition_list import DefinitionList
+from depict.output.toy.definition_list import DefinitionList
 from depict.collection.dynamic.frame_digest import FrameDigest
 from depict.model.function_call import FunctionCall
 from depict.model.function import Function
 import unittest
 from depict.model.class_ import Class_
 
-@patch('depict.presentation.toy.definition_list.open', create=True)
+@patch('depict.output.toy.definition_list.open', create=True)
 class TestDefinitionList(unittest.TestCase):
     def test_init_opens_output_file(self, open_mock):
         DefinitionList('dummy_input_glob', 'mock_output_file_name')
         open_mock.assert_called_once_with('mock_output_file_name', 'w')
 
     def test_init_finds_files_in_input_directory(self, open_mock):
-        with patch('depict.presentation.toy.definition_list.FileSet') as fileset_mock:
+        with patch('depict.output.toy.definition_list.FileSet') as fileset_mock:
             fake_include_glob = 'path/to/**/files*.py'
             DefinitionList(fake_include_glob, 'dummy_out_filename')
             fileset_mock.assert_called_once_with(fake_include_glob)
 
     def test_init_creates_static_data_notifier(self, open_mock):
-        with patch('depict.presentation.toy.definition_list.StaticDataNotifier') as static_data_notifier_mock:
-            with patch('depict.presentation.toy.definition_list.FileSet') as fileset_class_mock:
+        with patch('depict.output.toy.definition_list.StaticDataNotifier') as static_data_notifier_mock:
+            with patch('depict.output.toy.definition_list.FileSet') as fileset_class_mock:
                 expected_paths = ['fake/file/a.py', 'file/file/b.py']
                 fileset_mock = MagicMock()
                 fileset_mock.__iter__.return_value = expected_paths

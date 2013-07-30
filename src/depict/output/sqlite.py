@@ -15,30 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-#!/usr/bin/env python
+from depict.persistence.sqlite.sqlite_db import SQLiteDB
+from depict.processing.static_data_notifier import StaticDataNotifier
+from formic.formic import FileSet
 
-from depict.output.toy.function_call_list import FunctionCallList
-from depict.output.toy.definition_list import DefinitionList
+# pylint: disable=R0903
+class SQLite(object):
 
-def say_hi():
-    print 'hello world'
+    def __init__(self, input_glob, out_db):
+        self.sqlite_db = SQLiteDB(out_db)
+        file_set = FileSet(input_glob)
+        file_names = [name for name in file_set]
+        self.static_data_notifier = StaticDataNotifier(file_names,
+                                                       self.sqlite_db)
 
-def main():
-    p = Person()
-    p.say_hi()
-    p.say_bye()
-
-class Person():
-    def say_hi(self):
-        print 'Hello, world'
-
-    def say_bye(self):
-        print 'Bye'
-
-if __name__ == '__main__':
-    function_call_list = FunctionCallList('hello_world.function_call_list.out')
-    definition_list = DefinitionList(__file__, 'hello_world.definition_list.out')
-    function_call_list.start()
-    main()
-    function_call_list.stop()
-    definition_list.run()
+    def run(self):
+        self.static_data_notifier.run()
+        self.sqlite_db.populate()

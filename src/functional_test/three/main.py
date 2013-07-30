@@ -17,8 +17,8 @@
 
 #!/usr/bin/env python
 
-from depict.presentation.toy.function_call_list import FunctionCallList
-from depict.presentation.toy.definition_list import DefinitionList
+from depict.output.toy.function_call_list import FunctionCallList
+from depict.output.toy.definition_list import DefinitionList
 
 from one import One
 import two
