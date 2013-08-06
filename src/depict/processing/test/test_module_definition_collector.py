@@ -17,7 +17,7 @@
 
 from depict.model.module_repo import ModuleRepo
 from depict.processing.module_definition_collector import ModuleDefinitionCollector
-from mock import Mock
+from mock import Mock, patch
 import unittest
 from depict.model.module import Module
 
@@ -35,8 +35,14 @@ class TestModuleDefinitionCollector(unittest.TestCase):
         code_parser_mock.register.assert_called_once_with(module_def_collector)
 
     def test_adds_one_module_to_repo(self):
-        module_repo = Mock()
-        module_def_collector = ModuleDefinitionCollector(Mock(), module_repo)
-        module_def_collector.on_module('fake_id', 'fake_name')
-        expected_module = Module('fake_id', 'fake_name')
-        module_repo.add.assert_called_once_with(expected_module)
+        with patch('depict.processing.module_definition_collector.entity_id') as entity_id_mock:
+            module_repo = Mock()
+            module_def_collector = ModuleDefinitionCollector(Mock(), module_repo)
+            fake_node = Mock()
+            fake_node.file = 'path/to/file.py'
+            fake_node.name = 'path.to.file'
+            entity_id_mock.create.return_value = 'to/file.py'
+            module_def_collector.on_module(fake_node)
+            expected_module = Module('to/file.py', 'path.to.file')
+            entity_id_mock.create.assert_called_once_with('path/to/file.py')
+            module_repo.add.assert_called_once_with(expected_module)

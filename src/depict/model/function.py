@@ -23,3 +23,6 @@ class Function(object):
 
     def __eq__(self, other):
         return other.id_ == self.id_
+
+    def __repr__(self):
+        return 'ID: %s, name: %s' % (self.id_, self.name)

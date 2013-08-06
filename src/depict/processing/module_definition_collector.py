@@ -16,6 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.static.source_code_parser import GlobalSourceCodeParser
+from depict.model import entity_id
 from depict.model.module import Module
 from depict.model.module_repo import GlobalModuleRepo
 
@@ -26,5 +27,6 @@ class ModuleDefinitionCollector():
         source_code_parser.register(self)
         self.module_repo = module_repo
 
-    def on_module(self, id_, name):
-        self.module_repo.add(Module(id_, name))
+    def on_module(self, node):
+        self.module_repo.add(Module(entity_id.create(node.file),
+                                    node.name))

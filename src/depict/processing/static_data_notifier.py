@@ -47,8 +47,7 @@ class StaticDataNotifier():
         collection_orchestrator.include(ClassDefinitionCollector)
         collection_orchestrator.include(FunctionDefinitionCollector)
 
-        for file_name in self.file_list:
-            collection_orchestrator.process(file_name)
+        collection_orchestrator.process(self.file_list)
 
         for (func_name, repo) in [('on_module', GlobalModuleRepo),
                                   ('on_class', GlobalClassRepo),

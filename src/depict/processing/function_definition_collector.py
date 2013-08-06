@@ -20,6 +20,8 @@ from depict.model.method import Method
 from depict.model.class_repo import GlobalClassRepo
 from depict.model.function_repo import GlobalFunctionRepo
 from depict.collection.static.source_code_parser import GlobalSourceCodeParser
+from depict.model import entity_id
+from logilab import astng
 
 # pylint: disable=R0903
 class FunctionDefinitionCollector():
@@ -28,11 +30,16 @@ class FunctionDefinitionCollector():
         source_code_parser.register(self)
         self.function_repo = function_repo
 
-    def on_function(self, id_, name, class_id):
-        if class_id:
+    def on_function(self, node):
+        name = node.name
+        if isinstance(node.parent, astng.scoped_nodes.Class):
+            id_ = entity_id.create(node.parent.parent.file, node.lineno)
+            class_id = entity_id.create(node.parent.parent.file,
+                                        node.parent.lineno)
             class_ = GlobalClassRepo.get(class_id)
             function = Method(id_, name, class_)
             class_.add_method(function)
         else:
+            id_ = entity_id.create(node.parent.file, node.lineno)
             function = Function(id_, name)
         self.function_repo.add(function)

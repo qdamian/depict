@@ -44,8 +44,7 @@ class TestStaticDataNotifier(unittest.TestCase):
         dummy_observer = Mock()
         static_data_notifier = StaticDataNotifier(fake_file_list, dummy_observer)
         static_data_notifier.run()
-        expected_calls = [call('a.py'), call('path/to/b.py')]
-        collection_orchestrator_mock.process.assert_has_calls(expected_calls)
+        collection_orchestrator_mock.process.assert_called_once_with(['a.py', 'path/to/b.py'])
 
     def test_includes_module_definitions(self, collection_orchestrator_mock):
         static_data_notifier = StaticDataNotifier('dummy_file.py', Mock())

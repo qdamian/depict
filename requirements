@@ -4,3 +4,4 @@ nose-parameterized
 pylint
 formic
 pyratemp
+ipdb

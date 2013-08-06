@@ -73,7 +73,7 @@ class TestFrameDigest(unittest.TestCase):
         actual_function_name = frame_digest.function_name
         actual_file_name = frame_digest.file_name
         actual_lineno = frame_digest.line_number
-        self.assertEqual(actual_module_name, 'test_frame_digest')
+        assert 'test_frame_digest' in actual_module_name
         self.assertEqual(actual_function_name, 'test_works_on_a_real_frame_object')
         assert 'test_frame_digest.py' in actual_file_name
         assert actual_lineno

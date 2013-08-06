@@ -19,6 +19,7 @@ from depict.model.class_ import Class_
 from depict.model.class_repo import GlobalClassRepo
 from depict.collection.static.source_code_parser import GlobalSourceCodeParser
 from depict.model.module_repo import GlobalModuleRepo
+from depict.model import entity_id
 
 # pylint: disable=R0903
 class ClassDefinitionCollector():
@@ -27,6 +28,8 @@ class ClassDefinitionCollector():
         source_code_parser.register(self)
         self.class_repo = class_repo
 
-    def on_class(self, id_, name, module_id):
-        module = GlobalModuleRepo.get(module_id)
-        self.class_repo.add(Class_(id_, name, module))
+    def on_class(self, node):
+        module = GlobalModuleRepo.get(entity_id.create(node.parent.file))
+        class_ = Class_(entity_id.create(node.parent.file, node.lineno),
+                        node.name, module)
+        self.class_repo.add(class_)
