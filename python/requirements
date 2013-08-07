@@ -5,3 +5,4 @@ pylint
 formic
 pyratemp
 ipdb
+logilab-astng
