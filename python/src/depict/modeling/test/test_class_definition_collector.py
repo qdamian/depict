@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.processing.class_definition_collector import ClassDefinitionCollector
+from depict.modeling.class_definition_collector import ClassDefinitionCollector
 from depict.model.class_repo import ClassRepo
 from mock import Mock, patch, call
 from depict.model.class_ import Class_
@@ -35,7 +35,7 @@ class TestClassDefinitionCollector(unittest.TestCase):
         code_parser_mock.register.assert_called_once_with(class_def_locator)
 
     def test_adds_one_class_to_repo(self):
-        with patch('depict.processing.class_definition_collector.entity_id') as entity_id_mock:
+        with patch('depict.modeling.class_definition_collector.entity_id') as entity_id_mock:
             class_repo = Mock()
             class_def_locator = ClassDefinitionCollector(Mock(), class_repo)
             fake_node = Mock()
@@ -49,7 +49,7 @@ class TestClassDefinitionCollector(unittest.TestCase):
                                                    call('path/to/file.py', 27)])
             class_repo.add.assert_called_once_with(expected_class)
 
-    @patch('depict.processing.class_definition_collector.GlobalModuleRepo')
+    @patch('depict.modeling.class_definition_collector.GlobalModuleRepo')
     def test_finds_module_to_init_the_class(self, module_repo_mock):
         fake_module = Mock()
         module_repo_mock.get.return_value = fake_module

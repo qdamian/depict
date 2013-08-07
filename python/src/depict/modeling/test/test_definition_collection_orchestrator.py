@@ -15,16 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.processing.definition_collection_orchestrator import \
+from depict.modeling.definition_collection_orchestrator import \
                                                 DefinitionCollectionOrchestrator
 from mock import Mock, patch
 import unittest
 
-@patch('depict.processing.definition_collection_orchestrator.open', create=True)
+@patch('depict.modeling.definition_collection_orchestrator.open', create=True)
 class TestDefinitionCollectionOrchestrator(unittest.TestCase):
 
     def test_include_stores_collector(self, open_mock):
-        with patch('depict.processing.definition_collection_orchestrator.GlobalSourceCodeParser'):
+        with patch('depict.modeling.definition_collection_orchestrator.GlobalSourceCodeParser'):
             fake_collector = Mock()
             fake_collector_class = Mock(return_value=fake_collector)
             definition_collection_orchestrator = DefinitionCollectionOrchestrator()

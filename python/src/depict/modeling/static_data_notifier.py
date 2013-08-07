@@ -17,13 +17,13 @@
 
 from depict.model.class_repo import GlobalClassRepo
 from depict.model.function_repo import GlobalFunctionRepo
-from depict.processing.class_definition_collector import \
+from depict.modeling.class_definition_collector import \
     ClassDefinitionCollector
-from depict.processing.definition_collection_orchestrator import \
+from depict.modeling.definition_collection_orchestrator import \
     GlobalDefinitionCollectionOrchestrator
-from depict.processing.function_definition_collector import \
+from depict.modeling.function_definition_collector import \
     FunctionDefinitionCollector
-from depict.processing.module_definition_collector import \
+from depict.modeling.module_definition_collector import \
     ModuleDefinitionCollector
 from depict.model.module_repo import GlobalModuleRepo
 

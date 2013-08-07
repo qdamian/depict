@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.processing.function_call_notifier import FunctionCallNotifier
+from depict.modeling.function_call_notifier import FunctionCallNotifier
 
 class FunctionCallList(object):
     def __init__(self, file_name):

@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.module_repo import ModuleRepo
-from depict.processing.module_definition_collector import ModuleDefinitionCollector
+from depict.modeling.module_definition_collector import ModuleDefinitionCollector
 from mock import Mock, patch
 import unittest
 from depict.model.module import Module
@@ -35,7 +35,7 @@ class TestModuleDefinitionCollector(unittest.TestCase):
         code_parser_mock.register.assert_called_once_with(module_def_collector)
 
     def test_adds_one_module_to_repo(self):
-        with patch('depict.processing.module_definition_collector.entity_id') as entity_id_mock:
+        with patch('depict.modeling.module_definition_collector.entity_id') as entity_id_mock:
             module_repo = Mock()
             module_def_collector = ModuleDefinitionCollector(Mock(), module_repo)
             fake_node = Mock()

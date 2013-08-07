@@ -20,7 +20,7 @@ from depict.model.class_repo import GlobalClassRepo
 from depict.model.function import Function
 from depict.model.function_repo import FunctionRepo
 from depict.model.method import Method
-from depict.processing.function_definition_collector import \
+from depict.modeling.function_definition_collector import \
     FunctionDefinitionCollector
 from mock import Mock, create_autospec
 import logilab

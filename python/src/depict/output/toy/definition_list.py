@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.processing.static_data_notifier import StaticDataNotifier
+from depict.modeling.static_data_notifier import StaticDataNotifier
 from formic.formic import FileSet
 from functools import wraps
 

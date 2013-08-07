@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.persistence.html.html_doc import HtmlDoc
-from depict.processing.static_data_notifier import StaticDataNotifier
+from depict.modeling.static_data_notifier import StaticDataNotifier
 from formic.formic import FileSet
 
 # pylint: disable=R0903
