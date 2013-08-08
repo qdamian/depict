@@ -28,7 +28,7 @@ from depict.modeling.module_definition_collector import \
 from depict.model.module_repo import GlobalModuleRepo
 
 # pylint: disable=R0903
-class StaticDataNotifier():
+class StaticDataNotifier(object):
     def __init__(self, file_list, observer):
         self.observer = observer
         self.file_list = file_list

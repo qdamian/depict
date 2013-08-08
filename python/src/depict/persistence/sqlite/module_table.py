@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-class ModuleTable():
+class ModuleTable(object):
     def __init__(self, connection):
         self._connection = connection
 
@@ -23,8 +23,20 @@ class ModuleTable():
         self._connection.execute('''CREATE TABLE module(
                                         id VARCHAR PRIMARY KEY,
                                         name VARCHAR)''')
+        self._connection.execute('''CREATE TABLE module_dependency(
+                                importer_id VARCHAR,
+                                imported_id VARCHAR,
+                                PRIMARY KEY(importer_id, imported_id),
+                                FOREIGN KEY(importer_id) REFERENCES module(id),
+                                FOREIGN KEY(imported_id) REFERENCES module(id))
+                                ''')
 
-    def insert(self, function):
+    def insert(self, module):
         self._connection.execute('''INSERT INTO module(id, name)
                                     VALUES (?, ?)''',
-                                    (function.id_, function.name))
+                                    (module.id_, module.name))
+        for dependency in module.dependencies:
+            self._connection.execute('''INSERT INTO module_dependency(
+                                        importer_id, imported_id)
+                                        VALUES (?, ?)''',
+                                        (module.id_, dependency.id_))

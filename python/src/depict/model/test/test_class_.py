@@ -25,12 +25,12 @@ class TestClass(unittest.TestCase):
         self.assertEqual(class_.id_, 'fake_class_id')
         self.assertEqual(class_.name, 'fake_class_name')
         self.assertEqual(class_.module, 'fake_module')
- 
+
     def test_add_one_method(self):
         class_ = Class_('dummy_class_id', 'dummy_class_name')
         method = Method('dummy_id', 'dummy_name', class_)
         class_.add_method(method)
- 
+
     def test_eq_comparison(self):
         class_1 = Class_('fake_class_id1', 'dummy_class_name1')
         class_2 = Class_('fake_class_id1', 'dummy_class_name2')

@@ -47,7 +47,7 @@ class TestSQLite(unittest.TestCase):
         sqlite.static_data_notifier = Mock()
         sqlite.run()
         sqlite.static_data_notifier.run.assert_called_once_with()
-        
+
     def test_run_populates_db(self):
         with patch('depict.output.sqlite.SQLiteDB') as sqlite_db_class_mock:
             sqlite_db_mock = Mock()

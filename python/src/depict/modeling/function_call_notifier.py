@@ -24,7 +24,7 @@ from depict.model.function_call import FunctionCall
 from depict.modeling.definition_collection_orchestrator import \
                                           GlobalDefinitionCollectionOrchestrator
 
-class FunctionCallNotifier():
+class FunctionCallNotifier(object):
     def __init__(self, observer):
         self.thread_scoped_tracer = ThreadScopedTracer(self)
         self.observer = observer

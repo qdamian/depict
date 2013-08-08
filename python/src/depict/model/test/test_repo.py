@@ -25,7 +25,7 @@ class TestRepo(unittest.TestCase):
         in_element = Mock()
         in_element.id_ = 'fake_id'
         repo.add(in_element)
-        out_element = repo.get('fake_id')
+        out_element = repo.get_by_id('fake_id')
         self.assertEqual(in_element, out_element)
 
     def test_add_two_elements(self):
@@ -36,13 +36,13 @@ class TestRepo(unittest.TestCase):
         in_element2.id_ = 'fake_id2'
         repo.add(in_element1)
         repo.add(in_element2)
-        out_element1 = repo.get('fake_id1')
+        out_element1 = repo.get_by_id('fake_id1')
         self.assertEqual(in_element1, out_element1)
         self.assertNotEqual(in_element2, out_element1)
 
     def test_get_returns_none_if_element_not_found(self):
         repo = Repo()
-        self.assertEqual(repo.get('fake_id'), None)
+        self.assertEqual(repo.get_by_id('fake_id'), None)
 
     def test_get_all_returns_all_elements(self):
         repo = Repo()
@@ -53,3 +53,23 @@ class TestRepo(unittest.TestCase):
         in_element2.id_ = 'fake_id2'
         repo.add(in_element2)
         self.assertEqual(set(repo.get_all()), set([in_element1, in_element2]))
+
+    def test_get_an_element_by_name(self):
+        repo = Repo()
+        in_element1 = Mock()
+        in_element1.id_ = 'fake_id1'
+        in_element1.name = 'fake_name1'
+        repo.add(in_element1)
+        in_element2 = Mock()
+        in_element2.id_ = 'fake_id2'
+        in_element2.name = 'fake_name2'
+        repo.add(in_element2)
+        self.assertEqual(repo.get_by_name('fake_name1'), in_element1)
+
+    def test_returns_none_if_cannot_find_element_by_name(self):
+        repo = Repo()
+        in_element1 = Mock()
+        in_element1.id_ = 'fake_id1'
+        in_element1.name = 'fake_name1'
+        repo.add(in_element1)
+        self.assertEqual(repo.get_by_name('fake_name2'), None)

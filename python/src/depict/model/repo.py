@@ -17,19 +17,30 @@
 
 class Repo(object):
     def __init__(self):
-        self.elements = {}
+        self.elements_by_id = {}
+        self.elements_by_name = {}
 
     def add(self, element):
         '''
         The element is expected to have an id_ attribute
         '''
-        self.elements[element.id_] = element
-
-    def get(self, id_):
+        self.elements_by_id[element.id_] = element
         try:
-            return self.elements[id_]
+            self.elements_by_name[element.name] = element
+        except AttributeError:
+            pass
+
+    def get_by_id(self, id_):
+        try:
+            return self.elements_by_id[id_]
         except KeyError:
             return None
 
     def get_all(self):
-        return self.elements.values()
+        return self.elements_by_id.values()
+
+    def get_by_name(self, name):
+        try:
+            return self.elements_by_name[name]
+        except KeyError:
+            return None

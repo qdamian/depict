@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-class FunctionTable():
+class FunctionTable(object):
     def __init__(self, connection):
         self._connection = connection
 

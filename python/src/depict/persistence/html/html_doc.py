@@ -29,17 +29,17 @@ class HtmlDoc(object):
 
     module_template = '''
         <li>@!module_name!@</li>'''
-    
+
     footer_template = '''
       </ul>
-    </li>    
+    </li>
     '''
 
     def __init__(self, title, out_filename):
         self.out_filename = out_filename
         header_temp = pyratemp.Template(HtmlDoc.header_template)
         self.html_content = header_temp(title=title)
-    
+
     def on_module(self, module):
         module_temp = pyratemp.Template(HtmlDoc.module_template)
         self.html_content += module_temp(module_name=module.name)
@@ -49,4 +49,4 @@ class HtmlDoc(object):
         self.html_content += footer_temp()
         with open(self.out_filename, 'w') as out_file:
             out_file.write(self.html_content)
-    
+

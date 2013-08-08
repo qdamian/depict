@@ -59,6 +59,12 @@ class SourceCodeParser(LocalsVisitor):
     def visit_function(self, node):
         self._safely_notify('on_function', node)
 
+    def visit_import(self, node):
+        self._safely_notify('on_import', node)
+
+    def visit_from(self, node):
+        self._safely_notify('on_from', node)
+
     def parse(self):
         manager = ASTNGManager()
         project = manager.project_from_files(self.file_paths,

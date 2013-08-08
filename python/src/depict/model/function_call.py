@@ -18,13 +18,13 @@
 from depict.model.function_repo import GlobalFunctionRepo
 
 # pylint: disable=R0903
-class FunctionCall():
+class FunctionCall(object):
     def __init__(self, function_id):
         self.function_id = function_id
 
     @property
     def function(self):
-        return GlobalFunctionRepo.get(self.function_id)
+        return GlobalFunctionRepo.get_by_id(self.function_id)
 
     def __eq__(self, other):
         return self.function_id == other.function_id

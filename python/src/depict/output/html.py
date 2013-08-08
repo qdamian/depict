@@ -28,7 +28,7 @@ class Html(object):
         file_names = [name for name in file_set]
         self.static_data_notifier = StaticDataNotifier(file_names,
                                                        self.html_doc)
- 
+
     def run(self):
         self.static_data_notifier.run()
         self.html_doc.render()

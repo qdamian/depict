@@ -30,18 +30,18 @@ class TestHtml(unittest.TestCase):
                 fileset_class_mock.return_value = fileset_mock
                 html = Html('dummy_input_glob', 'dummy_title', 'dummy_out_file')
                 static_data_notifier_mock.assert_called_once_with(expected_paths, html.html_doc)
- 
+
     def test_init_creates_html_doc(self):
         with patch('depict.output.html.HtmlDoc') as html_doc_class_mock:
             Html('dummy_input_glob', 'fake_title', 'fake_out_file')
             html_doc_class_mock.assert_called_once_with('fake_title', 'fake_out_file')
- 
+
     def test_init_finds_files_in_input_directory(self):
         with patch('depict.output.html.FileSet') as fileset_mock:
             fake_include_glob = 'path/to/**/files*.py'
             Html(fake_include_glob, 'dummy_title', 'dummy_out_file')
             fileset_mock.assert_called_once_with(fake_include_glob)
- 
+
     def test_runs_static_definition_notifier(self):
         with patch('depict.output.html.HtmlDoc') as html_doc_class_mock:
             html = Html('dummy_input_block', 'dummy_title', 'dummy_out_file')

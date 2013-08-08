@@ -22,14 +22,14 @@ from depict.model.module_repo import GlobalModuleRepo
 from depict.model import entity_id
 
 # pylint: disable=R0903
-class ClassDefinitionCollector():
+class ClassDefinitionCollector(object):
     def __init__(self, source_code_parser = GlobalSourceCodeParser,
                  class_repo = GlobalClassRepo):
         source_code_parser.register(self)
         self.class_repo = class_repo
 
     def on_class(self, node):
-        module = GlobalModuleRepo.get(entity_id.create(node.parent.file))
+        module = GlobalModuleRepo.get_by_id(entity_id.create(node.parent.file))
         class_ = Class_(entity_id.create(node.parent.file, node.lineno),
                         node.name, module)
         self.class_repo.add(class_)

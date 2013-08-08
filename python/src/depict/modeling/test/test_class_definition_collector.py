@@ -52,7 +52,7 @@ class TestClassDefinitionCollector(unittest.TestCase):
     @patch('depict.modeling.class_definition_collector.GlobalModuleRepo')
     def test_finds_module_to_init_the_class(self, module_repo_mock):
         fake_module = Mock()
-        module_repo_mock.get.return_value = fake_module
+        module_repo_mock.get_by_id.return_value = fake_module
         class_repo = Mock()
         class_def_locator = ClassDefinitionCollector(Mock(), class_repo)
         fake_node = Mock()
@@ -60,6 +60,6 @@ class TestClassDefinitionCollector(unittest.TestCase):
         fake_node.lineno = 27
         fake_node.name = 'fake_name'
         class_def_locator.on_class(fake_node)
-        module_repo_mock.get.assert_called_once_with('path/to/file.py')
+        module_repo_mock.get_by_id.assert_called_once_with('path/to/file.py')
         expected_class = Class_('path/to/file.py:27', 'dummy_class_name', 'path/to/file.py')
         class_repo.add.assert_called_once_with(expected_class)

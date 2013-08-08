@@ -53,4 +53,3 @@ class TestClassTable(unittest.TestCase):
                           WHERE id = 'fake_class_id' ''')
         actual_module_id = cursor.fetchone()
         self.assertEqual(actual_module_id[0], 'fake_module_id')
-        

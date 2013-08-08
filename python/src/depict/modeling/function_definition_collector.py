@@ -24,7 +24,7 @@ from depict.model import entity_id
 from logilab import astng
 
 # pylint: disable=R0903
-class FunctionDefinitionCollector():
+class FunctionDefinitionCollector(object):
     def __init__(self, source_code_parser = GlobalSourceCodeParser,
                  function_repo = GlobalFunctionRepo):
         source_code_parser.register(self)
@@ -36,7 +36,7 @@ class FunctionDefinitionCollector():
             id_ = entity_id.create(node.parent.parent.file, node.lineno)
             class_id = entity_id.create(node.parent.parent.file,
                                         node.parent.lineno)
-            class_ = GlobalClassRepo.get(class_id)
+            class_ = GlobalClassRepo.get_by_id(class_id)
             function = Method(id_, name, class_)
             class_.add_method(function)
         else:

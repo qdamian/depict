@@ -21,20 +21,40 @@ import sqlite3
 import unittest
 
 class TestModuleTable(unittest.TestCase):
-    def test_table_creation(self):
+    def test_module_table_creation(self):
         connection = sqlite3.connect(':memory:')
         module_table = ModuleTable(connection)
         module_table.create()
         connection.execute('SELECT id, name FROM module')
 
+    def test_module_dependency_table_creation(self):
+        connection = sqlite3.connect(':memory:')
+        module_table = ModuleTable(connection)
+        module_table.create()
+        connection.execute('SELECT importer_id, imported_id FROM module_dependency')
+
     def test_inserts_a_module(self):
         connection = sqlite3.connect(':memory:')
         module_table = ModuleTable(connection)
         module_table.create()
-        fake_class = Module('fake_module_id', 'fake_module_name')
-        module_table.insert(fake_class)
+        fake_module = Module('fake_module_id', 'fake_module_name')
+        module_table.insert(fake_module)
         cursor = connection.cursor()
         cursor.execute('''SELECT id, name FROM module
                           WHERE id = 'fake_module_id' AND
                           name = 'fake_module_name' ''')
+        self.assertTrue(cursor.fetchone())
+
+    def test_inserts_module_dependencies(self):
+        connection = sqlite3.connect(':memory:')
+        module_table = ModuleTable(connection)
+        module_table.create()
+        fake_module = Module('fake_module_id', 'fake_module_name')
+        fake_dependency = Module('fake_dependency_id', 'fake_dependency_name')
+        fake_module.depends_on(fake_dependency)
+        module_table.insert(fake_module)
+        cursor = connection.cursor()
+        cursor.execute('''SELECT importer_id, imported_id FROM module_dependency
+                          WHERE importer_id = 'fake_module_id' AND
+                          imported_id = 'fake_dependency_id' ''')
         self.assertTrue(cursor.fetchone())

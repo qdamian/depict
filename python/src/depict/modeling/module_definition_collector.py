@@ -21,12 +21,18 @@ from depict.model.module import Module
 from depict.model.module_repo import GlobalModuleRepo
 
 # pylint: disable=R0903
-class ModuleDefinitionCollector():
+class ModuleDefinitionCollector(object):
     def __init__(self, source_code_parser = GlobalSourceCodeParser,
                  module_repo = GlobalModuleRepo):
         source_code_parser.register(self)
         self.module_repo = module_repo
+        self.current_module = None
 
     def on_module(self, node):
-        self.module_repo.add(Module(entity_id.create(node.file),
-                                    node.name))
+        self.current_module = Module(entity_id.create(node.file), node.name)
+        self.module_repo.add(self.current_module)
+
+    def on_import(self, node):
+        for module_name in node.names:
+            module = self.module_repo.get_by_name(module_name[0])
+            self.current_module.depends_on(module)

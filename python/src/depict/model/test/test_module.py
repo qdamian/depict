@@ -17,12 +17,26 @@
 
 from depict.model.module import Module
 import unittest
+from nose.tools import assert_equal
 
 class TestModule(unittest.TestCase):
     def test_creation(self):
         Module('fake_module_id', 'fake_module_name')
 
     def test_eq_comparison(self):
-        module_1 = Module('fake_module_id1', 'dummy_module_name1')
-        module_2 = Module('fake_module_id1', 'dummy_module_name2')
-        self.assertEqual(module_1, module_2)
+        module1 = Module('fake_module_id1', 'dummy_module_name1')
+        module2 = Module('fake_module_id1', 'dummy_module_name2')
+        self.assertEqual(module1, module2)
+
+    def test_learns_one_dependency(self):
+        module1 = Module('fake_module_id1', 'dummy_module_name1')
+        module2 = Module('fake_module_id2', 'dummy_module_name2')
+        module2.depends_on(module1)
+        assert_equal(module2.dependencies, [module1])
+
+    def test_learns_two_dependencies(self):
+        module1 = Module('fake_module_id1', 'dummy_module_name1')
+        module2 = Module('fake_module_id2', 'dummy_module_name2')
+        module3 = Module('fake_module_id3', 'dummy_module_name3')
+        module3.depends_on([module1, module2])
+        assert_equal(module3.dependencies, [module1, module2])

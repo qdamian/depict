@@ -16,10 +16,18 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 # pylint: disable=C0103, R0903
-class Module:
+
+class Module(object):
     def __init__(self, id_, name):
         self.id_ = id_
         self.name = name
+        self.dependencies = []
 
     def __eq__(self, other):
         return self.id_ == other.id_
+
+    def depends_on(self, modules):
+        try:
+            self.dependencies.extend(modules)
+        except TypeError:
+            self.dependencies.append(modules)

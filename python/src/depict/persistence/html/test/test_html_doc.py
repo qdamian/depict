@@ -21,13 +21,13 @@ import unittest
 from depict.model.module import Module
 
 class TestHtmlDoc(unittest.TestCase):
-    
+
     def test_render_creates_html_doc(self):
         with patch('depict.persistence.html.html_doc.open', mock=mock_open, create=True) as open_mock:
             html_doc = HtmlDoc('fake_title', 'fake_filename')
             html_doc.render()
             open_mock.assert_called_once_with('fake_filename', 'w')
-    
+
     def test_html_doc_title(self):
         open_mock = mock_open()
         with patch('depict.persistence.html.html_doc.open', open_mock, create=True):
@@ -35,7 +35,7 @@ class TestHtmlDoc(unittest.TestCase):
             html_doc.render()
             handle = open_mock()
             self.assertTrue('<title>fake_title</title>' in handle.write.call_args[0][0])
-    
+
     def test_outputs_module_names(self):
         open_mock = mock_open()
         with patch('depict.persistence.html.html_doc.open', open_mock, create=True):
@@ -49,7 +49,7 @@ class TestHtmlDoc(unittest.TestCase):
             actual_file_content = handle.write.call_args[0][0]
             self.assertTrue('<li>fake_module_name1</li>' in actual_file_content)
             self.assertTrue('<li>fake_module_name2</li>' in actual_file_content)
-    
+
     def test_html_has_header_and_footer(self):
         open_mock = mock_open()
         with patch('depict.persistence.html.html_doc.open', open_mock, create=True):

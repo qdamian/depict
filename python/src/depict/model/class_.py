@@ -16,7 +16,8 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 # pylint: disable=C0103, R0903
-class Class_:
+
+class Class_(object):
     def __init__(self, id_, name, module=None):
         self.id_ = id_
         self.name = name
@@ -27,6 +28,6 @@ class Class_:
 
     def __eq__(self, other):
         return self.id_ == other.id_
-    
+
     def __repr__(self):
         return 'ID: %s, name: %s' % (self.id_, self.name)
