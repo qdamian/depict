@@ -36,3 +36,8 @@ class ModuleDefinitionCollector(object):
         for module_name in node.names:
             module = self.module_repo.get_by_name(module_name[0])
             self.current_module.depends_on(module)
+            
+    def on_from(self, node):
+        print node.modname
+        module = self.module_repo.get_by_name(node.modname)
+        self.current_module.depends_on(module)

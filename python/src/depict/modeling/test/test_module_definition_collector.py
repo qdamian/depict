@@ -47,19 +47,35 @@ class TestModuleDefinitionCollector(unittest.TestCase):
             entity_id_mock.create.assert_called_once_with('path/to/file.py')
             module_repo_mock.add.assert_called_once_with(expected_module)
 
+class TestDependencyCollection(unittest.TestCase):
+    def setUp(self):
+        self.module_class_patcher = patch('depict.modeling.module_definition_collector.Module')
+        module_class_mock = self.module_class_patcher.start()
+        self.module_repo_mock = Mock()
+        module_class_mock(return_value=self.module_repo_mock)
+        self.module_definition_collector = ModuleDefinitionCollector(Mock(), self.module_repo_mock)
+        self.module_mock = Mock()
+        module_class_mock.return_value = self.module_mock
+        self.module_definition_collector.on_module(Mock(file='dummy/path/to/file.py'))
+
+    def tearDown(self):
+        self.module_class_patcher.stop()
+
     def test_registers_dependency_with_other_modules_due_to_import(self):
-        with patch('depict.modeling.module_definition_collector.Module') as module_class_mock:
-            module_repo_mock = Mock()
-            module_definition_collector = ModuleDefinitionCollector(Mock(), module_repo_mock)
-            module_mock = Mock()
-            module_class_mock.return_value = module_mock
-            module_definition_collector.on_module(Mock(file='dummy/path/to/file.py'))
-            fake_import = Mock()
-            fake_import.names = [('some.module', None), ('some.other.module', None)]
-            dependency1 = Mock()
-            dependency2 = Mock()
-            module_repo_mock.get_by_name.side_effect = lambda name: {
-                                                        'some.module': dependency1,
-                                                        'some.other.module': dependency2}[name]
-            module_definition_collector.on_import(fake_import)
-            module_mock.depends_on.assert_has_calls([call(dependency1), call(dependency2)])
+        dependency1 = Mock()
+        dependency2 = Mock()
+        self.module_repo_mock.get_by_name.side_effect = lambda name: {
+                                                    'some.module': dependency1,
+                                                    'some.other.module': dependency2}[name]
+        fake_import = Mock()
+        fake_import.names = [('some.module', None), ('some.other.module', None)]
+        self.module_definition_collector.on_import(fake_import)
+        self.module_mock.depends_on.assert_has_calls([call(dependency1), call(dependency2)])
+
+    def test_registers_dependency_with_other_module_due_to_from_import(self):
+        dependency = Mock()
+        self.module_repo_mock.get_by_name.side_effect = lambda name: {'some.module': dependency }[name]
+        fake_import = Mock()
+        fake_import.modname = 'some.module'
+        self.module_definition_collector.on_from(fake_import)
+        self.module_mock.depends_on.assert_called_once_with(dependency)
