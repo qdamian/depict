@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.static.source_code_parser import SourceCodeParser
-from mock import patch, Mock, MagicMock, ANY
+from mock import patch, Mock, ANY
 import unittest
 
 class TestSourceCodeParser(unittest.TestCase):
@@ -43,3 +43,16 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.add_files(file_path)
         source_code_parser.parse()
         self.ast_ng_manager_mock.project_from_files.assert_called_once_with([file_path], func_wrapper=ANY)
+        
+    def test_visits_definitions_then_relations(self):
+        with patch('depict.collection.static.source_code_parser.DefinitionsVisitor') as definitions_visitor_class_mock:
+            with patch('depict.collection.static.source_code_parser.RelationsVisitor') as relations_visitor_class_mock:
+                definitions_visitor_mock = Mock()
+                definitions_visitor_class_mock.return_value = definitions_visitor_mock
+                relations_visitor_mock = Mock()
+                relations_visitor_class_mock.return_value = relations_visitor_mock
+                source_code_parser = SourceCodeParser()
+                source_code_parser.add_files('dummy/path.py')
+                source_code_parser.parse()
+                definitions_visitor_mock.visit.assert_called_once_with(ANY)
+                relations_visitor_mock.visit.assert_called_once_with(ANY)

@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-#!/usr/bin/env python
-
 from depict.output.toy.function_call_list import FunctionCallList
 from depict.output.toy.definition_list import DefinitionList
 

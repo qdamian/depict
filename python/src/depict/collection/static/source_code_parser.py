@@ -28,12 +28,49 @@ def astng_ignore_modname_wrapper(func, modname):
         import traceback
         traceback.print_exc()
 
-class SourceCodeParser(LocalsVisitor):
+def _safely_notify(observers, function, node):
+    for obs in observers:
+        try:
+            method = getattr(obs, function)
+            # pylint: disable=W0142
+            method(node)
+        except AttributeError:
+            pass
+
+class DefinitionsVisitor(LocalsVisitor):
+
+    def __init__(self, observers):
+        LocalsVisitor.__init__(self)
+        self.observers = observers
+
+    def visit_class(self, node):
+        _safely_notify(self.observers, 'on_class', node)
+
+    def visit_module(self, node):
+        _safely_notify(self.observers, 'on_module', node)
+
+    def visit_function(self, node):
+        _safely_notify(self.observers, 'on_function', node)
+
+class RelationsVisitor(LocalsVisitor):
+    def visit_module(self, node):
+        _safely_notify(self.observers, 'on_module', node)
+
+    def __init__(self, observers):
+        LocalsVisitor.__init__(self)
+        self.observers = observers
+
+    def visit_import(self, node):
+        _safely_notify(self.observers, 'on_import', node)
+
+    def visit_from(self, node):
+        _safely_notify(self.observers, 'on_from', node)
+
+class SourceCodeParser(object):
 
     def __init__(self):
         self.file_paths = []
         self.observers = []
-        LocalsVisitor.__init__(self)
 
     def add_files(self, file_paths):
         if isinstance(file_paths, list):
@@ -41,35 +78,19 @@ class SourceCodeParser(LocalsVisitor):
         else:
             self.file_paths = [file_paths]
 
-    def _safely_notify(self, function, node):
-        for observer in self.observers:
-            try:
-                method = getattr(observer, function)
-                # pylint: disable=W0142
-                method(node)
-            except AttributeError:
-                pass
-
-    def visit_class(self, node):
-        self._safely_notify('on_class', node)
-
-    def visit_module(self, node):
-        self._safely_notify('on_module', node)
-
-    def visit_function(self, node):
-        self._safely_notify('on_function', node)
-
-    def visit_import(self, node):
-        self._safely_notify('on_import', node)
-
-    def visit_from(self, node):
-        self._safely_notify('on_from', node)
-
     def parse(self):
         manager = ASTNGManager()
         project = manager.project_from_files(self.file_paths,
                                    func_wrapper = astng_ignore_modname_wrapper)
-        self.visit(project)
+
+        # First collect all "definitions" (modules, classes, functions) before
+        # trying to relate one definition with another
+
+        definitions_visitor = DefinitionsVisitor(self.observers)
+        definitions_visitor.visit(project)
+
+        relations_visitor = RelationsVisitor(self.observers)
+        relations_visitor.visit(project)
 
     def register(self, observer):
         self.observers.append(observer)

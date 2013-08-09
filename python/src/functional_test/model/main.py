@@ -18,5 +18,5 @@
 from depict.output.html import Html
 
 if __name__ == '__main__':
-    html = Html('depict/**/*.py', 'HTML output quick test', 'self.html')
+    html = Html('depict/model/*.py', "depict's Model", 'model.html')
     html.run()
