@@ -36,3 +36,6 @@ nosetests.xml
 
 # Funcional test output
 *.out
+
+# npm modules
+html5/depict/node_modules
