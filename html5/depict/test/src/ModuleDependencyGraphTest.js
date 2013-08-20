@@ -23,31 +23,25 @@
  * for the JavaScript code in this page.
  */
 
-require.config({
-    baseUrl: "../scripts/src",
-    paths: {
-        'd3': '../d3' 
-    },
-    shim: {
-        d3: {
-            exports: 'd3'
-        }
-    }
-});
+define(['chai', 'chai-jquery', 'sinon', 'model/Module', 'DependencyGraph', 'ModuleDependencyGraph'],
+    function(chai, chaiJquery, sinon, Module, DependencyGraph, ModuleDependencyGraph) {
 
-require([
-    '../../scripts/src/DependencyGraph',
-], function(DependencyGraph) {
-        var dependencyGraph = new DependencyGraph('body', 960, 500);
-        graph = {"nodes": [ {"name":"Rio Tercero"},
-                           {"name":"Cordoba"},
-                           {"name":"San Salvador"},
-                           {"name":"Buenos Aires"}],
-                "links":[ {"source":1,"target":0,"value":1},
-                          {"source":2,"target":0,"value":8},
-                          {"source":3,"target":0,"value":10},
-                          {"source":3,"target":2,"value":6}
-                        ]
-               }
-        dependencyGraph.draw(graph.nodes, graph.links)
-});
+    var should = chai.should();
+    chai.use(chaiJquery);
+
+    describe('ModuleDependencyGraph', function() {
+        describe("constructor", function() {
+
+            it('should represent each module as a node'), function() {
+                dependencyGraphSpy = sinon.spy(DependencyGraph);
+                module1 = new Module();
+                module2 = new Module();
+                moduleDepGraph = new ModuleDependencyGraph([module1, module2]);
+                // dependencyGraphSpy.called.should.equal(true);
+            };
+
+            it('should represent each dependency as a link'), function() {
+            };
+        });
+    });
+}); 

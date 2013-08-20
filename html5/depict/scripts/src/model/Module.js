@@ -23,30 +23,17 @@
  * for the JavaScript code in this page.
  */
 
-module.exports = function(grunt) {
+window.define([], function() {
     "use strict";
 
-    grunt.initConfig({
-        shell: {
-            'mocha-phantomjs': {
-                command: 'mocha-phantomjs test/testRunner.html',
-                options: {
-                    stdout: true,
-                    stderr: true,
-                    failOnError: true
-                }
-            }
-        },
-        watch: {
-            jsFiles: {
-                files: ['**/*.js'],
-                tasks: ['shell:mocha-phantomjs']
-            }
+    var Module = function(values) {
+        this.name = ''
+        this.dependencies = [];
+
+        for (var prop in values) {
+            this[prop] = values[prop];
         }
-    });
+    };
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-shell');
-
-    grunt.registerTask('default', 'shell:mocha-phantomjs');
-};
+    return Module;
+});

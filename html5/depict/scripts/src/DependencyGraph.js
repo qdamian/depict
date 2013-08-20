@@ -1,5 +1,5 @@
 /**
- * @licstart  The following is the entire license notice for the 
+ * @licstart  The following is the entire license notice for the
  *  JavaScript code in this page.
  *
  * Copyright 2013 Damian Quiroga
@@ -44,12 +44,12 @@ window.define(['d3'], function(d3) {
             .nodes(nodesData)
             .links(linksData);
 
-        var links = this._add_links(linksData);
+        var links = this._addLinks(linksData);
         var nodeGroups = this._addNodeGroups(nodesData);
         var circles = this._addNodes(nodeGroups);
         var texts = this._addTexts(nodeGroups);
-        this._adjust_position_on_tick(circles, texts, links);
-        
+        this._adjustPositionOnTick(circles, texts, links);
+
         this.force.start();
     }
 
@@ -78,7 +78,7 @@ window.define(['d3'], function(d3) {
         return texts;
     }
 
-    DependencyGraph.prototype._add_links = function(linksData) {
+    DependencyGraph.prototype._addLinks = function(linksData) {
         var links = this.svg.selectAll(".link")
                             .data(linksData)
                             .enter()
@@ -91,7 +91,7 @@ window.define(['d3'], function(d3) {
         return links;
     }
 
-    DependencyGraph.prototype._adjust_position_on_tick =
+    DependencyGraph.prototype._adjustPositionOnTick =
                               function(circles, texts, links) {
         this.force.on("tick", function() {
             circles.attr("cx", function(d) {
@@ -104,8 +104,8 @@ window.define(['d3'], function(d3) {
                 return d.x;
             }).attr("y", function(d) {
                 return d.y;
-            }); 
-        
+            });
+
             links.attr("x1", function(d) {
                 return d.source.x;
             }).attr("y1", function(d) {
@@ -119,4 +119,4 @@ window.define(['d3'], function(d3) {
     }
 
     return DependencyGraph;
-}); 
+});

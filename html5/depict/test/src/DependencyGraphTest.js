@@ -26,7 +26,6 @@
 define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
     function(chai, chaiJquery, sinon, d3, DependencyGraph) {
 
-    var assert = chai.assert;
     var should = chai.should();
     chai.use(chaiJquery);
 
@@ -94,7 +93,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
 
                 dependencyGraph = new DependencyGraph('body', 10, 20);
 
-                assert.isTrue(forceStub.called)
+                forceStub.called.should.equal(true)
 
                 d3.layout.force.restore();
             });
@@ -109,7 +108,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
 
                 dependencyGraph.draw(TEST_NODES, TEST_LINKS);
 
-                assert.isTrue(startSpy.called);
+                startSpy.called.should.equal(true);
 
                 d3.layout.force.restore();
             });
@@ -121,7 +120,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
 
                 dependencyGraph.draw(TEST_NODES, TEST_LINKS);
 
-                assert.equal($('#test-circles circle').length, 2);
+                $('#test-circles circle').length.should.equal(2);
                 $('#test-circles').remove()
             })
 
@@ -132,7 +131,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
                
                dependencyGraph.draw(TEST_NODES, TEST_LINKS);
                
-                assert.equal($('#test-texts text').length, 2);
+                $('#test-texts text').length.should.equal(2);
                 $('#test-texts').remove()
             });
 
@@ -143,7 +142,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
                 dependencyGraph = new DependencyGraph('#test-lines', 10, 20);
                 dependencyGraph.draw(TEST_NODES, TEST_LINKS);
 
-                assert.equal($('line').length, 2);
+                $('#test-lines line').length.should.equal(2);
                 $('#test-lines').remove()
             });
         });

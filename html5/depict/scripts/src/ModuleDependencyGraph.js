@@ -23,30 +23,13 @@
  * for the JavaScript code in this page.
  */
 
-module.exports = function(grunt) {
+window.define(['DependencyGraph', 'model/Module'],
+        function(DependencyGraph, Module) {
     "use strict";
 
-    grunt.initConfig({
-        shell: {
-            'mocha-phantomjs': {
-                command: 'mocha-phantomjs test/testRunner.html',
-                options: {
-                    stdout: true,
-                    stderr: true,
-                    failOnError: true
-                }
-            }
-        },
-        watch: {
-            jsFiles: {
-                files: ['**/*.js'],
-                tasks: ['shell:mocha-phantomjs']
-            }
-        }
-    });
+    var ModuleDependencyGraph = function(modules) {
+        dependencyGraph = new DependencyGraph();
+    };
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-shell');
-
-    grunt.registerTask('default', 'shell:mocha-phantomjs');
-};
+    return ModuleDependencyGraph;
+});
