@@ -36,18 +36,19 @@ require.config({
 });
 
 require([
-    '../../scripts/src/DependencyGraph',
-], function(DependencyGraph) {
-        var dependencyGraph = new DependencyGraph('body', 960, 500);
-        graph = {"nodes": [ {"name":"Rio Tercero"},
-                           {"name":"Cordoba"},
-                           {"name":"San Salvador"},
-                           {"name":"Buenos Aires"}],
-                "links":[ {"source":1,"target":0,"value":1},
-                          {"source":2,"target":0,"value":8},
-                          {"source":3,"target":0,"value":10},
-                          {"source":3,"target":2,"value":6}
-                        ]
-               }
-        dependencyGraph.draw(graph.nodes, graph.links)
+    '../../scripts/src/ModuleDependencyGraph',
+    '../../scripts/src/model/Module',
+], function(ModuleDependencyGraph, Module) {
+        var rioTercero = new Module();
+        var cordoba = new Module({"name": "Cordoba"});
+        rioTercero.name = "Rio Tercero"
+        rioTercero.dependencies = [cordoba]
+
+        var sanSalvador = new Module({"name" : "San Salvador",
+                                       "dependencies" : [rioTercero, cordoba]});
+        var buenosAires = new Module({"name": "Buenos Aires"});
+        buenosAires.dependencies = [sanSalvador];
+
+        var moduleDepGraph = new ModuleDependencyGraph("body", 960, 500);
+        moduleDepGraph.draw([rioTercero, cordoba, sanSalvador, buenosAires]);
 });

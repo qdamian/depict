@@ -30,7 +30,8 @@ require.config({
         'chai-jquery': '../../node_modules/chai-jquery/chai-jquery',
         'd3': '../../node_modules/d3/d3',
         'jquery': '../../node_modules/jquery-browser/lib/jquery',
-        'sinon': '../../node_modules/sinon/pkg/sinon'
+        'sinon': '../../node_modules/sinon/pkg/sinon',
+        'Squire': '../../node_modules/squirejs/src/Squire'
     },
     shim: {
         'd3': {

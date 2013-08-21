@@ -27,9 +27,27 @@ window.define(['DependencyGraph', 'model/Module'],
         function(DependencyGraph, Module) {
     "use strict";
 
-    var ModuleDependencyGraph = function(modules) {
-        dependencyGraph = new DependencyGraph();
+    var ModuleDependencyGraph = function(container, width, height) {
+        this.dependencyGraph = new DependencyGraph(container, width, height);
     };
+
+    ModuleDependencyGraph.prototype.draw = function(modules) {
+        var links = this._findLinks(modules);
+        this.dependencyGraph.draw(modules, links);
+    }
+
+    ModuleDependencyGraph.prototype._findLinks = function(modules) {
+        var links = [];
+        for (var mod_i=0; mod_i<modules.length; mod_i++) {
+            var deps = modules[mod_i].dependencies;
+            for (var dep_i=0; dep_i<deps.length; dep_i++) {
+                links.push({ "source" : mod_i,
+                             "target" : modules.indexOf(deps[dep_i]),
+                             "value" : 1 });
+            }
+        }
+        return links;
+    }
 
     return ModuleDependencyGraph;
 });

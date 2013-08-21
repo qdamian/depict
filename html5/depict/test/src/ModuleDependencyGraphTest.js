@@ -23,25 +23,63 @@
  * for the JavaScript code in this page.
  */
 
-define(['chai', 'chai-jquery', 'sinon', 'model/Module', 'DependencyGraph', 'ModuleDependencyGraph'],
-    function(chai, chaiJquery, sinon, Module, DependencyGraph, ModuleDependencyGraph) {
+define(['Squire', 'chai', 'sinon', 'model/Module'],
+    function(Squire, chai, sinon, Module) {
 
     var should = chai.should();
-    chai.use(chaiJquery);
 
     describe('ModuleDependencyGraph', function() {
         describe("constructor", function() {
+            it('should create a dependency graph', function() {
+                var depGraphMock = sinon.mock();
+                var injector = new Squire();
+                injector
+                    .mock('DependencyGraph', Squire.Helpers.returns(depGraphMock))
+                    .require(['ModuleDependencyGraph', 'mocks'], function(ModuleDependencyGraph, mocks) {
+                        var moduleDepGraph = new ModuleDependencyGraph("#test1", 20, 30);
+                        depGraphMock.calledWith("#test1", 20, 30).should.equal(true);
+                    });
+            });
 
-            it('should represent each module as a node'), function() {
-                dependencyGraphSpy = sinon.spy(DependencyGraph);
-                module1 = new Module();
-                module2 = new Module();
-                moduleDepGraph = new ModuleDependencyGraph([module1, module2]);
-                // dependencyGraphSpy.called.should.equal(true);
-            };
+            it('should represent each module as a node', function() {
+                var drawMock = sinon.mock();
+                var injector = new Squire();
+                injector
+                    .mock('DependencyGraph', Squire.Helpers.constructs({draw: drawMock}))
+                    .require(['ModuleDependencyGraph', 'mocks'], function(ModuleDependencyGraph, mocks) {
+                    var module1 = new Module({"name":"John"});
+                    var module2 = new Module();
+                    var moduleDepGraph = new ModuleDependencyGraph();
+                    moduleDepGraph.draw([module1, module2]);
+                    drawMock.calledWith([module1, module2]).should.equal(true);
+                  });
+            });
 
-            it('should represent each dependency as a link'), function() {
-            };
+            it('should represent each dependency as a link', function() {
+                var drawMock = sinon.mock();
+                var injector = new Squire();
+                injector
+                    .mock('DependencyGraph', Squire.Helpers.constructs({draw: drawMock}))
+                    .require(['ModuleDependencyGraph', 'mocks'], function(ModuleDependencyGraph, mocks) {
+                    var module1 = new Module({"name": "module1"})
+                    var module2 = new Module({"name": "module2"})
+                    var module3 = new Module({"name": "module3"})
+                    module1.dependencies = [module3];
+                    module2.dependencies = [module1];
+                    var moduleDepGraph = new ModuleDependencyGraph();
+                    moduleDepGraph.draw([module1, module2, module3]);
+                    var expected_links = [{
+                            "source" : 0,
+                            "target" : 2,
+                            "value" : 1
+                        }, {
+                            "source" : 1,
+                            "target" : 0,
+                            "value" : 1
+                        }]
+                    drawMock.calledWith([module1, module2, module3], expected_links).should.equal(true);
+                });
+            });
         });
     });
 }); 
