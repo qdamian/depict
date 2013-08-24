@@ -1,6 +1,14 @@
 Depict
 ======
 
+Status of the project
+---------------------
+
+Not yet useful in any way.
+
+Description
+-----------
+
 > /dɪˈpɪkt/: to represent or show something in a picture or story
 
 Depict has two components:
@@ -15,11 +23,6 @@ Like disptrace, Depict uses HTML5 as the prefered type of output format, and pro
 
 Like pyreverse, Depict allows to limit the scope of the representation to a part of the program, e.g. a group of classes.
 
-Status of the project
----------------------
-
-Not yet useful in any way.
-
 Alternatives
 ------------
 
@@ -29,9 +32,12 @@ Alternatives
 
 [andypatterns][andypatterns] A reverse engineering tool for Python source code. Requires wxPython
 
+For JS, [violin] looks interesting.
+
 [pyreverse]: http://www.logilab.org/2560 "pyreverse"
 [disptrace]: https://github.com/atsuoishimoto/disptrace "disptrace"
-[andypatterns]: http://www.andypatterns.com/index.php/products/pynsource/  "PyReverse"
+[andypatterns]: http://www.andypatterns.com/index.php/products/pynsource/ "andypatterns"
+[violin]: http://latentflip.com/hacks/violin/ "violin"
 
 Contact
 -------
