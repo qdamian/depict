@@ -25,7 +25,7 @@ window.define ["DependencyGraph", "model/Module"], (DependencyGraph, Module) ->
 
   ModuleDependencyGraph::draw = (modules) ->
     links = @_findLinks(modules)
-    @dependencyGraph.draw modules, links
+    @dependencyGraph.draw(modules, links)
     return
 
   ModuleDependencyGraph::_findLinks = (modules) ->
