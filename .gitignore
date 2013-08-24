@@ -39,3 +39,4 @@ nosetests.xml
 
 # npm modules
 html5/depict/node_modules
+html5/depict/scripts/src/*.js
