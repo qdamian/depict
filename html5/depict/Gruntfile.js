@@ -24,29 +24,29 @@
  */
 
 module.exports = function(grunt) {
-    "use strict";
+  "use strict";
 
-    grunt.initConfig({
-        shell: {
-            'mocha-phantomjs': {
-                command: 'mocha-phantomjs test/testRunner.html',
-                options: {
-                    stdout: true,
-                    stderr: true,
-                    failOnError: true
-                }
-            }
-        },
-        watch: {
-            jsFiles: {
-                files: ['**/*.js'],
-                tasks: ['shell:mocha-phantomjs']
-            }
+  grunt.initConfig({
+    shell: {
+      'mocha-phantomjs': {
+        command: 'mocha-phantomjs test/testRunner.html',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
         }
-    });
+      }
+    },
+    watch: {
+      jsFiles: {
+        files: ['**/*.js'],
+        tasks: ['shell:mocha-phantomjs']
+      }
+    }
+  });
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('default', 'shell:mocha-phantomjs');
+  grunt.registerTask('default', 'shell:mocha-phantomjs');
 };

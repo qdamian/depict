@@ -1,27 +1,23 @@
 {
-    "name": "depict",
-    "version": "0.0.1",
-    "license": "GPLv3",
-    "dependencies": {
-        "requirejs": ">=2.1.4"
-    },
-    "devDependencies": {
-        "grunt": ">=0.4.1",
-        "grunt-cli": ">=0.1.7",
-        "grunt-contrib-watch": ">=0.4.4",
-        "grunt-shell": ">=0.3.1",
-
-        "jquery-browser": ">=1.8.3",
-
-        "sinon": ">=1.6.0",
-        "chai": ">=1.6.0",
-        "chai-jquery": ">=1.1.0",
-        "squirejs": ">=0.0.1",
-
-        "d3": ">=1.0.0",
-
-        "mocha": ">=1.9.0",
-        "phantomjs": ">=1.9.1-0",
-        "mocha-phantomjs": ">=3.1.0"
-    }
+  "name": "depict",
+  "version": "0.0.1",
+  "license": "GPLv3",
+  "dependencies": {
+    "requirejs": ">=2.1.4"
+  },
+  "devDependencies": {
+    "grunt": ">=0.4.1",
+    "grunt-cli": ">=0.1.7",
+    "grunt-contrib-watch": ">=0.4.4",
+    "grunt-shell": ">=0.3.1",
+    "jquery-browser": ">=1.8.3",
+    "sinon": ">=1.6.0",
+    "chai": "~1.7.2",
+    "chai-jquery": ">=1.1.0",
+    "squirejs": ">=0.0.1",
+    "d3": ">=1.0.0",
+    "mocha": ">=1.9.0",
+    "phantomjs": ">=1.9.1-0",
+    "mocha-phantomjs": ">=3.1.0"
+  }
 }
