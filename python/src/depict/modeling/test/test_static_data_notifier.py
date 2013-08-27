@@ -102,3 +102,10 @@ class TestStaticDataNotifier(unittest.TestCase):
             fake_observer.on_function.side_effect = AttributeError
             static_data_notifier = StaticDataNotifier('dummy_file_.py', fake_observer)
             static_data_notifier.run()
+
+    def test_ignores_error_if_observer_does_not_expect_a_notification(self, collection_orchestrator_mock):
+        with patch('depict.modeling.static_data_notifier.GlobalFunctionRepo') as function_repo_mock:
+            fake_observer = Mock()
+            static_data_notifier = StaticDataNotifier('dummy_file_.py', fake_observer)
+            static_data_notifier.run()
+            fake_observer.on_collection_completed.assert_called_once_with()

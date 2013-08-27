@@ -15,16 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.module_repo import GlobalModuleRepo
-from depict.persistence.json.json_serializer import JsonSerializer
+from depict.output.json import Json
 
-# pylint: disable=R0903
-class JsonDoc(object):
-    def __init__(self, out_filename):
-        self.out_filename = out_filename
-        self.content = ''
-
-    def on_collection_completed(self):
-        with open(self.out_filename, 'w') as out_file:
-            modules = GlobalModuleRepo.get_all()
-            out_file.write(JsonSerializer.serialize(modules, 'id_'))
+if __name__ == '__main__':
+    json = Json('depict/**/*.py', 'self.json')
+    json.run()

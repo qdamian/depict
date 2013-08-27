@@ -33,10 +33,13 @@ class StaticDataNotifier(object):
         self.observer = observer
         self.file_list = file_list
 
-    def _safely_notify(self, function_name, value):
+    def _safely_notify(self, function_name, value=None):
         try:
             notification_function = getattr(self.observer, function_name)
-            notification_function(value)
+            if value:
+                notification_function(value)
+            else:
+                notification_function()
         except AttributeError:
             pass
 
@@ -54,3 +57,5 @@ class StaticDataNotifier(object):
                                   ('on_function', GlobalFunctionRepo)]:
             for value in repo.get_all():
                 self._safely_notify(func_name, value)
+
+        self._safely_notify('on_collection_completed')

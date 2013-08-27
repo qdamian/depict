@@ -15,16 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.module_repo import GlobalModuleRepo
-from depict.persistence.json.json_serializer import JsonSerializer
+from depict.persistence.json.json_doc import JsonDoc
+from depict.modeling.static_data_notifier import StaticDataNotifier
+from formic.formic import FileSet
 
 # pylint: disable=R0903
-class JsonDoc(object):
-    def __init__(self, out_filename):
-        self.out_filename = out_filename
-        self.content = ''
+class Json(object):
 
-    def on_collection_completed(self):
-        with open(self.out_filename, 'w') as out_file:
-            modules = GlobalModuleRepo.get_all()
-            out_file.write(JsonSerializer.serialize(modules, 'id_'))
+    def __init__(self, input_glob, out_filename):
+        self.json_doc = JsonDoc(out_filename)
+        file_set = FileSet(input_glob)
+        file_names = [name for name in file_set]
+        self.static_data_notifier = StaticDataNotifier(file_names,
+                                                       self.json_doc)
+
+    def run(self):
+        self.static_data_notifier.run()
