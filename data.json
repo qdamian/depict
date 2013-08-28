@@ -1,7 +1,7 @@
 {"nodes": [ {"name":"Rio Tercero"},
                        {"name":"Cordoba"},
                        {"name":"San Salvador"},
-                       {"name":"Buenos Aires"}],
+                       {"name":"CABA"}],
             "links":[ {"source":1,"target":0,"value":1},
                       {"source":2,"target":0,"value":8},
                       {"source":3,"target":0,"value":10},
