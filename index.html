@@ -22,17 +22,8 @@ var svg = d3.select("body").append("svg")
     .attr("height", height);
 
 // DONE //
-d3.json("http://localhost:8080/miserables", function(error, graph) {
-    graph = {"nodes": [ {"name":"Rio Tercero"},
-                       {"name":"Cordoba"},
-                       {"name":"San Salvador"},
-                       {"name":"Buenos Aires"}],
-            "links":[ {"source":1,"target":0,"value":1},
-                      {"source":2,"target":0,"value":8},
-                      {"source":3,"target":0,"value":10},
-                      {"source":3,"target":2,"value":6}
-                    ]
-           }
+d3.json("data.json", function(error, graph) {
+
 // DONE //
   force
       .nodes(graph.nodes)
