@@ -31,7 +31,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     shell: {
       'mocha-phantomjs': {
-        command: 'mocha-phantomjs test/testRunner.html',
+        command: 'mocha-phantomjs html5/test/testRunner.html',
         options: {
           stdout: true,
           stderr: true,
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
       glob_to_multiple: {
         expand: true,
         cwd: '.',
-        src: ['scripts/**/*.coffee', 'test/**/*.coffee'],
+        src: ['html5/scripts/**/*.coffee', 'html5/test/**/*.coffee'],
         dest: '.',
         ext: '.js'
       }
