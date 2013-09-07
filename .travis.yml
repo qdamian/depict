@@ -5,5 +5,6 @@ install:
   - "pip install -r python/requirements --use-mirrors"
   - "npm install"
 script:
+  - "pylint --rcfile=python/src/.pylintrc python/src/depict/"
   - "nosetests python"
   - "npm test"
