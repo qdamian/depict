@@ -38,5 +38,6 @@ nosetests.xml
 *.out
 
 # npm modules
-html5/depict/node_modules
-html5/depict/scripts/src/*.js
+node_modules
+html5/scripts/src/*.js
+html5/test/src/*.js
