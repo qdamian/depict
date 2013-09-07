@@ -1,3 +1,8 @@
 language: node_js
 node_js:
   - "0.10"
+install:
+  - "pip install -r python/requirements --use-mirrors"
+script:
+  - "nosetests python"
+  - "npm test"
