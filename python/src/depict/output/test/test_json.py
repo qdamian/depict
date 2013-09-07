@@ -23,13 +23,11 @@ class TestJson(unittest.TestCase):
 
     def test_init_creates_static_data_notifier(self):
         with patch('depict.output.json.StaticDataNotifier') as static_data_notifier_mock:
-            with patch('depict.output.json.FileSet') as fileset_class_mock:
-                expected_paths = ['fake/file/a.py', 'file/file/b.py']
-                fileset_mock = MagicMock()
-                fileset_mock.__iter__.return_value = expected_paths
-                fileset_class_mock.return_value = fileset_mock
-                json = Json(fileset_mock, 'dummy_out_file')
-                static_data_notifier_mock.assert_called_once_with(expected_paths, json.json_doc)
+            expected_paths = ['fake/file/a.py', 'file/file/b.py']
+            fileset_mock = MagicMock()
+            fileset_mock.__iter__.return_value = expected_paths
+            json = Json(fileset_mock, 'dummy_out_file')
+            static_data_notifier_mock.assert_called_once_with(expected_paths, json.json_doc)
 
     def test_runs_static_definition_notifier(self):
         with patch('depict.output.json.JsonDoc') as json_doc_class_mock:
