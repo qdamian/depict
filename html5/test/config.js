@@ -48,10 +48,10 @@ require.config({
 });
 
 require([
-    '../../test/src/DependencyGraphTest',
-    '../../test/src/model/ModuleTest',
-    '../../test/src/ModuleDependencyGraphTest',
-    '../../test/src/ModelJsonParserTest',
+    'test/DependencyGraphTest',
+    'test/ModuleDependencyGraphTest',
+    'test/ModelJsonParserTest',
+    'model/test/ModuleTest',
 ], function() {
     if (typeof mochaPhantomJS !== "undefined") { mochaPhantomJS.run(); }
     else { mocha.run(); }
