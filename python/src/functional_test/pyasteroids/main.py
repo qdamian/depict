@@ -15,17 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.persistence.json.json_doc import JsonDoc
-from depict.modeling.static_data_notifier import StaticDataNotifier
+from depict.output.json import Json
+import formic
 
-# pylint: disable=R0903
-class Json(object):
-
-    def __init__(self, file_set, out_filename):
-        self.json_doc = JsonDoc(out_filename)
-        file_names = [name for name in file_set]
-        self.static_data_notifier = StaticDataNotifier(file_names,
-                                                       self.json_doc)
-
-    def run(self):
-        self.static_data_notifier.run()
+if __name__ == '__main__':
+    file_set = formic.FileSet(directory='/usr/local/lib/python2.7/dist-packages/pyasteroids', include='*.py')
+    json = Json(file_set, 'pyasteroids.json')
+    json.run()

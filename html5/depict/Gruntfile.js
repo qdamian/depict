@@ -48,10 +48,9 @@ module.exports = function(grunt) {
     coffee: {
       glob_to_multiple: {
         expand: true,
-        flatten: true,
-        cwd: 'scripts/src',
-        src: ['*.coffee'],
-        dest: 'scripts/src',
+        cwd: '.',
+        src: ['scripts/**/*.coffee', 'test/**/*.coffee'],
+        dest: '.',
         ext: '.js'
       }
     }

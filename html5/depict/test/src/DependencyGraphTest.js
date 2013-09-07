@@ -53,6 +53,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
             linksStub = sinon.stub();
             startSpy = sinon.stub();
             onStub = sinon.stub();
+            gravityStub = sinon.stub();
 
             d3Methods = {
                 charge : chargeStub,
@@ -61,14 +62,16 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
                 nodes : nodesStub,
                 links : linksStub,
                 on : onStub,
-                start : startSpy
+                start : startSpy,
+                gravity: gravityStub
             }
 
             chargeStub.returns(d3Methods);
             linkDistanceStub.returns(d3Methods);
             nodesStub.returns(d3Methods);
             linksStub.returns(d3Methods);
-            onStub.returns(d3Methods)
+            onStub.returns(d3Methods);
+            gravityStub.returns(d3Methods);
         });
 
         afterEach(function() {

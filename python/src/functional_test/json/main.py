@@ -16,7 +16,9 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.output.json import Json
+import formic
 
 if __name__ == '__main__':
-    json = Json('depict/**/*.py', 'self.json')
+    file_set = formic.FileSet(include='depict/collection/**/*.py', exclude='depict/collection/**/test*.py')
+    json = Json(file_set, 'collection.json')
     json.run()

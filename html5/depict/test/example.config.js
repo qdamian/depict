@@ -37,18 +37,11 @@ require.config({
 
 require([
     '../../scripts/src/ModuleDependencyGraph',
+    '../../scripts/src/ModelJsonParser',
     '../../scripts/src/model/Module',
-], function(ModuleDependencyGraph, Module) {
-        var rioTercero = new Module();
-        var cordoba = new Module({"name": "Cordoba"});
-        rioTercero.name = "Rio Tercero"
-        rioTercero.dependencies = [cordoba]
-
-        var sanSalvador = new Module({"name" : "San Salvador",
-                                       "dependencies" : [rioTercero, cordoba]});
-        var buenosAires = new Module({"name": "Buenos Aires"});
-        buenosAires.dependencies = [sanSalvador];
-
-        var moduleDepGraph = new ModuleDependencyGraph("body", 960, 500);
-        moduleDepGraph.draw([rioTercero, cordoba, sanSalvador, buenosAires]);
+], function(ModuleDependencyGraph, ModelJsonParser, Module) {
+        var modelJsonParser = new ModelJsonParser("example.json", "id_", function(modules) {
+            var moduleDepGraph = new ModuleDependencyGraph("body", 800, 600);
+            moduleDepGraph.draw(modules);
+        });
 });
