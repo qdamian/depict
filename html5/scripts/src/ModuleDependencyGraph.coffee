@@ -32,11 +32,11 @@ window.define ["DependencyGraph", "model/Module"], (DependencyGraph, Module) ->
     links = []
 
     for mod in modules
-        for dep in mod.dependencies
-            links.push
-                source: modules.indexOf mod
-                target: modules.indexOf dep
-                value: 1
+      for dep in mod.dependencies
+        links.push
+          source: modules.indexOf mod
+          target: modules.indexOf dep
+          value: 1
     links
  
   ModuleDependencyGraph

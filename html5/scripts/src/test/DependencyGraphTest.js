@@ -33,7 +33,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
         "name" : "Node1"
     }, {
         "name" : "Node2"
-    }]
+    }];
 
     TEST_LINKS = [{
         "source" : 0,
@@ -43,7 +43,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
         "source" : 1,
         "target" : 0,
         "value" : 1
-    }]
+    }];
 
     describe('DependencyGraph', function() {
         beforeEach(function() {
@@ -64,7 +64,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
                 on : onStub,
                 start : startSpy,
                 gravity: gravityStub
-            }
+            };
 
             chargeStub.returns(d3Methods);
             linkDistanceStub.returns(d3Methods);
@@ -84,7 +84,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
 
                 dependencyGraph = new DependencyGraph('#test-canvas', 10, 20);
 
-                $('#test-canvas svg').should.exist;
+                should.exist($('#test-canvas svg'));
                 $('#test-canvas svg').should.have.css('width', '10px');
                 $('#test-canvas svg').should.have.css('height', '20px');
 
@@ -96,7 +96,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
 
                 dependencyGraph = new DependencyGraph('body', 10, 20);
 
-                forceStub.called.should.equal(true)
+                forceStub.called.should.equal(true);
 
                 d3.layout.force.restore();
             });
@@ -106,7 +106,7 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
 
             it('should start the force layout', function() {
                 forceStub = sinon.stub(d3.layout, "force").returns(d3Methods);
-                sinon.mock(d3.layout)
+                sinon.mock(d3.layout);
                 dependencyGraph = new DependencyGraph('body', 10, 20);
 
                 dependencyGraph.draw(TEST_NODES, TEST_LINKS);
@@ -124,8 +124,8 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
                 dependencyGraph.draw(TEST_NODES, TEST_LINKS);
 
                 $('#test-circles circle').length.should.equal(2);
-                $('#test-circles').remove()
-            })
+                $('#test-circles').remove();
+            });
 
             it('should add a text for each node', function() {
                $("<div id=test-texts/>").appendTo("body");
@@ -135,18 +135,18 @@ define(['chai', 'chai-jquery', 'sinon', 'd3', 'DependencyGraph'],
                dependencyGraph.draw(TEST_NODES, TEST_LINKS);
                
                 $('#test-texts text').length.should.equal(2);
-                $('#test-texts').remove()
+                $('#test-texts').remove();
             });
 
             it('should add a line for each link', function() {
                 $("<div id=test-lines/>").appendTo("body");
 
-                $('line').remove()
+                $('line').remove();
                 dependencyGraph = new DependencyGraph('#test-lines', 10, 20);
                 dependencyGraph.draw(TEST_NODES, TEST_LINKS);
 
                 $('#test-lines line').length.should.equal(2);
-                $('#test-lines').remove()
+                $('#test-lines').remove();
             });
         });
     });

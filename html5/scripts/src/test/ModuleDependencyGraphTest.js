@@ -61,9 +61,9 @@ define(['Squire', 'chai', 'sinon', 'model/Module'],
                 injector
                     .mock('DependencyGraph', Squire.Helpers.constructs({draw: drawMock}))
                     .require(['ModuleDependencyGraph', 'mocks'], function(ModuleDependencyGraph, mocks) {
-                    var module1 = new Module({"name": "module1"})
-                    var module2 = new Module({"name": "module2"})
-                    var module3 = new Module({"name": "module3"})
+                    var module1 = new Module({"name": "module1"});
+                    var module2 = new Module({"name": "module2"});
+                    var module3 = new Module({"name": "module3"});
                     module1.dependencies = [module3];
                     module2.dependencies = [module1];
                     var moduleDepGraph = new ModuleDependencyGraph();
@@ -76,7 +76,7 @@ define(['Squire', 'chai', 'sinon', 'model/Module'],
                             "source" : 1,
                             "target" : 0,
                             "value" : 1
-                        }]
+                        }];
                     drawMock.calledWith([module1, module2, module3], expected_links).should.equal(true);
                 });
             });

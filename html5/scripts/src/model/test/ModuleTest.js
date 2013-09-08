@@ -43,7 +43,7 @@ define(['chai', 'chai-jquery', 'sinon', 'model/Module'],
                 data = {
                     "name" : "fakeModule",
                     "dependencies" : ["fakeDependency1", "fakeDependency2"]
-                }
+                };
 
                 module = new Module(data);
 

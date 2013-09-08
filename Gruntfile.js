@@ -26,8 +26,6 @@
 module.exports = function(grunt) {
   "use strict";
 
-  grunt.loadNpmTasks('grunt-contrib-coffee');
-
   grunt.initConfig({
     shell: {
       'mocha-phantomjs': {
@@ -38,6 +36,23 @@ module.exports = function(grunt) {
           failOnError: true
         }
       }
+    },
+    jshint: {
+      options: {
+        curly: true,
+        eqeqeq: true,
+        eqnull: true,
+        browser: true,
+        globals: {
+          jQuery: true
+        },
+      },
+      files: {
+        src: ['html5/**/test/*.js']
+      },
+    },
+    coffeelint: {
+      app: ['html5/**/*.coffee'],
     },
     watch: {
       jsFiles: {
@@ -56,9 +71,14 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-coffeelint');
 
-  grunt.registerTask('default', ['coffee', 'shell:mocha-phantomjs']);
-
+  grunt.registerTask('default', ['coffee',
+                                 'coffeelint',
+                                 'jshint',
+                                 'shell:mocha-phantomjs']);
 };
