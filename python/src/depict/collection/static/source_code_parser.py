@@ -21,6 +21,8 @@ from depict.collection.static.definitions_visitor import DefinitionsVisitor
 from depict.collection.static.relations_visitor import RelationsVisitor
 
 def astng_ignore_modname_wrapper(func, modname):
+    '''A no-op decorator that must be passed to ASTNGManager to override its
+       default behavior which is to print the module names to stdout'''
     try:
         return func(modname)
     except ASTNGBuildingException, exc:
@@ -30,6 +32,8 @@ def astng_ignore_modname_wrapper(func, modname):
         traceback.print_exc()
 
 class SourceCodeParser(object):
+    '''Parse source files using LogiLab's Abstract Syntax Tree Next Generation
+       and notify definitions and relations to observers'''
 
     def __init__(self):
         self.file_paths = []
@@ -46,14 +50,11 @@ class SourceCodeParser(object):
         project = manager.project_from_files(self.file_paths,
                                    func_wrapper = astng_ignore_modname_wrapper)
 
-        # First collect all "definitions" (modules, classes, functions) before
-        # trying to relate one definition with another
-
-        definitions_visitor = DefinitionsVisitor(self.observers)
-        definitions_visitor.visit(project)
-
-        relations_visitor = RelationsVisitor(self.observers)
-        relations_visitor.visit(project)
+        # First collect all definitions (e.g. module X, function foo) before
+        # trying to relate one definition with another (e.g. module X depends on
+        # module Y)
+        DefinitionsVisitor(self.observers).visit(project)
+        RelationsVisitor(self.observers).visit(project)
 
     def register(self, observer):
         self.observers.append(observer)
