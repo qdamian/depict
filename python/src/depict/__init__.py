@@ -15,3 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+__title__ = 'depict'
+__version__ = '0.1.0'
+__build__ = 0x000100
+__author__ = 'Damian Quiroga'
+__license__ = 'GPLv3'
+__copyright__ = 'Copyright 2013 Damian Quiroga'
