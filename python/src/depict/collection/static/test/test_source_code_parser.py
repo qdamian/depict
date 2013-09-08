@@ -30,6 +30,12 @@ class TestSourceCodeParser(unittest.TestCase):
     def tearDown(self):
         self.ast_ng_manager_patcher.stop()
 
+    def test_adds_base_path_to_top_of_python_path(self):
+        with patch('depict.collection.static.source_code_parser.sys') as sys_mock:
+            source_code_parser = SourceCodeParser()
+            source_code_parser.set_base_path('fake_base_path')
+            sys_mock.path.insert.assert_called_once_with(0, 'fake_base_path')
+
     def test_creates_project_from_file_paths(self):
         file_paths = ['path/to/a.py', 'path/to/b.py']
         source_code_parser = SourceCodeParser()

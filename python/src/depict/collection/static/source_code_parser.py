@@ -19,6 +19,7 @@ from logilab.astng.manager import ASTNGManager
 from logilab.astng.exceptions import ASTNGBuildingException
 from depict.collection.static.definitions_visitor import DefinitionsVisitor
 from depict.collection.static.relations_visitor import RelationsVisitor
+import sys
 
 def astng_ignore_modname_wrapper(func, modname):
     '''A no-op decorator that must be passed to ASTNGManager to override its
@@ -58,6 +59,10 @@ class SourceCodeParser(object):
 
     def register(self, observer):
         self.observers.append(observer)
+
+    # pylint: disable=R0201
+    def set_base_path(self, base_path):
+        sys.path.insert(0, base_path)
 
 # pylint: disable=C0103
 GlobalSourceCodeParser = SourceCodeParser()
