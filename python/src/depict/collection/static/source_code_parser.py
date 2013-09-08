@@ -17,7 +17,8 @@
 
 from logilab.astng.manager import ASTNGManager
 from logilab.astng.exceptions import ASTNGBuildingException
-from logilab.astng.utils import LocalsVisitor
+from depict.collection.static.definitions_visitor import DefinitionsVisitor
+from depict.collection.static.relations_visitor import RelationsVisitor
 
 def astng_ignore_modname_wrapper(func, modname):
     try:
@@ -27,44 +28,6 @@ def astng_ignore_modname_wrapper(func, modname):
     except Exception, exc:
         import traceback
         traceback.print_exc()
-
-def _safely_notify(observers, function, node):
-    for obs in observers:
-        try:
-            method = getattr(obs, function)
-            # pylint: disable=W0142
-            method(node)
-        except AttributeError:
-            pass
-
-class DefinitionsVisitor(LocalsVisitor):
-
-    def __init__(self, observers):
-        LocalsVisitor.__init__(self)
-        self.observers = observers
-
-    def visit_class(self, node):
-        _safely_notify(self.observers, 'on_class', node)
-
-    def visit_module(self, node):
-        _safely_notify(self.observers, 'on_module', node)
-
-    def visit_function(self, node):
-        _safely_notify(self.observers, 'on_function', node)
-
-class RelationsVisitor(LocalsVisitor):
-    def visit_module(self, node):
-        _safely_notify(self.observers, 'on_module', node)
-
-    def __init__(self, observers):
-        LocalsVisitor.__init__(self)
-        self.observers = observers
-
-    def visit_import(self, node):
-        _safely_notify(self.observers, 'on_import', node)
-
-    def visit_from(self, node):
-        _safely_notify(self.observers, 'on_from', node)
 
 class SourceCodeParser(object):
 
