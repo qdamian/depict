@@ -31,7 +31,16 @@ class TestJson(unittest.TestCase):
 
     def test_runs_static_definition_notifier(self):
         with patch('depict.output.json.JsonDoc') as json_doc_class_mock:
-            json = Json('dummy_input_block', 'dummy_out_file')
+            json = Json(MagicMock(), 'dummy_out_file')
             json.static_data_notifier = Mock()
             json.run()
             json.static_data_notifier.run.assert_called_once_with()
+
+    def test_passes_base_path_to_static_definition_notifier(self):
+        with patch('depict.output.json.StaticDataNotifier') as static_data_notifier_class_mock:
+            static_data_notifier_mock = Mock()
+            static_data_notifier_class_mock.return_value = static_data_notifier_mock
+            fileset_mock = MagicMock()
+            fileset_mock.directory = 'fake_directory'
+            json = Json(fileset_mock, 'dummy_out_file')
+            static_data_notifier_mock.set_base_path.assert_called_once_with(fileset_mock.directory)

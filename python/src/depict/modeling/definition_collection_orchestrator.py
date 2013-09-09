@@ -20,6 +20,7 @@ from depict.collection.static.source_code_parser import GlobalSourceCodeParser
 class DefinitionCollectionOrchestrator(object):
     def __init__(self):
         self.collectors = []
+        self.source_code_parser = GlobalSourceCodeParser
 
     def include(self, collector):
         self.collectors.append(collector)
@@ -27,8 +28,11 @@ class DefinitionCollectionOrchestrator(object):
     def process(self, file_paths):
         for collector in self.collectors:
             collector()
-        GlobalSourceCodeParser.add_files(file_paths)
-        GlobalSourceCodeParser.parse()
+        self.source_code_parser.add_files(file_paths)
+        self.source_code_parser.parse()
+
+    def set_base_path(self, base_path):
+        self.source_code_parser.set_base_path(base_path)
 
 # pylint: disable=C0103
 GlobalDefinitionCollectionOrchestrator = DefinitionCollectionOrchestrator()

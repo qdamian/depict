@@ -32,6 +32,7 @@ class StaticDataNotifier(object):
     def __init__(self, file_list, observer):
         self.observer = observer
         self.file_list = file_list
+        self.collection_orchestrator = GlobalDefinitionCollectionOrchestrator
 
     def _safely_notify(self, function_name, value=None):
         try:
@@ -44,13 +45,11 @@ class StaticDataNotifier(object):
             pass
 
     def run(self):
-        collection_orchestrator = GlobalDefinitionCollectionOrchestrator
+        self.collection_orchestrator.include(ModuleDefinitionCollector)
+        self.collection_orchestrator.include(ClassDefinitionCollector)
+        self.collection_orchestrator.include(FunctionDefinitionCollector)
 
-        collection_orchestrator.include(ModuleDefinitionCollector)
-        collection_orchestrator.include(ClassDefinitionCollector)
-        collection_orchestrator.include(FunctionDefinitionCollector)
-
-        collection_orchestrator.process(self.file_list)
+        self.collection_orchestrator.process(self.file_list)
 
         for (func_name, repo) in [('on_module', GlobalModuleRepo),
                                   ('on_class', GlobalClassRepo),
@@ -59,3 +58,6 @@ class StaticDataNotifier(object):
                 self._safely_notify(func_name, value)
 
         self._safely_notify('on_collection_completed')
+
+    def set_base_path(self, base_path):
+        self.collection_orchestrator.set_base_path(base_path)

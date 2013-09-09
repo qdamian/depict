@@ -26,6 +26,7 @@ class Json(object):
         file_names = [name for name in file_set]
         self.static_data_notifier = StaticDataNotifier(file_names,
                                                        self.json_doc)
+        self.static_data_notifier.set_base_path(file_set.directory)
 
     def run(self):
         self.static_data_notifier.run()

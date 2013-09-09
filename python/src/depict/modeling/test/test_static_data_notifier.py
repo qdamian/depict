@@ -109,3 +109,8 @@ class TestStaticDataNotifier(unittest.TestCase):
             static_data_notifier = StaticDataNotifier('dummy_file_.py', fake_observer)
             static_data_notifier.run()
             fake_observer.on_collection_completed.assert_called_once_with()
+            
+    def test_passes_base_path_to_definition_collection_orchestrator(self, collection_orchestrator_mock):
+        static_data_notifier = StaticDataNotifier('dummy_file_.py', Mock())
+        static_data_notifier.set_base_path('fake/base/path')
+        collection_orchestrator_mock.set_base_path.assert_called_once_with('fake/base/path')
