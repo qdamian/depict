@@ -34,9 +34,6 @@ nosetests.xml
 .project
 .pydevproject
 
-# Pylint graphs
-pylint*.png
-
 # Funcional test output
 *.out
 
