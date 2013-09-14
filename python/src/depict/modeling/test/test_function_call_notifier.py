@@ -15,10 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from mock import Mock, patch, PropertyMock, ANY, mock_open, call
+from mock import Mock, patch, PropertyMock
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-from depict.modeling.class_definition_collector import ClassDefinitionCollector
-from depict.modeling.function_definition_collector import FunctionDefinitionCollector
+from depict.modeling.definition_collection_orchestrator import AlreadyProcessed
 
 class TestFunctionCallNotifier():
     def test_init_creates_thread_scoped_tracer(self):
@@ -56,3 +55,13 @@ class TestFunctionCallNotifier():
         type(frame_digest_mock).line_number = PropertyMock(return_value=1)
         function_call_notifier.on_call(frame_digest_mock)
         def_collection_orchestrator_mock.process.assert_called_once_with('fake_file_name')
+
+    def test_ignores_already_processed_exception_for_static_data(self):
+        def_collection_orchestrator_mock = Mock()
+        def_collection_orchestrator_mock.process.side_effect = AlreadyProcessed
+        function_call_notifier = FunctionCallNotifier(Mock(), Mock(), def_collection_orchestrator_mock)
+        frame_digest_mock = Mock()
+
+        function_call_notifier.on_call(frame_digest_mock)
+
+        # No exception raised

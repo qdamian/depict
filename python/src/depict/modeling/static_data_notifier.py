@@ -16,10 +16,10 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.modeling.class_definition_collector import ClassDefinitionCollector
-from depict.modeling.function_definition_collector import \
-                                                    FunctionDefinitionCollector
 from depict.modeling.module_definition_collector import \
                                                       ModuleDefinitionCollector
+from depict.modeling.function_definition_collector import \
+                                                    FunctionDefinitionCollector
 from depict.collection.static.source_code_parser import SourceCodeParser
 from depict.model.module_repo import global_module_repo
 from depict.model.class_repo import global_class_repo

@@ -15,9 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.collection.static.source_code_parser import SourceCodeParser
 from mock import patch, Mock, ANY
+from nose.tools import assert_true, assert_false
 import unittest
+from depict.collection.static.source_code_parser import SourceCodeParser
 
 class TestSourceCodeParser(unittest.TestCase):
 
@@ -42,7 +43,7 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.parse()
         self.ast_ng_manager_mock.project_from_files.assert_called_once_with(file_paths, func_wrapper=ANY)
 
-    def test_converts_single_file_path_to_list(self):
+    def test_add_files_accepts_a_single_file(self):
         file_path = 'path/to/a/single/file.py'
         source_code_parser = SourceCodeParser('.')
         source_code_parser.add_files(file_path)
@@ -61,3 +62,23 @@ class TestSourceCodeParser(unittest.TestCase):
                 source_code_parser.parse()
                 definitions_visitor_mock.visit.assert_called_once_with(ANY)
                 relations_visitor_mock.visit.assert_called_once_with(ANY)
+
+    def test_add_files_returns_true_if_at_least_one_file_was_added(self):
+        paths1 = ['path/to/a.py', 'path/to/b.py']
+        paths2 = ['path/to/b.py', 'path/to/c.py']
+        source_code_parser = SourceCodeParser('.')
+        source_code_parser.add_files(paths1)
+
+        result = source_code_parser.add_files(paths2)
+
+        assert_true(result)
+
+    def test_add_files_returns_false_no_file_was_added(self):
+        paths1 = ['path/to/a.py', 'path/to/b.py']
+        paths2 = ['path/to/b.py']
+        source_code_parser = SourceCodeParser('.')
+        source_code_parser.add_files(paths1)
+
+        result = source_code_parser.add_files(paths2)
+
+        assert_false(result)

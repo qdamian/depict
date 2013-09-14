@@ -38,21 +38,23 @@ class SourceCodeParser(object):
        and notify definitions and relations to observers'''
 
     def __init__(self, base_path):
-        self.file_paths = []
+        self.file_paths = set()
         self.observers = []
         self.entity_id_gen = EntityIdGenerator(base_path)
         # For ASTNManager:
         sys.path.insert(0, base_path)
 
-    def add_files(self, file_paths):
-        if isinstance(file_paths, list):
-            self.file_paths += file_paths
-        else:
-            self.file_paths = [file_paths]
+    def add_files(self, paths):
+        if not isinstance(paths, list):
+            paths = [paths]
+
+        len_before = len(self.file_paths)
+        self.file_paths.update(paths)
+        return len(self.file_paths) != len_before
 
     def parse(self):
         manager = ASTNGManager()
-        project = manager.project_from_files(self.file_paths,
+        project = manager.project_from_files(list(self.file_paths),
                                    func_wrapper = astng_ignore_modname_wrapper)
 
         # First collect all definitions (e.g. module X, function foo) before
