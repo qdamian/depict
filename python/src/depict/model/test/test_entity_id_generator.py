@@ -16,23 +16,28 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from depict.model import entity_id
+from depict.model.entity_id_generator import EntityIdGenerator
 from mock import patch
 
-class TestEntityId(unittest.TestCase):
-    @patch('depict.model.entity_id.os.path.relpath')
-    def test_removes_working_directory_from_file_name(self, relpath_mock):
+class TestEntityIdGenerator(unittest.TestCase):
+    @patch('depict.model.entity_id_generator.os.path.relpath')
+    def test_uses_path_relative_to_base_dir(self, relpath_mock):
         relpath_mock.return_value = 'some/file.py'
-        actual_id = entity_id.create('full/path/to/some/file.py', '12')
+        entity_id_generator = EntityIdGenerator('path/to/base/dir')
+        actual_id = entity_id_generator.create('full/path/to/some/file.py','12')
         expected_id = 'some/file.py:12'
+        relpath_mock.assert_called_once_with('full/path/to/some/file.py',
+                                             'path/to/base/dir')
         self.assertEqual(actual_id, expected_id)
 
     def test_line_number_is_optional(self):
         expected_id = 'dummy_file_name'
-        actual_id = entity_id.create('dummy_file_name')
+        entity_id_generator = EntityIdGenerator('.')
+        actual_id = entity_id_generator.create('dummy_file_name')
         self.assertEqual(actual_id, expected_id)
 
     def test_works_with_int_line_number(self):
         expected_id = 'dummy_file_name:3'
-        actual_id = entity_id.create('dummy_file_name', 3)
+        entity_id_generator = EntityIdGenerator('.')
+        actual_id = entity_id_generator.create('dummy_file_name', 3)
         self.assertEqual(actual_id, expected_id)

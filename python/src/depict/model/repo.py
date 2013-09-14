@@ -21,9 +21,8 @@ class Repo(object):
         self.elements_by_name = {}
 
     def add(self, element):
-        '''
-        The element is expected to have an id_ attribute
-        '''
+        assert element.id_, 'The element is expected to have an id_ attribute'
+
         self.elements_by_id[element.id_] = element
         try:
             self.elements_by_name[element.name] = element
@@ -31,16 +30,10 @@ class Repo(object):
             pass
 
     def get_by_id(self, id_):
-        try:
-            return self.elements_by_id[id_]
-        except KeyError:
-            return None
+        return self.elements_by_id[id_]
+
+    def get_by_name(self, name):
+        return self.elements_by_name[name]
 
     def get_all(self):
         return self.elements_by_id.values()
-
-    def get_by_name(self, name):
-        try:
-            return self.elements_by_name[name]
-        except KeyError:
-            return None

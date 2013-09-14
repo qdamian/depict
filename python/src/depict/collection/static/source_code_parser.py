@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from logilab.astng.manager import ASTNGManager
-from logilab.astng.exceptions import ASTNGBuildingException
 from depict.collection.static.definitions_visitor import DefinitionsVisitor
 from depict.collection.static.relations_visitor import RelationsVisitor
+from depict.model.entity_id_generator import EntityIdGenerator
+from logilab.astng.exceptions import ASTNGBuildingException
+from logilab.astng.manager import ASTNGManager
 import sys
 
 def astng_ignore_modname_wrapper(func, modname):
@@ -36,9 +37,12 @@ class SourceCodeParser(object):
     '''Parse source files using LogiLab's Abstract Syntax Tree Next Generation
        and notify definitions and relations to observers'''
 
-    def __init__(self):
+    def __init__(self, base_path):
         self.file_paths = []
         self.observers = []
+        self.entity_id_gen = EntityIdGenerator(base_path)
+        # For ASTNManager:
+        sys.path.insert(0, base_path)
 
     def add_files(self, file_paths):
         if isinstance(file_paths, list):
@@ -59,10 +63,3 @@ class SourceCodeParser(object):
 
     def register(self, observer):
         self.observers.append(observer)
-
-    # pylint: disable=R0201
-    def set_base_path(self, base_path):
-        sys.path.insert(0, base_path)
-
-# pylint: disable=C0103
-GlobalSourceCodeParser = SourceCodeParser()

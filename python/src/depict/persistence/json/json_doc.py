@@ -15,16 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.module_repo import GlobalModuleRepo
 from depict.persistence.json.json_serializer import JsonSerializer
+from depict.model.module_repo import global_module_repo
 
 # pylint: disable=R0903
 class JsonDoc(object):
     def __init__(self, out_filename):
         self.out_filename = out_filename
-        self.content = ''
 
     def on_collection_completed(self):
         with open(self.out_filename, 'w') as out_file:
-            modules = GlobalModuleRepo.get_all()
+            modules = global_module_repo.get_all()
             out_file.write(JsonSerializer.serialize(modules, 'id_'))

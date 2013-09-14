@@ -15,24 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.collection.static.source_code_parser import GlobalSourceCodeParser
+from depict.model.entity_id_generator import EntityIdGenerator
+from depict.collection.static.source_code_parser import SourceCodeParser
 
 class DefinitionCollectionOrchestrator(object):
-    def __init__(self):
+    def __init__(self, base_path):
         self.collectors = []
-        self.source_code_parser = GlobalSourceCodeParser
+        self.entity_id_generator = EntityIdGenerator(base_path)
+        self.source_code_parser = SourceCodeParser(base_path)
 
     def include(self, collector):
         self.collectors.append(collector)
 
     def process(self, file_paths):
         for collector in self.collectors:
-            collector()
+            collector(self.source_code_parser, self.entity_id_generator)
         self.source_code_parser.add_files(file_paths)
         self.source_code_parser.parse()
-
-    def set_base_path(self, base_path):
-        self.source_code_parser.set_base_path(base_path)
-
-# pylint: disable=C0103
-GlobalDefinitionCollectionOrchestrator = DefinitionCollectionOrchestrator()

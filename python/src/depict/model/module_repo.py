@@ -17,8 +17,5 @@
 
 from depict.model.repo import Repo
 
-class ModuleRepo(Repo):
-    pass
-
 # pylint: disable=C0103
-GlobalModuleRepo = ModuleRepo()
+global_module_repo = Repo()

@@ -17,8 +17,6 @@
 
 from mock import Mock, patch, PropertyMock, ANY, mock_open, call
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-from depict.model.class_repo import GlobalClassRepo
-from depict.model.function_repo import GlobalFunctionRepo
 from depict.modeling.class_definition_collector import ClassDefinitionCollector
 from depict.modeling.function_definition_collector import FunctionDefinitionCollector
 
@@ -27,14 +25,15 @@ class TestFunctionCallNotifier():
         with patch('depict.modeling.function_call_notifier.ThreadScopedTracer') as tracerClass_mock:
             tracer_mock = Mock()
             tracerClass_mock.return_value = tracer_mock
-            function_call_notifier = FunctionCallNotifier(Mock())
+
+            function_call_notifier = FunctionCallNotifier(Mock(), Mock(), Mock())
             tracerClass_mock.assert_called_once_with(function_call_notifier)
 
     def test_start_creates_thread_scoped_tracer(self):
         with patch('depict.modeling.function_call_notifier.ThreadScopedTracer') as tracerClass_mock:
             tracer_mock = Mock()
             tracerClass_mock.return_value = tracer_mock
-            function_call_notifier = FunctionCallNotifier(Mock())
+            function_call_notifier = FunctionCallNotifier(Mock(), Mock(), Mock())
             function_call_notifier.start()
             tracer_mock.start.assert_called_once_with()
 
@@ -42,20 +41,18 @@ class TestFunctionCallNotifier():
         with patch('depict.modeling.function_call_notifier.ThreadScopedTracer') as tracerClass_mock:
             tracer_mock = Mock()
             tracerClass_mock.return_value = tracer_mock
-            function_call_notifier = FunctionCallNotifier(Mock())
+            function_call_notifier = FunctionCallNotifier(Mock(), Mock(), Mock())
             function_call_notifier.start()
             function_call_notifier.stop()
             tracer_mock.stop.assert_called_once_with()
 
     def test_processes_static_data_for_each_call(self):
-        with patch('depict.modeling.function_call_notifier.GlobalDefinitionCollectionOrchestrator') as global_definition_collector_orchestrator_mock:
-            observer_mock = Mock()
-            function_call_notifier = FunctionCallNotifier(observer_mock)
-            frame_digest_mock = Mock()
-            type(frame_digest_mock).function_name = PropertyMock(return_value='fake_function_name')
-            type(frame_digest_mock).file_name = PropertyMock(return_value='fake_file_name')
-            type(frame_digest_mock).line_number = PropertyMock(return_value=1)
-            function_call_notifier.on_call(frame_digest_mock)
-            calls = [call(ClassDefinitionCollector), call(FunctionDefinitionCollector)]
-            global_definition_collector_orchestrator_mock.include.assert_has_calls(calls)
-            global_definition_collector_orchestrator_mock.process.assert_called_once_with('fake_file_name')
+        def_collection_orchestrator_mock = Mock()
+        observer_mock = Mock()
+        function_call_notifier = FunctionCallNotifier(Mock(), observer_mock, def_collection_orchestrator_mock)
+        frame_digest_mock = Mock()
+        type(frame_digest_mock).function_name = PropertyMock(return_value='fake_function_name')
+        type(frame_digest_mock).file_name = PropertyMock(return_value='fake_file_name')
+        type(frame_digest_mock).line_number = PropertyMock(return_value=1)
+        function_call_notifier.on_call(frame_digest_mock)
+        def_collection_orchestrator_mock.process.assert_called_once_with('fake_file_name')

@@ -15,10 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.modeling.definition_collection_orchestrator import \
+    DefinitionCollectionOrchestrator
 from depict.output.json import Json
-import formic
+from formic.formic import FileSet
 
 if __name__ == '__main__':
-    file_set = formic.FileSet(directory='/usr/local/lib/python2.7/dist-packages/pyasteroids', include='*.py')
-    json = Json(file_set, 'pyasteroids.json')
+    base_path = '/usr/local/lib/python2.7/dist-packages/pyasteroids'
+    file_set = FileSet(directory=base_path, include='*.py')
+
+    orchestrator = DefinitionCollectionOrchestrator(file_set.directory)
+    json = Json(file_set, 'pyasteroids.json', orchestrator)
+
     json.run()

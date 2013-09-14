@@ -15,18 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.module_repo import ModuleRepo
 from depict.modeling.module_definition_collector import ModuleDefinitionCollector
-from mock import Mock, patch, call
+from mock import Mock, patch, call, ANY
 import unittest
 from depict.model.module import Module
 
 class TestModuleDefinitionCollector(unittest.TestCase):
     def test_creation(self):
-        module_repo = ModuleRepo()
         code_parser_mock = Mock()
-        module_def_collector = ModuleDefinitionCollector(
-                                            code_parser_mock, module_repo)
+        module_def_collector = ModuleDefinitionCollector(code_parser_mock, Mock())
         code_parser_mock.register.assert_called_once_with(module_def_collector)
 
     def test_registers_itself_in_source_code_parser(self):
@@ -35,25 +32,28 @@ class TestModuleDefinitionCollector(unittest.TestCase):
         code_parser_mock.register.assert_called_once_with(module_def_collector)
 
     def test_adds_one_module_to_repo(self):
-        with patch('depict.modeling.module_definition_collector.entity_id') as entity_id_mock:
-            module_repo_mock = Mock()
-            module_def_collector = ModuleDefinitionCollector(Mock(), module_repo_mock)
+        with patch('depict.modeling.module_definition_collector.global_module_repo') as module_repo_mock:
+            entity_id_generator_mock = Mock()
+            module_def_collector = ModuleDefinitionCollector(Mock(), entity_id_generator_mock)
             fake_node = Mock()
             fake_node.file = 'path/to/file.py'
             fake_node.name = 'path.to.file'
-            entity_id_mock.create.return_value = 'to/file.py'
+            entity_id_generator_mock.create.return_value = 'to/file.py'
+
+            print type(Module)
             module_def_collector.on_module(fake_node)
+
             expected_module = Module('to/file.py', 'path.to.file')
-            entity_id_mock.create.assert_called_once_with('path/to/file.py')
+            entity_id_generator_mock.create.assert_called_once_with('path/to/file.py')
             module_repo_mock.add.assert_called_once_with(expected_module)
 
+@patch('depict.modeling.module_definition_collector.global_module_repo')
 class TestDependencyCollection(unittest.TestCase):
     def setUp(self):
         self.module_class_patcher = patch('depict.modeling.module_definition_collector.Module')
         module_class_mock = self.module_class_patcher.start()
-        self.module_repo_mock = Mock()
-        module_class_mock(return_value=self.module_repo_mock)
-        self.module_definition_collector = ModuleDefinitionCollector(Mock(), self.module_repo_mock)
+        source_code_parser_mock = Mock()
+        self.module_definition_collector = ModuleDefinitionCollector(source_code_parser_mock, Mock())
         self.module_mock = Mock()
         module_class_mock.return_value = self.module_mock
         self.module_definition_collector.on_module(Mock(file='dummy/path/to/file.py'))
@@ -61,10 +61,10 @@ class TestDependencyCollection(unittest.TestCase):
     def tearDown(self):
         self.module_class_patcher.stop()
 
-    def test_registers_dependency_with_other_modules_due_to_import(self):
+    def test_registers_dependency_with_other_modules_due_to_import(self, module_repo_mock):
         dependency1 = Mock()
         dependency2 = Mock()
-        self.module_repo_mock.get_by_name.side_effect = lambda name: {
+        module_repo_mock.get_by_name.side_effect = lambda name: {
                                                     'some.module': dependency1,
                                                     'some.other.module': dependency2}[name]
         fake_import = Mock()
@@ -72,10 +72,14 @@ class TestDependencyCollection(unittest.TestCase):
         self.module_definition_collector.on_import(fake_import)
         self.module_mock.depends_on.assert_has_calls([call(dependency1), call(dependency2)])
 
-    def test_registers_dependency_with_other_module_due_to_from_import(self):
+    def test_registers_dependency_with_other_module_due_to_from_import(self, module_repo_mock):
         dependency = Mock()
-        self.module_repo_mock.get_by_name.side_effect = lambda name: {'some.module': dependency }[name]
+        module_repo_mock.get_by_name.side_effect = lambda name: {'some.module': dependency }[name]
         fake_import = Mock()
         fake_import.modname = 'some.module'
+        module_mock = Mock()
+        self.module_definition_collector.current_module = module_mock
+
         self.module_definition_collector.on_from(fake_import)
-        self.module_mock.depends_on.assert_called_once_with(dependency)
+
+        module_mock.depends_on.assert_called_once_with(dependency)

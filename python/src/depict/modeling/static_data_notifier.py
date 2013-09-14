@@ -15,24 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.class_repo import GlobalClassRepo
-from depict.model.function_repo import GlobalFunctionRepo
-from depict.modeling.class_definition_collector import \
-    ClassDefinitionCollector
-from depict.modeling.definition_collection_orchestrator import \
-    GlobalDefinitionCollectionOrchestrator
+from depict.modeling.class_definition_collector import ClassDefinitionCollector
 from depict.modeling.function_definition_collector import \
-    FunctionDefinitionCollector
+                                                    FunctionDefinitionCollector
 from depict.modeling.module_definition_collector import \
-    ModuleDefinitionCollector
-from depict.model.module_repo import GlobalModuleRepo
+                                                      ModuleDefinitionCollector
+from depict.collection.static.source_code_parser import SourceCodeParser
+from depict.model.module_repo import global_module_repo
+from depict.model.class_repo import global_class_repo
+from depict.model.function_repo import global_function_repo
 
 # pylint: disable=R0903
 class StaticDataNotifier(object):
-    def __init__(self, file_list, observer):
+    def __init__(self, file_set, observer, def_collection_orchestrator):
         self.observer = observer
-        self.file_list = file_list
-        self.collection_orchestrator = GlobalDefinitionCollectionOrchestrator
+        self.file_set = file_set
+        self.def_collection_orchestrator = def_collection_orchestrator
 
     def _safely_notify(self, function_name, value=None):
         try:
@@ -45,19 +43,23 @@ class StaticDataNotifier(object):
             pass
 
     def run(self):
-        self.collection_orchestrator.include(ModuleDefinitionCollector)
-        self.collection_orchestrator.include(ClassDefinitionCollector)
-        self.collection_orchestrator.include(FunctionDefinitionCollector)
+        self.def_collection_orchestrator.include(ModuleDefinitionCollector)
+        self.def_collection_orchestrator.include(ClassDefinitionCollector)
+        self.def_collection_orchestrator.include(FunctionDefinitionCollector)
 
-        self.collection_orchestrator.process(self.file_list)
+        source_code_parser = SourceCodeParser(self.file_set.directory)
 
-        for (func_name, repo) in [('on_module', GlobalModuleRepo),
-                                  ('on_class', GlobalClassRepo),
-                                  ('on_function', GlobalFunctionRepo)]:
+        entity_id_gen = self.def_collection_orchestrator.entity_id_generator
+        ModuleDefinitionCollector(source_code_parser, entity_id_gen)
+
+        file_list = [f for f in self.file_set]
+
+        self.def_collection_orchestrator.process(file_list)
+
+        for (func_name, repo) in [('on_module', global_module_repo),
+                                  ('on_class', global_class_repo),
+                                  ('on_function', global_function_repo)]:
             for value in repo.get_all():
                 self._safely_notify(func_name, value)
 
         self._safely_notify('on_collection_completed')
-
-    def set_base_path(self, base_path):
-        self.collection_orchestrator.set_base_path(base_path)

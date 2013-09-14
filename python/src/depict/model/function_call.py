@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.function_repo import GlobalFunctionRepo
+from depict.model.function_repo import global_function_repo
 
 # pylint: disable=R0903
 class FunctionCall(object):
@@ -24,7 +24,7 @@ class FunctionCall(object):
 
     @property
     def function(self):
-        return GlobalFunctionRepo.get_by_id(self.function_id)
+        return global_function_repo.get_by_id(self.function_id)
 
     def __eq__(self, other):
         return self.function_id == other.function_id

@@ -21,23 +21,25 @@ from depict.modeling.class_definition_collector import \
 from depict.modeling.function_definition_collector import \
                                                      FunctionDefinitionCollector
 from depict.model.function_call import FunctionCall
-from depict.modeling.definition_collection_orchestrator import \
-                                          GlobalDefinitionCollectionOrchestrator
 
 class FunctionCallNotifier(object):
-    def __init__(self, observer):
-        self.thread_scoped_tracer = ThreadScopedTracer(self)
+    def __init__(self, observer, entity_id_generator,
+                 def_collection_orchestrator):
         self.observer = observer
-        GlobalDefinitionCollectionOrchestrator.include(ClassDefinitionCollector)
-        GlobalDefinitionCollectionOrchestrator.include(
-                                                    FunctionDefinitionCollector)
+        self.entity_id_generator = entity_id_generator
+        self.def_collection_orchestrator = def_collection_orchestrator
+
+        self.def_collection_orchestrator.include(ClassDefinitionCollector)
+        self.def_collection_orchestrator.include(FunctionDefinitionCollector)
+
+        self.thread_scoped_tracer = ThreadScopedTracer(self)
         self.stop = self.thread_scoped_tracer.stop
 
     def start(self):
         self.thread_scoped_tracer.start()
 
     def on_call(self, frame_digest):
-        function_id = (frame_digest.file_name + ':' +
-                       str(frame_digest.line_number))
-        GlobalDefinitionCollectionOrchestrator.process(frame_digest.file_name)
+        function_id = self.entity_id_generator.create(frame_digest.file_name,
+                                                      frame_digest.line_number)
+        self.def_collection_orchestrator.process(frame_digest.file_name)
         self.observer.on_call(FunctionCall(function_id))

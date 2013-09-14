@@ -17,8 +17,13 @@
 
 import os
 
-def create(file_name, line_number=None):
-    generated_id = '%s' % os.path.relpath(file_name)
-    if line_number:
-        generated_id += ':%s' % line_number
-    return generated_id
+# pylint: disable=R0903
+class EntityIdGenerator(object):
+    def __init__(self, base_path):
+        self.base_path = base_path
+
+    def create(self, file_name, line_number=None):
+        generated_id = '%s' % os.path.relpath(file_name, self.base_path)
+        if line_number:
+            generated_id += ':%s' % line_number
+        return generated_id

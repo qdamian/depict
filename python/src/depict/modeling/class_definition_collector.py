@@ -16,20 +16,19 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.class_ import Class_
-from depict.model.class_repo import GlobalClassRepo
-from depict.collection.static.source_code_parser import GlobalSourceCodeParser
-from depict.model.module_repo import GlobalModuleRepo
-from depict.model import entity_id
+from depict.model.module_repo import global_module_repo
+from depict.model.class_repo import global_class_repo
 
 # pylint: disable=R0903
 class ClassDefinitionCollector(object):
-    def __init__(self, source_code_parser = GlobalSourceCodeParser,
-                 class_repo = GlobalClassRepo):
+    def __init__(self, source_code_parser, entity_id_gen):
+        self.entity_id_gen = entity_id_gen
         source_code_parser.register(self)
-        self.class_repo = class_repo
 
     def on_class(self, node):
-        module = GlobalModuleRepo.get_by_id(entity_id.create(node.parent.file))
-        class_ = Class_(entity_id.create(node.parent.file, node.lineno),
-                        node.name, module)
-        self.class_repo.add(class_)
+        module_id = self.entity_id_gen.create(node.parent.file)
+        module = global_module_repo.get_by_id(module_id)
+        id_ = self.entity_id_gen.create(node.parent.file,
+                               node.lineno)
+        class_ = Class_(id_, node.name, module)
+        global_class_repo.add(class_)

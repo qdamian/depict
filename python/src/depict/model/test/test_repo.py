@@ -18,6 +18,7 @@
 from depict.model.repo import Repo
 from mock import Mock
 import unittest
+from nose.tools import assert_raises
 
 class TestRepo(unittest.TestCase):
     def test_add_one_element(self):
@@ -40,9 +41,13 @@ class TestRepo(unittest.TestCase):
         self.assertEqual(in_element1, out_element1)
         self.assertNotEqual(in_element2, out_element1)
 
-    def test_get_returns_none_if_element_not_found(self):
+    def test_get_by_id_throws_exception_if_key_is_not_found(self):
         repo = Repo()
-        self.assertEqual(repo.get_by_id('fake_id'), None)
+        assert_raises(KeyError, repo.get_by_id, 'inexistent_id')
+
+    def test_get_by_names_throws_exception_if_key_is_not_found(self):
+        repo = Repo()
+        assert_raises(KeyError, repo.get_by_name, 'inexistent_name')
 
     def test_get_all_returns_all_elements(self):
         repo = Repo()
@@ -65,11 +70,3 @@ class TestRepo(unittest.TestCase):
         in_element2.name = 'fake_name2'
         repo.add(in_element2)
         self.assertEqual(repo.get_by_name('fake_name1'), in_element1)
-
-    def test_returns_none_if_cannot_find_element_by_name(self):
-        repo = Repo()
-        in_element1 = Mock()
-        in_element1.id_ = 'fake_id1'
-        in_element1.name = 'fake_name1'
-        repo.add(in_element1)
-        self.assertEqual(repo.get_by_name('fake_name2'), None)

@@ -17,17 +17,15 @@
 
 from depict.persistence.html.html_doc import HtmlDoc
 from depict.modeling.static_data_notifier import StaticDataNotifier
-from formic.formic import FileSet
 
 # pylint: disable=R0903
 class Html(object):
 
-    def __init__(self, input_glob, title, out_filename):
+    def __init__(self, file_set, title, out_filename,
+                 def_collection_orchestrator):
         self.html_doc = HtmlDoc(title, out_filename)
-        file_set = FileSet(input_glob)
-        file_names = [name for name in file_set]
-        self.static_data_notifier = StaticDataNotifier(file_names,
-                                                       self.html_doc)
+        self.static_data_notifier = StaticDataNotifier(file_set, self.html_doc,
+                                                    def_collection_orchestrator)
 
     def run(self):
         self.static_data_notifier.run()

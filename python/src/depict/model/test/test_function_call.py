@@ -17,18 +17,20 @@
 
 from depict.model.function_call import FunctionCall
 from depict.model.function import Function
-from depict.model.function_repo import GlobalFunctionRepo
 import unittest
+from depict.model.repo import Repo
+from mock import patch
 
 class TestFunctionCall(unittest.TestCase):
     def test_creation(self):
         FunctionCall('fake_function_id')
 
     def test_function_property(self):
-        fake_function_id = 'fake_function_id'
-        expected_function = Function(fake_function_id, 'function_name')
-        GlobalFunctionRepo.add(expected_function)
-        function_call = FunctionCall(fake_function_id)
-        actual_function = function_call.function
-        self.assertEqual(actual_function, expected_function)
+        with patch('depict.model.function_call.global_function_repo', Repo()) as function_repo_mock:
+            fake_function_id = 'fake_function_id'
+            expected_function = Function(fake_function_id, 'function_name')
+            function_repo_mock.add(expected_function)
+            function_call = FunctionCall(fake_function_id)
+            actual_function = function_call.function
+            self.assertEqual(actual_function, expected_function)
 

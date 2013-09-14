@@ -15,8 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.collection.static.source_code_parser import SourceCodeParser
+from depict.model.entity_id_generator import EntityIdGenerator
+from depict.modeling.definition_collection_orchestrator import \
+    DefinitionCollectionOrchestrator
 from depict.output.html import Html
+from formic.formic import FileSet
 
 if __name__ == '__main__':
-    html = Html('depict/**/*.py', 'HTML output quick test', 'self.html')
+    file_set = FileSet(directory='.', include='depict/**/*.py')
+    orchestrator = DefinitionCollectionOrchestrator(file_set.directory)
+    html = Html(file_set, 'HTML output quick test', 'self.html', orchestrator)
     html.run()

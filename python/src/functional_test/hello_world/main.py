@@ -17,6 +17,7 @@
 
 from depict.output.toy.function_call_list import FunctionCallList
 from depict.output.toy.definition_list import DefinitionList
+from formic.formic import FileSet
 
 def say_hi():
     print 'hello world'
@@ -34,9 +35,11 @@ class Person():
         print 'Bye'
 
 if __name__ == '__main__':
-    function_call_list = FunctionCallList('hello_world.function_call_list.out')
-    definition_list = DefinitionList(__file__, 'hello_world.definition_list.out')
+    file_set = FileSet(directory='.', include=[__file__])
+    definition_list = DefinitionList(file_set, 'hello_world.definition_list.out')
+    definition_list.run()
+
+    function_call_list = FunctionCallList('hello_world.function_call_list.out', '.')
     function_call_list.start()
     main()
     function_call_list.stop()
-    definition_list.run()

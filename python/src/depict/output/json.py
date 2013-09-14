@@ -21,12 +21,10 @@ from depict.modeling.static_data_notifier import StaticDataNotifier
 # pylint: disable=R0903
 class Json(object):
 
-    def __init__(self, file_set, out_filename):
+    def __init__(self, file_set, out_filename, def_collection_orchestrator):
         self.json_doc = JsonDoc(out_filename)
-        file_names = [name for name in file_set]
-        self.static_data_notifier = StaticDataNotifier(file_names,
-                                                       self.json_doc)
-        self.static_data_notifier.set_base_path(file_set.directory)
+        self.static_data_notifier = StaticDataNotifier(file_set, self.json_doc,
+                                                    def_collection_orchestrator)
 
     def run(self):
         self.static_data_notifier.run()

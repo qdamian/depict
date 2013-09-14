@@ -17,11 +17,16 @@
 
 from depict.output.sqlite import SQLite
 import sqlite3
+from formic.formic import FileSet
+from depict.modeling.definition_collection_orchestrator import DefinitionCollectionOrchestrator
 
 if __name__ == '__main__':
+    orchestrator = DefinitionCollectionOrchestrator('.')
     db_name = 'self.sqlite.db'
-    sqlite = SQLite('depict/**/*.py', db_name)
+    file_set = FileSet(directory='.', include='depict/**/*.py')
+    sqlite = SQLite(file_set, db_name, orchestrator)
     sqlite.run()
+
     print 'Methods of the TestSQLiteDB class:'
     query = '''SELECT name FROM function WHERE id IN
           (SELECT  method.function_id FROM method, class
@@ -29,14 +34,13 @@ if __name__ == '__main__':
     con = sqlite3.connect(db_name)
     for row in con.execute(query):
         print row
+
     print '\nClasses in the model:'
     query = '''SELECT class.name FROM class, module
-               WHERE module.name LIKE '%model%'
+               WHERE module.name LIKE '%model.%'
                AND NOT module.name LIKE '%test%'
                AND class.module_id = module.id
                ORDER BY class.name'''
     con = sqlite3.connect(db_name)
     for row in con.execute(query):
         print row
-
-

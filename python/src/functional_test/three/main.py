@@ -17,6 +17,8 @@
 
 from depict.output.toy.function_call_list import FunctionCallList
 from depict.output.toy.definition_list import DefinitionList
+from formic.formic import FileSet
+import os
 
 from one import One
 import two
@@ -29,9 +31,10 @@ def main():
     print 'And the winner is: %s' % Addition(n_one, n_two)
 
 if __name__ == '__main__':
-    function_call_list = FunctionCallList('three.function_call_list.out')
-    definition_list = DefinitionList(__file__, 'three.definition_list.out')
+    file_set = FileSet(directory=os.path.abspath(os.path.dirname(__file__)), include='*.py')
+    definition_list = DefinitionList(file_set, 'three.definition_list.out')
+    definition_list.run()
+    function_call_list = FunctionCallList('three.function_call_list.out', file_set.directory)
     function_call_list.start()
     main()
     function_call_list.stop()
-    definition_list.run()

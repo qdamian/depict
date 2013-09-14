@@ -16,8 +16,9 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.modeling.static_data_notifier import StaticDataNotifier
-from formic.formic import FileSet
 from functools import wraps
+from depict.modeling.definition_collection_orchestrator import \
+                                                DefinitionCollectionOrchestrator
 
 def count_calls(func):
     func.call_count = 0
@@ -30,11 +31,12 @@ def count_calls(func):
 
 class DefinitionList(object):
 
-    def __init__(self, input_glob, output_filename):
+    def __init__(self, file_set, output_filename):
         self.out_file = open(output_filename, 'w')
-        file_set = FileSet(input_glob)
-        file_names = [name for name in file_set]
-        self.static_data_notifier = StaticDataNotifier(file_names, self)
+        base_path = file_set.directory
+        orchestrator = DefinitionCollectionOrchestrator(base_path)
+        self.static_data_notifier = StaticDataNotifier(file_set, self,
+                                                       orchestrator)
 
     def run(self):
         self.static_data_notifier.run()

@@ -17,17 +17,14 @@
 
 from depict.persistence.sqlite.sqlite_db import SQLiteDB
 from depict.modeling.static_data_notifier import StaticDataNotifier
-from formic.formic import FileSet
 
 # pylint: disable=R0903
 class SQLite(object):
-
-    def __init__(self, input_glob, out_db):
+    def __init__(self, file_set, out_db, def_collection_orchestrator):
+        self.file_set = file_set
         self.sqlite_db = SQLiteDB(out_db)
-        file_set = FileSet(input_glob)
-        file_names = [name for name in file_set]
-        self.static_data_notifier = StaticDataNotifier(file_names,
-                                                       self.sqlite_db)
+        self.static_data_notifier = StaticDataNotifier(file_set, self.sqlite_db,
+                                                    def_collection_orchestrator)
 
     def run(self):
         self.static_data_notifier.run()
