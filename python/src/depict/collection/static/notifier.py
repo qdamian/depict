@@ -19,7 +19,6 @@ def safely_notify(observers, function, node):
     for obs in observers:
         try:
             method = getattr(obs, function)
-            # pylint: disable=W0142
             method(node)
         except AttributeError:
             pass

@@ -19,7 +19,7 @@ from depict.model.class_ import Class_
 from depict.model.module_repo import global_module_repo
 from depict.model.class_repo import global_class_repo
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class ClassDefinitionCollector(object):
     def __init__(self, source_code_parser, entity_id_gen):
         self.entity_id_gen = entity_id_gen

@@ -17,7 +17,7 @@
 
 import os
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class EntityIdGenerator(object):
     def __init__(self, base_path):
         self.base_path = base_path

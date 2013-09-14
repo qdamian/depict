@@ -17,7 +17,7 @@
 
 from depict.model.function_repo import global_function_repo
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class FunctionCall(object):
     def __init__(self, function_id):
         self.function_id = function_id

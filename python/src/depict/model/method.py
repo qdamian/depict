@@ -17,7 +17,7 @@
 
 from depict.model.function import Function
 
-# pylint: disable=C0103, R0903
+# pylint:disable = invalid-name, too-few-public-methods
 class Method(Function):
     def __init__(self, id_, name, Class_):
         super(Method, self).__init__(id_, name)

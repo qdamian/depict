@@ -18,7 +18,7 @@
 from depict.persistence.html.html_doc import HtmlDoc
 from depict.modeling.static_data_notifier import StaticDataNotifier
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class Html(object):
 
     def __init__(self, file_set, title, out_filename,

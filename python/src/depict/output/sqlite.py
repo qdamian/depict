@@ -18,7 +18,7 @@
 from depict.persistence.sqlite.sqlite_db import SQLiteDB
 from depict.modeling.static_data_notifier import StaticDataNotifier
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class SQLite(object):
     def __init__(self, file_set, out_db, def_collection_orchestrator):
         self.file_set = file_set

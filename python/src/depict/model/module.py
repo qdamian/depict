@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=C0103, R0903
+# pylint:disable = invalid-name, too-few-public-methods
 
 class Module(object):
     def __init__(self, id_, name):

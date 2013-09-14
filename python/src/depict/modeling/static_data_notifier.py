@@ -25,7 +25,7 @@ from depict.model.module_repo import global_module_repo
 from depict.model.class_repo import global_class_repo
 from depict.model.function_repo import global_function_repo
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class StaticDataNotifier(object):
     def __init__(self, file_set, observer, def_collection_orchestrator):
         self.observer = observer

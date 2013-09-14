@@ -18,7 +18,7 @@
 from depict.persistence.json.json_doc import JsonDoc
 from depict.modeling.static_data_notifier import StaticDataNotifier
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class Json(object):
 
     def __init__(self, file_set, out_filename, def_collection_orchestrator):

@@ -23,7 +23,7 @@ from depict.persistence.sqlite.module_table import ModuleTable
 
 class SQLiteDB(object):
 
-    # pylint: disable=W0201
+    # pylint:disable = attribute-defined-outside-init
     def __init__(self, out_db):
         self._connection = sqlite3.connect(out_db)
         self._create_tables()

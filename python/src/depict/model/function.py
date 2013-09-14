@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class Function(object):
     def __init__(self, id_, name):
         self.id_ = id_

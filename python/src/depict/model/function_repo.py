@@ -17,5 +17,5 @@
 
 from depict.model.repo import Repo
 
-# pylint: disable=C0103
+# pylint:disable = invalid-name
 global_function_repo = Repo()

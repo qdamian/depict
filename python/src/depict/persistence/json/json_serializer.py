@@ -17,7 +17,7 @@
 
 from json import loads, dumps, JSONEncoder
 
-# pylint: disable=E0202
+# pylint:disable = method-hidden
 class ReferenceEncoder(JSONEncoder):
     def default(self, obj):
         if not type(obj) in [int, str, list, dict]:
@@ -25,7 +25,7 @@ class ReferenceEncoder(JSONEncoder):
                     self.key: getattr(obj, self.key)}
         return JSONEncoder.default(self, obj)
 
-# pylint: disable=E0202
+# pylint:disable = method-hidden
 class ObjectEncoder(JSONEncoder):
     def default(self, obj):
         values = obj.__dict__
@@ -34,7 +34,7 @@ class ObjectEncoder(JSONEncoder):
         encoder.key = self.key
         return loads(dumps(values, cls=ReferenceEncoder))
 
-# pylint: disable=R0903
+# pylint:disable = too-few-public-methods
 class JsonSerializer(object):
     @staticmethod
     def serialize(obj, key):
