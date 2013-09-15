@@ -15,22 +15,27 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.function_call import FunctionCall
 from depict.model.function import Function
-import unittest
+from depict.model.function_call import FunctionCall
 from depict.model.util.repo import Repo
+from depict.model.util.tree import RootNode
 from mock import patch
+import unittest
 
 class TestFunctionCall(unittest.TestCase):
-    def test_creation(self):
-        FunctionCall('fake_function_id')
+    def setUp(self):
+        self.thread = RootNode()
 
-    def test_function_property(self):
+    def test_creation(self):
+        FunctionCall('fake_function_call_id', 'fake_function_id', self.thread)
+
+    def test_a_function_call_knows_which_function_was_called(self):
         with patch('depict.model.function_call.global_function_repo', Repo()) as function_repo_mock:
             fake_function_id = 'fake_function_id'
             expected_function = Function(fake_function_id, 'function_name')
             function_repo_mock.add(expected_function)
-            function_call = FunctionCall(fake_function_id)
-            actual_function = function_call.function
-            self.assertEqual(actual_function, expected_function)
+            function_call = FunctionCall('dummy_id', fake_function_id, self.thread)
 
+            actual_function = function_call.function
+
+            self.assertEqual(actual_function, expected_function)

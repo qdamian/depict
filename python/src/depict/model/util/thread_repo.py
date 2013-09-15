@@ -15,22 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.util.function_repo import global_function_repo
-from depict.model.util.tree import TreeNode
+from depict.model.util.repo import Repo
 
-# pylint:disable = too-few-public-methods
-class FunctionCall(TreeNode):
-    def __init__(self, id_, function_id, parent):
-        self.id_ = id_
-        self.function_id = function_id
-        super(FunctionCall, self).__init__(parent)
-
-    @property
-    def function(self):
-        return global_function_repo.get_by_id(self.function_id)
-
-    def __eq__(self, other):
-        return self.id_ == other.id_
-
-    def __repr__(self):
-        return 'ID: ' + self.id_
+# pylint:disable = invalid-name
+global_thread_repo = Repo()

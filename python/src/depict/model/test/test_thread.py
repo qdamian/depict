@@ -15,22 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.util.function_repo import global_function_repo
-from depict.model.util.tree import TreeNode
+from depict.model.thread import Thread
+from nose.tools import assert_equal, assert_true
+from depict.model.util.tree import RootNode
 
-# pylint:disable = too-few-public-methods
-class FunctionCall(TreeNode):
-    def __init__(self, id_, function_id, parent):
-        self.id_ = id_
-        self.function_id = function_id
-        super(FunctionCall, self).__init__(parent)
+class TestFunction():
+    def test_creation(self):
+        Thread('fake_thread_id')
 
-    @property
-    def function(self):
-        return global_function_repo.get_by_id(self.function_id)
+    def test_equal_comparison(self):
+        thread1 = Thread('fake_thread_id')
+        thread2 = Thread('fake_thread_id')
+        assert_equal(thread1, thread2)
 
-    def __eq__(self, other):
-        return self.id_ == other.id_
-
-    def __repr__(self):
-        return 'ID: ' + self.id_
+    def test_is_a_tree_root_node(self):
+        assert_true(isinstance(Thread(''), RootNode))

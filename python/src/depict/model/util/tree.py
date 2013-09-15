@@ -14,3 +14,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
+
+# pylint:disable = too-few-public-methods
+class TreeNode(object):
+    def __init__(self, parent):
+        self.parent = parent
+        self.children = []
+        if parent:
+            self.branch_depth = parent.branch_depth + 1
+            parent.add_child(self)
+
+    def add_child(self, node):
+        self.children.append(node)
+
+# pylint:disable = too-few-public-methods
+class RootNode(TreeNode):
+    def __init__(self):
+        self.branch_depth = 0
+        super(RootNode, self).__init__(None)

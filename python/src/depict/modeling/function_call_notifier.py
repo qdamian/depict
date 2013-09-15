@@ -23,6 +23,11 @@ from depict.modeling.function_definition_collector import \
 from depict.modeling.module_definition_collector import \
     ModuleDefinitionCollector
 from depict.modeling.definition_collection_orchestrator import AlreadyProcessed
+import threading
+from depict.model.util.thread_repo import global_thread_repo
+from depict.model.thread import Thread
+import time
+import uuid
 
 class FunctionCallNotifier(object):
     def __init__(self, observer, entity_id_generator,
@@ -36,14 +41,26 @@ class FunctionCallNotifier(object):
         self.thread_scoped_tracer = ThreadScopedTracer(self)
         self.stop = self.thread_scoped_tracer.stop
 
+        current_thread = Thread(threading.current_thread().name)
+        global_thread_repo.add(current_thread)
+        self.current_function = current_thread
+
     def start(self):
         self.thread_scoped_tracer.start()
 
     def on_call(self, frame_digest):
         function_id = self.entity_id_generator.create(frame_digest.file_name,
                                                       frame_digest.line_number)
+        function_call_id = '%s@%s-%s' % (function_id, time.time(), uuid.uuid4())
         self._collect_definitions_if_needed(frame_digest.file_name)
-        self.observer.on_call(FunctionCall(function_id))
+        function_call = FunctionCall(function_call_id, function_id,
+                                     self.current_function)
+        self.observer.on_call(function_call)
+        self.current_function = function_call
+
+    # pylint:disable = unused-argument
+    def on_return(self, frame_digest):
+        self.current_function = self.current_function.parent
 
     def _add_dependencies(self):
         self.def_collection_orchestrator.include(ModuleDefinitionCollector)
@@ -55,3 +72,4 @@ class FunctionCallNotifier(object):
             self.def_collection_orchestrator.process(file_name)
         except AlreadyProcessed:
             pass
+
