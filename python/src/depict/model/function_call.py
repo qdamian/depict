@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.function_repo import global_function_repo
+from depict.model.util.function_repo import global_function_repo
 
 # pylint:disable = too-few-public-methods
 class FunctionCall(object):

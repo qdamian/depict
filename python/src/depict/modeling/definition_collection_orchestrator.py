@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.entity_id_generator import EntityIdGenerator
+from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.collection.static.source_code_parser import SourceCodeParser
 
 class AlreadyProcessed(Exception):

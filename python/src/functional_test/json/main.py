@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.static.source_code_parser import SourceCodeParser
-from depict.model.entity_id_generator import EntityIdGenerator
+from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.modeling.definition_collection_orchestrator import \
     DefinitionCollectionOrchestrator
 from depict.output.json import Json

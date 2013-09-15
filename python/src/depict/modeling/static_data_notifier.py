@@ -21,9 +21,9 @@ from depict.modeling.module_definition_collector import \
 from depict.modeling.function_definition_collector import \
                                                     FunctionDefinitionCollector
 from depict.collection.static.source_code_parser import SourceCodeParser
-from depict.model.module_repo import global_module_repo
-from depict.model.class_repo import global_class_repo
-from depict.model.function_repo import global_function_repo
+from depict.model.util.module_repo import global_module_repo
+from depict.model.util.class_repo import global_class_repo
+from depict.model.util.function_repo import global_function_repo
 
 # pylint:disable = too-few-public-methods
 class StaticDataNotifier(object):

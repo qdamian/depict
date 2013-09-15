@@ -18,8 +18,8 @@
 from depict.model.function import Function
 from depict.model.method import Method
 from logilab import astng
-from depict.model.class_repo import global_class_repo
-from depict.model.function_repo import global_function_repo
+from depict.model.util.class_repo import global_class_repo
+from depict.model.util.function_repo import global_function_repo
 
 # pylint:disable = too-few-public-methods
 class FunctionDefinitionCollector(object):

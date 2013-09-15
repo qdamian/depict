@@ -17,7 +17,7 @@
 
 from depict.collection.static.definitions_visitor import DefinitionsVisitor
 from depict.collection.static.relations_visitor import RelationsVisitor
-from depict.model.entity_id_generator import EntityIdGenerator
+from depict.model.util.entity_id_generator import EntityIdGenerator
 from logilab.astng.exceptions import ASTNGBuildingException
 from logilab.astng.manager import ASTNGManager
 import sys

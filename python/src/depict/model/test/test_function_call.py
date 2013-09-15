@@ -18,7 +18,7 @@
 from depict.model.function_call import FunctionCall
 from depict.model.function import Function
 import unittest
-from depict.model.repo import Repo
+from depict.model.util.repo import Repo
 from mock import patch
 
 class TestFunctionCall(unittest.TestCase):

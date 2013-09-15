@@ -16,11 +16,11 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from depict.model.entity_id_generator import EntityIdGenerator
+from depict.model.util.entity_id_generator import EntityIdGenerator
 from mock import patch
 
 class TestEntityIdGenerator(unittest.TestCase):
-    @patch('depict.model.entity_id_generator.os.path.relpath')
+    @patch('depict.model.util.entity_id_generator.os.path.relpath')
     def test_uses_path_relative_to_base_dir(self, relpath_mock):
         relpath_mock.return_value = 'some/file.py'
         entity_id_generator = EntityIdGenerator('path/to/base/dir')

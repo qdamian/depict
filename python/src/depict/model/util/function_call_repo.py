@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.repo import Repo
+from depict.model.util.repo import Repo
 
 class FunctionCallRepo(Repo):
     pass

@@ -21,7 +21,7 @@ from mock import patch, mock_open
 from nose.tools import assert_equal
 import json
 import unittest
-from depict.model.repo import Repo
+from depict.model.util.repo import Repo
 
 def assert_equal_json(a, b):
     normalize = lambda json_str: json.dumps(json.loads(json_str))

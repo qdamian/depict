@@ -23,7 +23,7 @@ from depict.modeling.function_definition_collector import \
 from mock import Mock, create_autospec, patch
 import logilab
 import unittest
-from depict.model.entity_id_generator import EntityIdGenerator
+from depict.model.util.entity_id_generator import EntityIdGenerator
 
 class TestFunctionDefinitionCollector(unittest.TestCase):
 

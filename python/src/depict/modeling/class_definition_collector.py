@@ -16,8 +16,8 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.class_ import Class_
-from depict.model.module_repo import global_module_repo
-from depict.model.class_repo import global_class_repo
+from depict.model.util.module_repo import global_module_repo
+from depict.model.util.class_repo import global_class_repo
 
 # pylint:disable = too-few-public-methods
 class ClassDefinitionCollector(object):
