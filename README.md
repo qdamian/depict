@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/qdamian/depict.png?branch=master)](https://travis-ci.org/qdamian/depict)
-
 Depict
 ======
+
+[![Build Status](https://travis-ci.org/qdamian/depict.png?branch=master)](https://travis-ci.org/qdamian/depict)
 
 Status of the project
 ---------------------
@@ -34,12 +34,12 @@ Alternatives
 
 [andypatterns][andypatterns] A reverse engineering tool for Python source code. Requires wxPython
 
-For JS, [violin] looks interesting.
+[pytrace][pytrace] allows to record and view function calls, arguments and return values
 
 [pyreverse]: http://www.logilab.org/2560 "pyreverse"
 [disptrace]: https://github.com/atsuoishimoto/disptrace "disptrace"
 [andypatterns]: http://www.andypatterns.com/index.php/products/pynsource/ "andypatterns"
-[violin]: http://latentflip.com/hacks/violin/ "violin"
+[pytrace]: https://github.com/alonho/pytrace "pytrace"
 
 Contact
 -------
