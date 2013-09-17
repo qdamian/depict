@@ -2,9 +2,11 @@ language: python
 python:
   - "2.7"
 install:
-  - "pip install -r python/requirements --use-mirrors"
-  - "npm install"
+  - pip install -r python/requirements --use-mirrors
+  - npm install
 script:
-  - "pylint --rcfile=python/src/.pylintrc python/src/depict/"
-  - "nosetests python"
-  - "npm test"
+  - pylint --rcfile=python/src/.pylintrc python/src/depict/
+  - nosetests python/src/depict --with-coverage --cover-package depict
+  - npm test
+after_success:
+  - coveralls

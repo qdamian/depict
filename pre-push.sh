@@ -1,12 +1,2 @@
 #!/bin/sh
-
-set -e
-
-# Install
-pip install -r python/requirements --use-mirrors
-npm install
-
-# Test
-pylint --rcfile=python/src/.pylintrc python/src/depict/
-nosetests python
-npm test
+gawk '/^[a-z]/{ section=$0 } /  -/{ if (section~"script|install") { system(substr($0, 5)) } }' .travis.yml

@@ -10,3 +10,5 @@ nose-timer
 argcomplete
 nose-watch
 nose-notify
+python-coveralls
+coverage
