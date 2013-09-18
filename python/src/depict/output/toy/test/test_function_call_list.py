@@ -22,24 +22,25 @@ from depict.model.function_call import FunctionCall
 from depict.model.function import Function
 import unittest
 
+@patch('depict.output.toy.function_call_list.FunctionCallNotifier', mock=MagicMock())
 @patch('depict.output.toy.function_call_list.open', create=True)
 class TestFunctionCallList(unittest.TestCase):
-    def test_init_opens_output_file(self, open_mock):
+    def test_init_opens_output_file(self, open_mock, function_call_notifier_mock):
         FunctionCallList('file_name', '.')
         open_mock.assert_called_once_with('file_name', 'w')
 
-    def test_init_creates_function_call_notifier(self, open_mock):
+    def test_init_creates_function_call_notifier(self, open_mock, function_call_notifier_mock):
         with patch('depict.output.toy.function_call_list.FunctionCallNotifier') as function_call_notifier_class_mock:
             function_call_list = FunctionCallList('file_name', '.')
             function_call_notifier_class_mock.assert_called_once_with(function_call_list, ANY, ANY)
 
-    def test_starts_function_call_notifier(self, open_mock):
+    def test_starts_function_call_notifier(self, open_mock, function_call_notifier_mock):
         function_call_list = FunctionCallList('file_name', '.')
         function_call_list.function_call_notifier = Mock()
         function_call_list.start()
         function_call_list.function_call_notifier.start.assert_called_once_with()
 
-    def test_stops_function_call_notifier(self, open_mock):
+    def test_stops_function_call_notifier(self, open_mock, function_call_notifier_mock):
         call_notifier_mock = Mock()
         call_notifier_class_mock = Mock(return_value=call_notifier_mock)
         with patch('depict.output.toy.function_call_list.FunctionCallNotifier', call_notifier_class_mock):
@@ -48,7 +49,7 @@ class TestFunctionCallList(unittest.TestCase):
             function_call_list.stop()
             call_notifier_mock.stop.assert_called_once_with()
 
-    def test_stores_function_name_for_each_call(self, open_mock):
+    def test_stores_function_name_for_each_call(self, open_mock, function_call_notifier_mock):
         file_mock = Mock()
         open_mock.return_value = file_mock
         function_call_list = FunctionCallList('dummy_filename', '.')

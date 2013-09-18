@@ -42,3 +42,6 @@ node_modules
 html5/scripts/src/*.js
 html5/scripts/src/model/*js
 html5/test/src/*.js
+
+# tests coverage output
+cover

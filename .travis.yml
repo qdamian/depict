@@ -6,7 +6,7 @@ install:
   - npm install
 script:
   - pylint --rcfile=python/src/.pylintrc python/src/depict/
-  - nosetests python/src/depict --with-coverage --cover-package depict
+  - nosetests --config .noserc python/src/
   - npm test
 after_success:
   - coveralls
