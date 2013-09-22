@@ -39,6 +39,7 @@ if __name__ == '__main__':
     query = '''SELECT class.name FROM class, module
                WHERE module.name LIKE '%model.%'
                AND NOT module.name LIKE '%test%'
+               AND NOT module.name LIKE '%util%'
                AND class.module_id = module.id
                ORDER BY class.name'''
     con = sqlite3.connect(db_name)

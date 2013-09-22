@@ -13,3 +13,6 @@ nose-notify
 python-coveralls
 coverage
 nose-exclude
+behave
+astor
+pbr
