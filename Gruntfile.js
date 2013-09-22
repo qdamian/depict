@@ -77,8 +77,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-coffeelint');
 
-  grunt.registerTask('default', ['coffee',
-                                 'coffeelint',
-                                 'jshint',
-                                 'shell:mocha-phantomjs']);
+  grunt.registerTask('lint', ['coffee',
+                              'coffeelint',
+                              'jshint']);
+
+  grunt.registerTask('test', ['coffee',
+                              'shell:mocha-phantomjs']);
+
+  grunt.registerTask('default', ['lint',
+                                 'test'])
 };

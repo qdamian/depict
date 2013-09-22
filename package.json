@@ -25,6 +25,7 @@
     "grunt-coffeelint": "0.0.7"
   },
   "scripts": {
-    "test": "grunt"
+    "lint": "grunt lint",
+    "test": "grunt test"
   }
 }

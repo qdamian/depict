@@ -2,12 +2,18 @@ language: python
 python:
   - 2.7
 install:
+  # Dependencies
   - pip install -r requirements.txt --use-mirrors
   - npm install
 script:
+  # Lint
   - pylint --rcfile=.pylintrc python/src/depict/
+  - npm run-script lint
+  # Test
   - nosetests --config .noserc python/src/
   - npm test
+  # Build
   - python python/src/setup.py sdist install
 after_success:
+  # Report
   - coveralls
