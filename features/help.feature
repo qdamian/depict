@@ -22,3 +22,4 @@ Feature: help
 Scenario:
     When I run depict with incorrect options
     Then I see basic usage information
+    And I see a link to the user guide

@@ -19,8 +19,10 @@ import argparse
 
 # pylint:disable = invalid-name
 
-desc = 'Create representations of a python program'
+description = 'Create representations of a python program'
+epilog = 'For more info see: https://github.com/qdamian/depict/wiki/User-guide'
 parser = argparse.ArgumentParser(prog='python -m depict',
-                                 description=desc)
+                                 description=description,
+                                 epilog=epilog)
 args = parser.parse_args()
 parser.print_help()

@@ -19,3 +19,6 @@
 def step_impl(context):
     assert 'usage' in context.stdout
 
+@then(u'I see a link to the user guide')
+def step_impl(context):
+    assert 'https://github.com/qdamian/depict/wiki/User-guide' in context.stdout
