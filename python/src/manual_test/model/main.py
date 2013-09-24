@@ -15,13 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.modeling.definition_collection_orchestrator import \
-    DefinitionCollectionOrchestrator
+from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.output.html import Html
 from formic.formic import FileSet
 
 if __name__ == '__main__':
     file_set = FileSet(directory='depict/model', include='/*.py')
-    orchestrator = DefinitionCollectionOrchestrator(file_set.directory)
+    orchestrator = DefCollectionOrchestator(file_set.directory)
     html = Html(file_set, "depict's Model", 'model.html', orchestrator)
     html.run()

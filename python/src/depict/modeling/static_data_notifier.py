@@ -15,11 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.modeling.class_definition_collector import ClassDefinitionCollector
-from depict.modeling.module_definition_collector import \
-                                                      ModuleDefinitionCollector
-from depict.modeling.function_definition_collector import \
-                                                    FunctionDefinitionCollector
+from depict.modeling.class_def_collector import ClassDefCollector
+from depict.modeling.module_def_collector import ModuleDefCollector
+from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.collection.static.source_code_parser import SourceCodeParser
 from depict.model.util.module_repo import global_module_repo
 from depict.model.util.class_repo import global_class_repo
@@ -43,14 +41,14 @@ class StaticDataNotifier(object):
             pass
 
     def run(self):
-        self.def_collection_orchestrator.include(ModuleDefinitionCollector)
-        self.def_collection_orchestrator.include(ClassDefinitionCollector)
-        self.def_collection_orchestrator.include(FunctionDefinitionCollector)
+        self.def_collection_orchestrator.include(ModuleDefCollector)
+        self.def_collection_orchestrator.include(ClassDefCollector)
+        self.def_collection_orchestrator.include(FunctionDefCollector)
 
         source_code_parser = SourceCodeParser(self.file_set.directory)
 
         entity_id_gen = self.def_collection_orchestrator.entity_id_generator
-        ModuleDefinitionCollector(source_code_parser, entity_id_gen)
+        ModuleDefCollector(source_code_parser, entity_id_gen)
 
         file_list = [f for f in self.file_set]
 

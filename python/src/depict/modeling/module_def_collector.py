@@ -19,7 +19,7 @@ from depict.model.module import Module
 from depict.model.util.module_repo import global_module_repo
 
 # pylint:disable = too-few-public-methods
-class ModuleDefinitionCollector(object):
+class ModuleDefCollector(object):
     def __init__(self, source_code_parser, entity_id_generator):
         self.source_code_parser = source_code_parser
         self.entity_id_generator = entity_id_generator

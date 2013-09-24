@@ -50,17 +50,17 @@ class TestSourceCodeParser(unittest.TestCase):
         source_code_parser.parse()
         self.ast_ng_manager_mock.project_from_files.assert_called_once_with([file_path], func_wrapper=ANY)
 
-    def test_visits_definitions_then_relations(self):
-        with patch('depict.collection.static.source_code_parser.DefinitionsVisitor') as definitions_visitor_class_mock:
+    def test_visits_defs_then_relations(self):
+        with patch('depict.collection.static.source_code_parser.DefsVisitor') as defs_visitor_class_mock:
             with patch('depict.collection.static.source_code_parser.RelationsVisitor') as relations_visitor_class_mock:
-                definitions_visitor_mock = Mock()
-                definitions_visitor_class_mock.return_value = definitions_visitor_mock
+                defs_visitor_mock = Mock()
+                defs_visitor_class_mock.return_value = defs_visitor_mock
                 relations_visitor_mock = Mock()
                 relations_visitor_class_mock.return_value = relations_visitor_mock
                 source_code_parser = SourceCodeParser('.')
                 source_code_parser.add_files('dummy/path.py')
                 source_code_parser.parse()
-                definitions_visitor_mock.visit.assert_called_once_with(ANY)
+                defs_visitor_mock.visit.assert_called_once_with(ANY)
                 relations_visitor_mock.visit.assert_called_once_with(ANY)
 
     def test_add_files_returns_true_if_at_least_one_file_was_added(self):

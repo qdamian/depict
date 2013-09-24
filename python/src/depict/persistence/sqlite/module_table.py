@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from sqlite3 import IntegrityError
+
 class ModuleTable(object):
     def __init__(self, connection):
         self._connection = connection
@@ -32,11 +34,18 @@ class ModuleTable(object):
                                 ''')
 
     def insert(self, module):
-        self._connection.execute('''INSERT INTO module(id, name)
+        try:
+            self._connection.execute('''INSERT INTO module(id, name)
                                     VALUES (?, ?)''',
                                     (module.id_, module.name))
+        except IntegrityError:
+            pass
+
         for dependency in module.dependencies:
-            self._connection.execute('''INSERT INTO module_dependency(
-                                        importer_id, imported_id)
-                                        VALUES (?, ?)''',
-                                        (module.id_, dependency.id_))
+            try:
+                self._connection.execute('''INSERT INTO module_dependency(
+                                            importer_id, imported_id)
+                                            VALUES (?, ?)''',
+                                            (module.id_, dependency.id_))
+            except IntegrityError:
+                pass

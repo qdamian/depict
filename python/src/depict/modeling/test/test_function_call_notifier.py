@@ -17,7 +17,7 @@
 
 from mock import Mock, patch, PropertyMock
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-from depict.modeling.definition_collection_orchestrator import AlreadyProcessed
+from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 from depict.model.thread import Thread
 from nose.tools import assert_equal
 

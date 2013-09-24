@@ -18,10 +18,10 @@
 from depict.output.sqlite import SQLite
 import sqlite3
 from formic.formic import FileSet
-from depict.modeling.definition_collection_orchestrator import DefinitionCollectionOrchestrator
+from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 
 if __name__ == '__main__':
-    orchestrator = DefinitionCollectionOrchestrator('.')
+    orchestrator = DefCollectionOrchestator('.')
     db_name = 'self.sqlite.db'
     file_set = FileSet(directory='.', include='depict/**/*.py')
     sqlite = SQLite(file_set, db_name, orchestrator)

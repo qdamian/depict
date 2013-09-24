@@ -17,12 +17,10 @@
 
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 from depict.model.function_call import FunctionCall
-from depict.modeling.class_definition_collector import ClassDefinitionCollector
-from depict.modeling.function_definition_collector import \
-    FunctionDefinitionCollector
-from depict.modeling.module_definition_collector import \
-    ModuleDefinitionCollector
-from depict.modeling.definition_collection_orchestrator import AlreadyProcessed
+from depict.modeling.class_def_collector import ClassDefCollector
+from depict.modeling.function_def_collector import FunctionDefCollector
+from depict.modeling.module_def_collector import ModuleDefCollector
+from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 import threading
 from depict.model.util.thread_repo import global_thread_repo
 from depict.model.thread import Thread
@@ -52,7 +50,7 @@ class FunctionCallNotifier(object):
         function_id = self.entity_id_generator.create(frame_digest.file_name,
                                                       frame_digest.line_number)
         function_call_id = '%s@%s-%s' % (function_id, time.time(), uuid.uuid4())
-        self._collect_definitions_if_needed(frame_digest.file_name)
+        self._collect_defs_if_needed(frame_digest.file_name)
         function_call = FunctionCall(function_call_id, function_id,
                                      self.current_function)
         self.observer.on_call(function_call)
@@ -63,11 +61,11 @@ class FunctionCallNotifier(object):
         self.current_function = self.current_function.parent
 
     def _add_dependencies(self):
-        self.def_collection_orchestrator.include(ModuleDefinitionCollector)
-        self.def_collection_orchestrator.include(ClassDefinitionCollector)
-        self.def_collection_orchestrator.include(FunctionDefinitionCollector)
+        self.def_collection_orchestrator.include(ModuleDefCollector)
+        self.def_collection_orchestrator.include(ClassDefCollector)
+        self.def_collection_orchestrator.include(FunctionDefCollector)
 
-    def _collect_definitions_if_needed(self, file_name):
+    def _collect_defs_if_needed(self, file_name):
         try:
             self.def_collection_orchestrator.process(file_name)
         except AlreadyProcessed:

@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.output.toy.function_call_list import FunctionCallList
-from depict.output.toy.definition_list import DefinitionList
+from depict.output.toy.def_list import DefList
 from formic.formic import FileSet
 import os
 
@@ -32,8 +32,8 @@ def main():
 
 if __name__ == '__main__':
     file_set = FileSet(directory=os.path.abspath(os.path.dirname(__file__)), include='*.py')
-    definition_list = DefinitionList(file_set, 'three.definition_list.out')
-    definition_list.run()
+    def_list = DefList(file_set, 'three.def_list.out')
+    def_list.run()
     function_call_list = FunctionCallList('three.function_call_list.out', file_set.directory)
     function_call_list.start()
     main()

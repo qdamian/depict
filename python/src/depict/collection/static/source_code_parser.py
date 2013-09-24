@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.collection.static.definitions_visitor import DefinitionsVisitor
+from depict.collection.static.defs_visitor import DefsVisitor
 from depict.collection.static.relations_visitor import RelationsVisitor
 from depict.model.util.entity_id_generator import EntityIdGenerator
 from logilab.astng.exceptions import ASTNGBuildingException
@@ -35,7 +35,7 @@ def astng_ignore_modname_wrapper(func, modname):
 
 class SourceCodeParser(object):
     '''Parse source files using LogiLab's Abstract Syntax Tree Next Generation
-       and notify definitions and relations to observers'''
+       and notify defs and relations to observers'''
 
     def __init__(self, base_path):
         self.file_paths = set()
@@ -57,10 +57,10 @@ class SourceCodeParser(object):
         project = manager.project_from_files(list(self.file_paths),
                                    func_wrapper = astng_ignore_modname_wrapper)
 
-        # First collect all definitions (e.g. module X, function foo) before
-        # trying to relate one definition with another (e.g. module X depends on
+        # First collect all defs (e.g. module X, function foo) before
+        # trying to relate one def with another (e.g. module X depends on
         # module Y)
-        DefinitionsVisitor(self.observers).visit(project)
+        DefsVisitor(self.observers).visit(project)
         RelationsVisitor(self.observers).visit(project)
 
     def register(self, observer):

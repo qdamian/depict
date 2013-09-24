@@ -58,7 +58,7 @@ class TestSQLiteDB(unittest.TestCase):
             SQLiteDB(':memory:')
             method_table_mock.create.assert_called_with()
 
-    def test_stores_each_module_definition(self):
+    def test_stores_each_module_def(self):
         with patch('depict.persistence.sqlite.sqlite_db.ModuleTable') as module_table_class_mock:
             module_table_mock = Mock()
             module_table_class_mock.return_value = module_table_mock
@@ -67,7 +67,7 @@ class TestSQLiteDB(unittest.TestCase):
             sqlite_db.on_module(dummy_module)
             module_table_mock.insert.assert_called_with(dummy_module)
 
-    def test_stores_each_function_definition(self):
+    def test_stores_each_function_def(self):
         with patch('depict.persistence.sqlite.sqlite_db.FunctionTable') as function_table_class_mock:
             function_table_mock = Mock()
             function_table_class_mock.return_value = function_table_mock
@@ -76,7 +76,7 @@ class TestSQLiteDB(unittest.TestCase):
             sqlite_db.on_function(fake_function)
             function_table_mock.insert.assert_called_with(fake_function)
 
-    def test_stores_each_class_definition(self):
+    def test_stores_each_class_def(self):
         with patch('depict.persistence.sqlite.sqlite_db.ClassTable') as class_table_class_mock:
             class_table_mock = Mock()
             class_table_class_mock.return_value = class_table_mock

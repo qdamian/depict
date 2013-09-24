@@ -22,7 +22,7 @@ from depict.model.util.class_repo import global_class_repo
 from depict.model.util.function_repo import global_function_repo
 
 # pylint:disable = too-few-public-methods
-class FunctionDefinitionCollector(object):
+class FunctionDefCollector(object):
     def __init__(self, source_code_parser, entity_id_gen):
         self.entity_id_gen = entity_id_gen
         source_code_parser.register(self)

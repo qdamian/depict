@@ -15,20 +15,4 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from logilab.astng.utils import LocalsVisitor
-from depict.collection.static.notifier import safely_notify
-
-class DefinitionsVisitor(LocalsVisitor):
-
-    def __init__(self, observers):
-        LocalsVisitor.__init__(self)
-        self.observers = observers
-
-    def visit_class(self, node):
-        safely_notify(self.observers, 'on_class', node)
-
-    def visit_module(self, node):
-        safely_notify(self.observers, 'on_module', node)
-
-    def visit_function(self, node):
-        safely_notify(self.observers, 'on_function', node)
+DESCRIPTION = 'Trace function calls'

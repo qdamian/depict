@@ -18,12 +18,9 @@
 from depict.model.class_ import Class_
 from depict.model.function import Function
 from depict.model.method import Method
-from depict.modeling.class_definition_collector import \
-    ClassDefinitionCollector
-from depict.modeling.function_definition_collector import \
-    FunctionDefinitionCollector
-from depict.modeling.module_definition_collector import \
-    ModuleDefinitionCollector
+from depict.modeling.class_def_collector import ClassDefCollector
+from depict.modeling.function_def_collector import FunctionDefCollector
+from depict.modeling.module_def_collector import ModuleDefCollector
 from depict.modeling.static_data_notifier import StaticDataNotifier
 from mock import Mock, call, MagicMock, patch
 import unittest

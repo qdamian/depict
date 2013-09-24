@@ -21,7 +21,7 @@ from depict.collection.static.source_code_parser import SourceCodeParser
 class AlreadyProcessed(Exception):
     pass
 
-class DefinitionCollectionOrchestrator(object):
+class DefCollectionOrchestator(object):
     def __init__(self, base_path):
         self.collectors = []
         self.entity_id_generator = EntityIdGenerator(base_path)

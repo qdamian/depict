@@ -18,43 +18,48 @@
 from depict.model.module import Module
 from depict.persistence.sqlite.module_table import ModuleTable
 import sqlite3
-import unittest
+from nose.tools import assert_true
 
-class TestModuleTable(unittest.TestCase):
+class TestModuleTable(object):
+    def setUp(self):
+        self.connection = sqlite3.connect(':memory:')
+        self.module_table = ModuleTable(self.connection)
+        self.module_table.create()
+    
     def test_module_table_creation(self):
-        connection = sqlite3.connect(':memory:')
-        module_table = ModuleTable(connection)
-        module_table.create()
-        connection.execute('SELECT id, name FROM module')
+        self.connection.execute('SELECT id, name FROM module')
 
     def test_module_dependency_table_creation(self):
-        connection = sqlite3.connect(':memory:')
-        module_table = ModuleTable(connection)
-        module_table.create()
-        connection.execute('SELECT importer_id, imported_id FROM module_dependency')
+        self.connection.execute('SELECT importer_id, imported_id FROM module_dependency')
 
     def test_inserts_a_module(self):
-        connection = sqlite3.connect(':memory:')
-        module_table = ModuleTable(connection)
-        module_table.create()
         fake_module = Module('fake_module_id', 'fake_module_name')
-        module_table.insert(fake_module)
-        cursor = connection.cursor()
+        self.module_table.insert(fake_module)
+        cursor = self.connection.cursor()
         cursor.execute('''SELECT id, name FROM module
                           WHERE id = 'fake_module_id' AND
                           name = 'fake_module_name' ''')
-        self.assertTrue(cursor.fetchone())
+        assert_true(cursor.fetchone())
 
     def test_inserts_module_dependencies(self):
-        connection = sqlite3.connect(':memory:')
-        module_table = ModuleTable(connection)
-        module_table.create()
         fake_module = Module('fake_module_id', 'fake_module_name')
         fake_dependency = Module('fake_dependency_id', 'fake_dependency_name')
         fake_module.depends_on(fake_dependency)
-        module_table.insert(fake_module)
-        cursor = connection.cursor()
+        self.module_table.insert(fake_module)
+        cursor = self.connection.cursor()
         cursor.execute('''SELECT importer_id, imported_id FROM module_dependency
                           WHERE importer_id = 'fake_module_id' AND
                           imported_id = 'fake_dependency_id' ''')
-        self.assertTrue(cursor.fetchone())
+        assert_true(cursor.fetchone())
+
+    def test_ignores_integry_error_of_repeated_dependencies(self):
+        fake_module = Module('fake_module_id', 'fake_module_name')
+        fake_dependency = Module('fake_dependency_id', 'fake_dependency_name')
+        fake_module.depends_on(fake_dependency)
+        self.module_table.insert(fake_module)
+        self.module_table.insert(fake_module)
+        cursor = self.connection.cursor()
+        cursor.execute('''SELECT importer_id, imported_id FROM module_dependency
+                          WHERE importer_id = 'fake_module_id' AND
+                          imported_id = 'fake_dependency_id' ''')
+        assert_true(cursor.fetchone())

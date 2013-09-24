@@ -36,7 +36,7 @@ class TestHtml(unittest.TestCase):
             Html('dummy_input_glob', 'fake_title', 'fake_out_file', Mock())
             html_doc_class_mock.assert_called_once_with('fake_title', 'fake_out_file')
 
-    def test_runs_static_definition_notifier(self):
+    def test_runs_static_def_notifier(self):
         with patch('depict.output.html.HtmlDoc') as html_doc_class_mock:
             html = Html('dummy_input_block', 'dummy_title', 'dummy_out_file', Mock())
             html.static_data_notifier = Mock()

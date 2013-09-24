@@ -38,7 +38,7 @@ class TestSQLite(unittest.TestCase):
             SQLite('dummy_input_glob', 'fake_out_db', Mock())
             sqlite_db_class_mock.assert_called_once_with('fake_out_db')
 
-    def test_runs_static_definition_notifier(self):
+    def test_runs_static_def_notifier(self):
         sqlite = SQLite('dummy_file_set', ':memory:', Mock())
         sqlite.static_data_notifier = Mock()
         module_repo = Mock()

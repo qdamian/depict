@@ -30,7 +30,7 @@ class TestJson(unittest.TestCase):
                                                               json.json_doc,
                                                               def_collection_orchestrator_mock)
 
-    def test_runs_static_definition_notifier(self):
+    def test_runs_static_def_notifier(self):
         with patch('depict.output.json.JsonDoc') as json_doc_class_mock:
             json = Json(MagicMock(), 'dummy_out_file', Mock())
             json.static_data_notifier = Mock()

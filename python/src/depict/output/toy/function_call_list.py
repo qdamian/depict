@@ -16,13 +16,12 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-from depict.modeling.definition_collection_orchestrator import \
-                                            DefinitionCollectionOrchestrator
+from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 
 class FunctionCallList(object):
     def __init__(self, out_filename, base_path):
         self.out_file = open(out_filename, 'w')
-        orchestrator = DefinitionCollectionOrchestrator(base_path)
+        orchestrator = DefCollectionOrchestator(base_path)
         self.function_call_notifier = FunctionCallNotifier(self,
                             orchestrator.entity_id_generator,
                             orchestrator)

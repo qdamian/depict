@@ -15,31 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.output.toy.function_call_list import FunctionCallList
-from depict.output.toy.def_list import DefList
-from formic.formic import FileSet
+from logilab.astng.utils import LocalsVisitor
+from depict.collection.static.notifier import safely_notify
 
-def say_hi():
-    print 'hello world'
+class DefsVisitor(LocalsVisitor):
 
-def main():
-    p = Person()
-    p.say_hi()
-    p.say_bye()
+    def __init__(self, observers):
+        LocalsVisitor.__init__(self)
+        self.observers = observers
 
-class Person():
-    def say_hi(self):
-        print 'Hello, world'
+    def visit_class(self, node):
+        safely_notify(self.observers, 'on_class', node)
 
-    def say_bye(self):
-        print 'Bye'
+    def visit_module(self, node):
+        safely_notify(self.observers, 'on_module', node)
 
-if __name__ == '__main__':
-    file_set = FileSet(directory='.', include=[__file__])
-    def_list = DefList(file_set, 'hello_world.def_list.out')
-    def_list.run()
-
-    function_call_list = FunctionCallList('hello_world.function_call_list.out', '.')
-    function_call_list.start()
-    main()
-    function_call_list.stop()
+    def visit_function(self, node):
+        safely_notify(self.observers, 'on_function', node)
