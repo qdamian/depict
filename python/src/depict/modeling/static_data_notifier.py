@@ -15,20 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.modeling.class_def_collector import ClassDefCollector
-from depict.modeling.module_def_collector import ModuleDefCollector
-from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.collection.static.source_code_parser import SourceCodeParser
-from depict.model.util.module_repo import global_module_repo
 from depict.model.util.class_repo import global_class_repo
 from depict.model.util.function_repo import global_function_repo
+from depict.model.util.module_repo import global_module_repo
+from depict.modeling.class_def_collector import ClassDefCollector
+from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
+from depict.modeling.function_def_collector import FunctionDefCollector
+from depict.modeling.module_def_collector import ModuleDefCollector
 
 # pylint:disable = too-few-public-methods
 class StaticDataNotifier(object):
-    def __init__(self, file_set, observer, def_collection_orchestrator):
+    def __init__(self, file_set, observer):
         self.observer = observer
         self.file_set = file_set
-        self.def_collection_orchestrator = def_collection_orchestrator
+        self.def_collection_orchestrator = DefCollectionOrchestator(
+                                                            file_set.directory)
 
     def _safely_notify(self, function_name, value=None):
         try:

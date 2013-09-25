@@ -26,20 +26,21 @@ class TestSQLite(unittest.TestCase):
         with patch('depict.output.sqlite.StaticDataNotifier') as static_data_notifier_mock:
             expected_paths = ['fake/file/a.py', 'file/file/b.py']
             fileset_mock = Mock()
-            def_collection_orchestrator_mock = Mock()
 
-            sqlite = SQLite(fileset_mock, ':memory:', def_collection_orchestrator_mock)
+            sqlite = SQLite(fileset_mock, ':memory:')
 
-            static_data_notifier_mock.assert_called_once_with(fileset_mock, sqlite.sqlite_db,
-                                                              def_collection_orchestrator_mock)
+            static_data_notifier_mock.assert_called_once_with(fileset_mock, sqlite.sqlite_db)
 
     def test_init_creates_sqlite_db(self):
         with patch('depict.output.sqlite.SQLiteDB') as sqlite_db_class_mock:
-            SQLite('dummy_input_glob', 'fake_out_db', Mock())
+            file_set = Mock()
+            file_set.directory = '.'
+            SQLite(file_set, 'fake_out_db')
             sqlite_db_class_mock.assert_called_once_with('fake_out_db')
 
     def test_runs_static_def_notifier(self):
-        sqlite = SQLite('dummy_file_set', ':memory:', Mock())
+        file_set = FileSet(directory='.', include='*')
+        sqlite = SQLite(file_set, ':memory:')
         sqlite.static_data_notifier = Mock()
         module_repo = Mock()
         class_repo = Mock()
@@ -47,12 +48,13 @@ class TestSQLite(unittest.TestCase):
         sqlite.run()
         sqlite.static_data_notifier.run.assert_called_once_with()
 
-    def test_run_populates_db(self):
-        with patch('depict.output.sqlite.SQLiteDB') as sqlite_db_class_mock:
+    @patch('depict.output.sqlite.StaticDataNotifier')
+    @patch('depict.output.sqlite.SQLiteDB')
+    def test_run_populates_db(self, sqlite_db_class_mock, static_data_notifier_mock):
             sqlite_db_mock = Mock()
             sqlite_db_class_mock.return_value = sqlite_db_mock
             file_set = MagicMock()
             file_set.directory = '.'
-            sqlite = SQLite(file_set, 'fake_out_db', Mock())
+            sqlite = SQLite(file_set, 'fake_out_db')
             sqlite.run()
             sqlite_db_mock.populate.assert_called_once_with()

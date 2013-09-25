@@ -20,11 +20,10 @@ from depict.modeling.static_data_notifier import StaticDataNotifier
 
 # pylint:disable = too-few-public-methods
 class SQLite(object):
-    def __init__(self, file_set, out_db, def_collection_orchestrator):
+    def __init__(self, file_set, out_db):
         self.file_set = file_set
         self.sqlite_db = SQLiteDB(out_db)
-        self.static_data_notifier = StaticDataNotifier(file_set, self.sqlite_db,
-                                                    def_collection_orchestrator)
+        self.static_data_notifier = StaticDataNotifier(file_set, self.sqlite_db)
 
     def run(self):
         self.static_data_notifier.run()

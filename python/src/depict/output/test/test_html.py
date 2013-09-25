@@ -25,20 +25,22 @@ class TestHtml(unittest.TestCase):
         with patch('depict.output.html.StaticDataNotifier') as static_data_notifier_mock:
             expected_paths = ['fake/file/a.py', 'file/file/b.py']
             fileset_mock = Mock()
-            def_collection_orchestrator_mock = Mock()
-            html = Html(fileset_mock, 'dummy_title', 'dummy_out_file', def_collection_orchestrator_mock)
+            html = Html(fileset_mock, 'dummy_title', 'dummy_out_file')
             static_data_notifier_mock.assert_called_once_with(fileset_mock,
-                                                              html.html_doc,
-                                                              def_collection_orchestrator_mock)
+                                                              html.html_doc)
 
     def test_init_creates_html_doc(self):
         with patch('depict.output.html.HtmlDoc') as html_doc_class_mock:
-            Html('dummy_input_glob', 'fake_title', 'fake_out_file', Mock())
+            dummy_file_set = Mock()
+            dummy_file_set.directory = '.'
+            Html(dummy_file_set, 'fake_title', 'fake_out_file')
             html_doc_class_mock.assert_called_once_with('fake_title', 'fake_out_file')
 
     def test_runs_static_def_notifier(self):
         with patch('depict.output.html.HtmlDoc') as html_doc_class_mock:
-            html = Html('dummy_input_block', 'dummy_title', 'dummy_out_file', Mock())
+            file_set_mock = Mock()
+            file_set_mock.directory = '.'
+            html = Html(file_set_mock, 'dummy_title', 'dummy_out_file')
             html.static_data_notifier = Mock()
             html.run()
             html.static_data_notifier.run.assert_called_once_with()

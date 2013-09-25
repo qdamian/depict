@@ -21,6 +21,5 @@ from formic.formic import FileSet
 
 if __name__ == '__main__':
     file_set = FileSet(directory='depict/model', include='/*.py')
-    orchestrator = DefCollectionOrchestator(file_set.directory)
-    html = Html(file_set, "depict's Model", 'model.html', orchestrator)
+    html = Html(file_set, "depict's Model", 'model.html')
     html.run()

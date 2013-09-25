@@ -21,11 +21,9 @@ from depict.modeling.static_data_notifier import StaticDataNotifier
 # pylint:disable = too-few-public-methods
 class Html(object):
 
-    def __init__(self, file_set, title, out_filename,
-                 def_collection_orchestrator):
+    def __init__(self, file_set, title, out_filename):
         self.html_doc = HtmlDoc(title, out_filename)
-        self.static_data_notifier = StaticDataNotifier(file_set, self.html_doc,
-                                                    def_collection_orchestrator)
+        self.static_data_notifier = StaticDataNotifier(file_set, self.html_doc)
 
     def run(self):
         self.static_data_notifier.run()

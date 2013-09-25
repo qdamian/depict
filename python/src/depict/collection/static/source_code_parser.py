@@ -57,8 +57,8 @@ class SourceCodeParser(object):
         project = manager.project_from_files(list(self.file_paths),
                                    func_wrapper = astng_ignore_modname_wrapper)
 
-        # First collect all defs (e.g. module X, function foo) before
-        # trying to relate one def with another (e.g. module X depends on
+        # First collect all definitions (e.g. module X, function foo) before
+        # trying to relate one definition with another (e.g. module X depends on
         # module Y)
         DefsVisitor(self.observers).visit(project)
         RelationsVisitor(self.observers).visit(project)

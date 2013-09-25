@@ -21,10 +21,9 @@ from formic.formic import FileSet
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 
 if __name__ == '__main__':
-    orchestrator = DefCollectionOrchestator('.')
     db_name = 'self.sqlite.db'
     file_set = FileSet(directory='.', include='depict/**/*.py')
-    sqlite = SQLite(file_set, db_name, orchestrator)
+    sqlite = SQLite(file_set, db_name)
     sqlite.run()
 
     print 'Methods of the TestSQLiteDB class:'

@@ -38,7 +38,7 @@ class TestDefList(unittest.TestCase):
         with patch('depict.output.toy.def_list.StaticDataNotifier') as static_data_notifier_mock:
             fileset_mock = MagicMock()
             def_list = DefList(fileset_mock, 'dummy_filename')
-            static_data_notifier_mock.assert_called_once_with(fileset_mock, def_list, ANY)
+            static_data_notifier_mock.assert_called_once_with(fileset_mock, def_list)
 
     def test_runs_static_def_notifier(self, open_mock):
         def_list = DefList(self.file_set_mock, 'dummy_filename')

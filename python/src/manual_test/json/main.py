@@ -23,7 +23,6 @@ from formic.formic import FileSet
 
 if __name__ == '__main__':
     file_set = FileSet(directory='.', include='depict/collection/**/*.py', exclude='depict/collection/**/test*.py')
-    orchestrator = DefCollectionOrchestator(file_set.directory)
-    json = Json(file_set, 'collection.json', orchestrator)
+    json = Json(file_set, 'collection.json')
 
     json.run()

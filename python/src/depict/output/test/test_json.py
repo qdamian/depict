@@ -24,15 +24,13 @@ class TestJson(unittest.TestCase):
     def test_init_creates_static_data_notifier(self):
         with patch('depict.output.json.StaticDataNotifier') as static_data_notifier_mock:
             fileset_mock = Mock()
-            def_collection_orchestrator_mock = Mock()
-            json = Json(fileset_mock, 'dummy_out_file', def_collection_orchestrator_mock)
+            json = Json(fileset_mock, 'dummy_out_file')
             static_data_notifier_mock.assert_called_once_with(fileset_mock,
-                                                              json.json_doc,
-                                                              def_collection_orchestrator_mock)
+                                                              json.json_doc)
 
     def test_runs_static_def_notifier(self):
         with patch('depict.output.json.JsonDoc') as json_doc_class_mock:
-            json = Json(MagicMock(), 'dummy_out_file', Mock())
+            json = Json(MagicMock(), 'dummy_out_file')
             json.static_data_notifier = Mock()
             json.run()
             json.static_data_notifier.run.assert_called_once_with()

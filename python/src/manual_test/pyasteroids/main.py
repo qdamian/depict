@@ -23,7 +23,6 @@ if __name__ == '__main__':
     base_path = '/usr/local/lib/python2.7/dist-packages/pyasteroids'
     file_set = FileSet(directory=base_path, include='*.py')
 
-    orchestrator = DefCollectionOrchestator(file_set.directory)
-    json = Json(file_set, 'pyasteroids.json', orchestrator)
+    json = Json(file_set, 'pyasteroids.json')
 
     json.run()

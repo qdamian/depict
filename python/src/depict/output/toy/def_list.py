@@ -17,7 +17,6 @@
 
 from depict.modeling.static_data_notifier import StaticDataNotifier
 from functools import wraps
-from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 
 def count_calls(func):
     func.call_count = 0
@@ -32,10 +31,7 @@ class DefList(object):
 
     def __init__(self, file_set, output_filename):
         self.out_file = open(output_filename, 'w')
-        base_path = file_set.directory
-        orchestrator = DefCollectionOrchestator(base_path)
-        self.static_data_notifier = StaticDataNotifier(file_set, self,
-                                                       orchestrator)
+        self.static_data_notifier = StaticDataNotifier(file_set, self)
 
     def run(self):
         self.static_data_notifier.run()
