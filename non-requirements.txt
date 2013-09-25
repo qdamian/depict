@@ -1,0 +1,7 @@
+ipdb
+nose-timer
+argcomplete
+nose-watch
+nose-notify
+astor
+pbr

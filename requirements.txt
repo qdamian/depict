@@ -4,15 +4,8 @@ nose-parameterized
 pylint
 formic
 pyratemp
-ipdb
 logilab-astng
-nose-timer
-argcomplete
-nose-watch
-nose-notify
 python-coveralls
 coverage
 nose-exclude
 behave
-astor
-pbr
