@@ -18,7 +18,7 @@
 from depict.persistence.html.html_doc import HtmlDoc
 from mock import patch, mock_open
 import unittest
-from depict.model.module import Module
+from depict.model.entity.module import Module
 
 class TestHtmlDoc(unittest.TestCase):
 

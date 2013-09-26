@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.function import Function
+from depict.model.entity.function import Function
 
 # pylint:disable = invalid-name, too-few-public-methods
 class Method(Function):

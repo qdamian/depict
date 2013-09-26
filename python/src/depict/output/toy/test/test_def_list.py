@@ -18,10 +18,10 @@
 from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
 from depict.output.toy.def_list import DefList
 from depict.collection.dynamic.frame_digest import FrameDigest
-from depict.model.function_call import FunctionCall
-from depict.model.function import Function
+from depict.model.entity.function_call import FunctionCall
+from depict.model.entity.function import Function
 import unittest
-from depict.model.class_ import Class_
+from depict.model.entity.class_ import Class_
 from formic.formic import FileSet
 
 @patch('depict.output.toy.def_list.open', create=True)

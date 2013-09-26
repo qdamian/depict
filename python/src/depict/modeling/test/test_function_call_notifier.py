@@ -18,7 +18,7 @@
 from mock import Mock, patch, PropertyMock
 from depict.modeling.function_call_notifier import FunctionCallNotifier
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
-from depict.model.thread import Thread
+from depict.model.entity.thread import Thread
 from nose.tools import assert_equal
 
 @patch('depict.modeling.function_call_notifier.ThreadScopedTracer')

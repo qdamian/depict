@@ -15,16 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.class_ import Class_
-from depict.model.function import Function
-from depict.model.method import Method
+from depict.model.entity.class_ import Class_
+from depict.model.entity.function import Function
+from depict.model.entity.method import Method
 from depict.modeling.class_def_collector import ClassDefCollector
 from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.modeling.module_def_collector import ModuleDefCollector
 from depict.modeling.static_data_notifier import StaticDataNotifier
 from mock import Mock, call, MagicMock, patch
 import unittest
-from depict.model.module import Module
+from depict.model.entity.module import Module
 from formic.formic import FileSet
 
 class TestStaticDataNotifier(unittest.TestCase):

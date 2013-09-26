@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.function import Function
-from depict.model.method import Method
+from depict.model.entity.function import Function
+from depict.model.entity.method import Method
 from logilab import astng
 from depict.model.util.class_repo import global_class_repo
 from depict.model.util.function_repo import global_function_repo

@@ -18,7 +18,7 @@
 from depict.modeling.module_def_collector import ModuleDefCollector
 from mock import Mock, patch, call, ANY
 import unittest
-from depict.model.module import Module
+from depict.model.entity.module import Module
 
 class TestModuleDefCollector(unittest.TestCase):
     def test_creation(self):

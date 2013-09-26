@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.thread import Thread
+from depict.model.entity.thread import Thread
 from nose.tools import assert_equal, assert_true
 from depict.model.util.tree import RootNode
 

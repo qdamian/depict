@@ -15,14 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.function import Function
+from depict.model.entity.method import Method
 import unittest
 
-class TestFunction(unittest.TestCase):
+class TestMethod(unittest.TestCase):
     def test_creation(self):
-        Function('fake_function_id', 'fake_function_name')
+        Method('fake_function_name',
+                   'fake_function_id',
+                   'fake_parent')
 
-    def test_equal_comparison(self):
-        function1 = Function('fake_id1', 'dummy_name1')
-        function2 = Function('fake_id1', 'dummy_name2')
-        self.assertEqual(function1, function2)
+    def test_eq_comparison(self):
+        method1 = Method('fake_id1', 'dummy_function_name1', 'dummy_parent1')
+        method2 = Method('fake_id1', 'dummy_function_name2', 'dummy_parent2')
+        self.assertEqual(method1, method2)

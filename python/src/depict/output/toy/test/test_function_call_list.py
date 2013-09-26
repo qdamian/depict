@@ -18,8 +18,8 @@
 from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
 from depict.output.toy.function_call_list import FunctionCallList
 from depict.collection.dynamic.frame_digest import FrameDigest
-from depict.model.function_call import FunctionCall
-from depict.model.function import Function
+from depict.model.entity.function_call import FunctionCall
+from depict.model.entity.function import Function
 import unittest
 
 @patch('depict.output.toy.function_call_list.FunctionCallNotifier', mock=MagicMock())

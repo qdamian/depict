@@ -15,9 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.class_ import Class_
-from depict.model.function import Function
-from depict.model.method import Method
+from depict.model.entity.class_ import Class_
+from depict.model.entity.function import Function
+from depict.model.entity.method import Method
 from depict.modeling.function_def_collector import FunctionDefCollector
 from mock import Mock, create_autospec, patch
 import logilab

@@ -16,14 +16,14 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
-from depict.model.function_call import FunctionCall
+from depict.model.entity.function_call import FunctionCall
 from depict.modeling.class_def_collector import ClassDefCollector
 from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.modeling.module_def_collector import ModuleDefCollector
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 import threading
 from depict.model.util.thread_repo import global_thread_repo
-from depict.model.thread import Thread
+from depict.model.entity.thread import Thread
 import time
 import uuid
 

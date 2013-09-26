@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.class_ import Class_
-from depict.model.function import Function
+from depict.model.entity.class_ import Class_
+from depict.model.entity.function import Function
 from depict.persistence.sqlite.sqlite_db import SQLiteDB
 from mock import Mock, patch, MagicMock
 import unittest
-from depict.model.method import Method
-from depict.model.module import Module
+from depict.model.entity.method import Method
+from depict.model.entity.module import Module
 
 class TestSQLiteDB(unittest.TestCase):
 

@@ -17,7 +17,7 @@
 
 from depict.modeling.class_def_collector import ClassDefCollector
 from mock import Mock, patch, call
-from depict.model.class_ import Class_
+from depict.model.entity.class_ import Class_
 import unittest
 
 class TestClassDefCollector(unittest.TestCase):

@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.function import Function
-from depict.model.function_call import FunctionCall
+from depict.model.entity.function import Function
+from depict.model.entity.function_call import FunctionCall
 from depict.model.util.repo import Repo
 from depict.model.util.tree import RootNode
 from mock import patch
@@ -30,7 +30,7 @@ class TestFunctionCall(unittest.TestCase):
         FunctionCall('fake_function_call_id', 'fake_function_id', self.thread)
 
     def test_a_function_call_knows_which_function_was_called(self):
-        with patch('depict.model.function_call.global_function_repo', Repo()) as function_repo_mock:
+        with patch('depict.model.entity.function_call.global_function_repo', Repo()) as function_repo_mock:
             fake_function_id = 'fake_function_id'
             expected_function = Function(fake_function_id, 'function_name')
             function_repo_mock.add(expected_function)

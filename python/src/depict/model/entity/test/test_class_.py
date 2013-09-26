@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.class_ import Class_
-from depict.model.method import Method
+from depict.model.entity.class_ import Class_
+from depict.model.entity.method import Method
 import unittest
 
 class TestClass(unittest.TestCase):
