@@ -33,8 +33,9 @@ class DefCollectionOrchestator(object):
         self.collectors.append(collector)
 
     def process(self, file_paths):
+        assert file_paths
         if not self.source_code_parser.add_files(file_paths):
-            raise AlreadyProcessed()
+            raise AlreadyProcessed(file_paths)
 
         for collector in self.collectors:
             collector(self.source_code_parser,

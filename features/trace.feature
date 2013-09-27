@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: help
+Feature: trace
 
-# User story: As a first-time user I want the tool to guide me on how to use it.
+# User story: As a user I want depict to generate a trace of my program so
+#             that I can know the flow of the program along the time.
 
-Scenario: provide inline help
-    When I run depict with incorrect options
-    Then I see basic usage information
-    And I see a link to the user guide
+Scenario: advertise the trace representation 
+    When I run depict asking for the list of available representations
+    Then I see trace listed

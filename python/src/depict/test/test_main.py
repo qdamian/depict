@@ -15,11 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: help
+from depict.__main__ import main
+from mock import patch
+from nose.tools import assert_true
+import depict
 
-# User story: As a first-time user I want the tool to guide me on how to use it.
+@patch('argparse.ArgumentParser.exit')
+class TestMain():
 
-Scenario: provide inline help
-    When I run depict with incorrect options
-    Then I see basic usage information
-    And I see a link to the user guide
+    def test_returns_usage_when_no_options_are_passed(self, exit_mock):
+        msg = main(['dummy_prog', ''])
+        assert_true('usage' in msg)
+
+    def test_returns_usage_when_user_asks_help(self, exit_mock):
+        msg = main(['dummy_prog', '--help'])
+        assert_true('usage' in msg)
+
+    def test_returns_list_of_representations_when_asked_to(self, exit_mock):
+        msg = main([depict.__main__.__file__, '--list'])
+        assert_true('Available representations' in msg)

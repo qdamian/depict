@@ -22,3 +22,7 @@ def step_impl(context):
 @then(u'I see a link to the user guide')
 def step_impl(context):
     assert 'https://github.com/qdamian/depict/wiki/User-guide' in context.stdout
+
+@then(u'I see trace listed')
+def step_impl(context):
+    assert 'depict.txt.trace' in context.stdout

@@ -15,11 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: help
+from depict.model.model import Model
+from depict.modeling.static_data_notifier import StaticDataNotifier
+from formic.formic import FileSet
 
-# User story: As a first-time user I want the tool to guide me on how to use it.
+def get_all_modules(file_set):
+    model = Model()
+    StaticDataNotifier(file_set, None, model).run()
+    return model.modules.get_all()
 
-Scenario: provide inline help
-    When I run depict with incorrect options
-    Then I see basic usage information
-    And I see a link to the user guide
+def get_representations(base_path):
+    repr_dir = FileSet(directory=base_path, include='depict/txt/**')
+    return get_all_modules(repr_dir)

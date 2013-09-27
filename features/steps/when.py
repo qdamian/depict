@@ -21,3 +21,8 @@ import subprocess
 def step_impl(context):
     proc = subprocess.Popen('python -m depict'.split(), stdout=subprocess.PIPE)
     context.stdout = proc.stdout.read()
+
+@when(u'I run depict asking for the list of available representations')
+def step_impl(context):
+    proc = subprocess.Popen('python -m depict --list'.split(), stdout=subprocess.PIPE)
+    context.stdout = proc.stdout.read()
