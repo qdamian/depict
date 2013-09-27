@@ -17,13 +17,16 @@
 
 from depict.persistence.json.json_doc import JsonDoc
 from depict.modeling.static_data_notifier import StaticDataNotifier
+from depict.model.model import Model
 
 # pylint:disable = too-few-public-methods
 class Json(object):
 
     def __init__(self, file_set, out_filename):
-        self.json_doc = JsonDoc(out_filename)
-        self.static_data_notifier = StaticDataNotifier(file_set, self.json_doc)
+        model = Model()
+        self.json_doc = JsonDoc(out_filename, model)
+        self.static_data_notifier = StaticDataNotifier(file_set, self.json_doc,
+                                                       model)
 
     def run(self):
         self.static_data_notifier.run()

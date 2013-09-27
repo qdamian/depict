@@ -17,6 +17,7 @@
 
 from depict.modeling.static_data_notifier import StaticDataNotifier
 from functools import wraps
+from depict.model.model import Model
 
 def count_calls(func):
     func.call_count = 0
@@ -31,7 +32,7 @@ class DefList(object):
 
     def __init__(self, file_set, output_filename):
         self.out_file = open(output_filename, 'w')
-        self.static_data_notifier = StaticDataNotifier(file_set, self)
+        self.static_data_notifier = StaticDataNotifier(file_set, self, Model())
 
     def run(self):
         self.static_data_notifier.run()

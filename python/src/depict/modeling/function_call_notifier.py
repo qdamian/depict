@@ -52,7 +52,8 @@ class FunctionCallNotifier(object):
         function_call_id = '%s@%s-%s' % (function_id, time.time(), uuid.uuid4())
         self._collect_defs_if_needed(frame_digest.file_name)
         function_call = FunctionCall(function_call_id, function_id,
-                                     self.current_function)
+                                     self.current_function,
+                                     self.def_collection_orchestrator.model)
         self.observer.on_call(function_call)
         self.current_function = function_call
 

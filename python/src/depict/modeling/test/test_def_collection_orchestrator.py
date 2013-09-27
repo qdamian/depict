@@ -34,7 +34,7 @@ class TestDefCollectionOrchestrator(unittest.TestCase):
         def_collection_orchestrator.include(self.fake_collector_class)
         def_collection_orchestrator.process('fake_file_name')
 
-        self.fake_collector_class.assert_called_once_with(ANY, ANY)
+        self.fake_collector_class.assert_called_once_with(ANY, ANY, ANY)
 
     def test_process_raises_already_processed_if_all_files_had_been_processed(self, source_code_parser_class_mock, entity_id_generator_class_mock):
         source_code_parser_mock = Mock()

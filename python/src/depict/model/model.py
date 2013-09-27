@@ -17,5 +17,8 @@
 
 from depict.model.util.repo import Repo
 
-class FunctionCallRepo(Repo):
-    pass
+# pylint:disable = too-few-public-methods
+class Model(object):
+    modules = Repo()
+    classes = Repo()
+    functions = Repo()

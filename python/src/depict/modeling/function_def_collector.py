@@ -18,13 +18,12 @@
 from depict.model.entity.function import Function
 from depict.model.entity.method import Method
 from logilab import astng
-from depict.model.util.class_repo import global_class_repo
-from depict.model.util.function_repo import global_function_repo
 
 # pylint:disable = too-few-public-methods
 class FunctionDefCollector(object):
-    def __init__(self, source_code_parser, entity_id_gen):
+    def __init__(self, source_code_parser, entity_id_gen, model):
         self.entity_id_gen = entity_id_gen
+        self.model = model
         source_code_parser.register(self)
 
     def on_function(self, node):
@@ -34,10 +33,10 @@ class FunctionDefCollector(object):
                                             node.lineno)
             class_id = self.entity_id_gen.create(node.parent.parent.file,
                                                  node.parent.lineno)
-            class_ = global_class_repo.get_by_id(class_id)
+            class_ = self.model.classes.get_by_id(class_id)
             function = Method(id_, name, class_)
             class_.add_method(function)
         else:
             id_ = self.entity_id_gen.create(node.parent.file, node.lineno)
             function = Function(id_, name)
-        global_function_repo.add(function)
+        self.model.functions.add(function)

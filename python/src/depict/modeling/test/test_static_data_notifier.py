@@ -26,6 +26,7 @@ from mock import Mock, call, MagicMock, patch
 import unittest
 from depict.model.entity.module import Module
 from formic.formic import FileSet
+from depict.model.model import Model
 
 class TestStaticDataNotifier(unittest.TestCase):
     def setUp(self):
@@ -35,7 +36,7 @@ class TestStaticDataNotifier(unittest.TestCase):
     def test_init(self):
         dummy_file_set = FileSet(directory='.', include=['a.py', 'path/to/b.py'])
         dummy_observer = Mock()
-        StaticDataNotifier(dummy_file_set, dummy_observer)
+        StaticDataNotifier(dummy_file_set, dummy_observer, MagicMock())
 
     @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
     def test_collects_data_from_each_file(self, orchestrator_mock_class):
@@ -44,17 +45,17 @@ class TestStaticDataNotifier(unittest.TestCase):
         file_set_mock = MagicMock()
         file_set_mock.__iter__.return_value = ['a.py', 'path/to/b.py']
         dummy_observer = Mock()
-        static_data_notifier = StaticDataNotifier(file_set_mock, dummy_observer)
+        static_data_notifier = StaticDataNotifier(file_set_mock, dummy_observer, MagicMock())
         static_data_notifier.run()
         orchestrator_mock.process.assert_called_once_with(['a.py', 'path/to/b.py'])
 
     @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    @patch('depict.modeling.static_data_notifier.global_module_repo')
-    def test_notifies_collected_modules(self, module_repo_mock, orchestrator_mock):
+    def test_notifies_collected_modules(self, orchestrator_mock):
         fake_module = Module('fake_module_id', 'fake_function_name')
-        module_repo_mock.get_all.return_value = [fake_module]
+        model = MagicMock()
+        model.modules.get_all.return_value = [fake_module]
         fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer)
+        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model)
 
         static_data_notifier.run()
 
@@ -62,13 +63,14 @@ class TestStaticDataNotifier(unittest.TestCase):
         fake_observer.on_module.assert_has_calls(expected_calls)
 
     @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    @patch('depict.modeling.static_data_notifier.global_class_repo')
-    def test_notifies_collected_classes(self, class_repo_mock, orchestrator_mock):
+    def test_notifies_collected_classes(self, orchestrator_mock):
         fake_class_1 = Class_('fake_class_id1', 'fake_class_name1')
         fake_class_2 = Class_('fake_class_id2', 'fake_class_name2')
-        class_repo_mock.get_all.return_value = [fake_class_1, fake_class_2]
+        model_mock = MagicMock()
+        model_mock.classes.get_all.return_value = [fake_class_1, fake_class_2]
+
         fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer)
+        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model_mock)
 
         static_data_notifier.run()
 
@@ -76,14 +78,14 @@ class TestStaticDataNotifier(unittest.TestCase):
         fake_observer.on_class.assert_has_calls(expected_calls)
 
     @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    @patch('depict.modeling.static_data_notifier.global_function_repo')
-    def test_notifies_collected_functions(self, function_repo_mock, orchestrator_mock):
+    def test_notifies_collected_functions(self, orchestrator_mock):
         fake_function = Function('fake_function_name', 'fake_function_id')
         fake_class = Class_('fake_class_id', 'fake_class_name')
         fake_method = Method('fake_method_id', 'fake_method_name', fake_class)
-        function_repo_mock.get_all.return_value = [fake_function, fake_method]
+        model_mock = MagicMock()
+        model_mock.functions.get_all.return_value = [fake_function, fake_method]
         fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer)
+        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model_mock)
 
         static_data_notifier.run()
 
@@ -103,6 +105,6 @@ class TestStaticDataNotifier(unittest.TestCase):
     def test_ignores_error_if_observer_does_not_expect_a_notification(self, orchestrator_mock):
         function_repo_mock = MagicMock()
         fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer)
+        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, MagicMock())
         static_data_notifier.run()
         fake_observer.on_collection_completed.assert_called_once_with()

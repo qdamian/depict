@@ -22,6 +22,6 @@ from depict.output.html import Html
 from formic.formic import FileSet
 
 if __name__ == '__main__':
-    file_set = FileSet(directory='.', include='depict/**/*.py')
+    file_set = FileSet(directory='.', include='depict/**/*.py', exclude='build/**')
     html = Html(file_set, 'HTML output quick test', 'self.html')
     html.run()

@@ -16,19 +16,18 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.entity.class_ import Class_
-from depict.model.util.module_repo import global_module_repo
-from depict.model.util.class_repo import global_class_repo
 
 # pylint:disable = too-few-public-methods
 class ClassDefCollector(object):
-    def __init__(self, source_code_parser, entity_id_gen):
+    def __init__(self, source_code_parser, entity_id_gen, model):
         self.entity_id_gen = entity_id_gen
+        self.model = model
         source_code_parser.register(self)
 
     def on_class(self, node):
         module_id = self.entity_id_gen.create(node.parent.file)
-        module = global_module_repo.get_by_id(module_id)
+        module = self.model.modules.get_by_id(module_id)
         id_ = self.entity_id_gen.create(node.parent.file,
                                node.lineno)
         class_ = Class_(id_, node.name, module)
-        global_class_repo.add(class_)
+        self.model.classes.add(class_)

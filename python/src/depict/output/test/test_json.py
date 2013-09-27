@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.output.json import Json
-from mock import patch, MagicMock, Mock
+from mock import patch, MagicMock, Mock, ANY
 import unittest
 
 class TestJson(unittest.TestCase):
@@ -25,8 +25,7 @@ class TestJson(unittest.TestCase):
         with patch('depict.output.json.StaticDataNotifier') as static_data_notifier_mock:
             fileset_mock = Mock()
             json = Json(fileset_mock, 'dummy_out_file')
-            static_data_notifier_mock.assert_called_once_with(fileset_mock,
-                                                              json.json_doc)
+            static_data_notifier_mock.assert_called_once_with(fileset_mock, json.json_doc, ANY)
 
     def test_runs_static_def_notifier(self):
         with patch('depict.output.json.JsonDoc') as json_doc_class_mock:

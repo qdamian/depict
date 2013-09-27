@@ -22,6 +22,7 @@ from nose.tools import assert_equal
 import json
 import unittest
 from depict.model.util.repo import Repo
+from depict.model.model import Model
 
 def assert_equal_json(a, b):
     normalize = lambda json_str: json.dumps(json.loads(json_str))
@@ -32,25 +33,26 @@ class TestJsonDoc():
     def test_outputs_module_names(self):
         open_mock = mock_open()
         with patch('depict.persistence.json.json_doc.open', open_mock, create=True):
-            with patch('depict.persistence.json.json_doc.global_module_repo', Repo()) as module_repo_mock:
-                handle = open_mock()
+            handle = open_mock()
 
-                fake_module1 = Module('fake_module_id1', 'fake_module_name1')
-                module_repo_mock.add(fake_module1)
-                fake_module2 = Module('fake_module_id2', 'fake_module_name2')
-                module_repo_mock.add(fake_module2)
+            model = Model()
 
-                json_doc = JsonDoc('dummy_filename')
-                json_doc.on_collection_completed()
+            fake_module1 = Module('fake_module_id1', 'fake_module_name1')
+            model.modules.add(fake_module1)
+            fake_module2 = Module('fake_module_id2', 'fake_module_name2')
+            model.modules.add(fake_module2)
 
-                actual_calls = [call[0][0] for call in handle.write.call_args_list]
-                assert_equal_json(''.join(actual_calls), '''
-                                      [{"id_": "fake_module_id1",
-                                        "dependencies": [],
-                                        "type": "Module",
-                                        "name": "fake_module_name1"},
-                                      {"id_": "fake_module_id2",
-                                        "dependencies": [],
-                                        "type": "Module",
-                                        "name": "fake_module_name2"}]
-                                        ''')
+            json_doc = JsonDoc('dummy_filename', model)
+            json_doc.on_collection_completed()
+
+            actual_calls = [call[0][0] for call in handle.write.call_args_list]
+            assert_equal_json(''.join(actual_calls), '''
+                                  [{"id_": "fake_module_id1",
+                                    "dependencies": [],
+                                    "type": "Module",
+                                    "name": "fake_module_name1"},
+                                  {"id_": "fake_module_id2",
+                                    "dependencies": [],
+                                    "type": "Module",
+                                    "name": "fake_module_name2"}]
+                                    ''')

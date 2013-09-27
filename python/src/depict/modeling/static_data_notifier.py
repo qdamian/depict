@@ -16,9 +16,6 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.static.source_code_parser import SourceCodeParser
-from depict.model.util.class_repo import global_class_repo
-from depict.model.util.function_repo import global_function_repo
-from depict.model.util.module_repo import global_module_repo
 from depict.modeling.class_def_collector import ClassDefCollector
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.function_def_collector import FunctionDefCollector
@@ -26,9 +23,10 @@ from depict.modeling.module_def_collector import ModuleDefCollector
 
 # pylint:disable = too-few-public-methods
 class StaticDataNotifier(object):
-    def __init__(self, file_set, observer):
+    def __init__(self, file_set, observer, model):
         self.observer = observer
         self.file_set = file_set
+        self.model = model
         self.def_collection_orchestrator = DefCollectionOrchestator(
                                                             file_set.directory)
 
@@ -50,15 +48,15 @@ class StaticDataNotifier(object):
         source_code_parser = SourceCodeParser(self.file_set.directory)
 
         entity_id_gen = self.def_collection_orchestrator.entity_id_generator
-        ModuleDefCollector(source_code_parser, entity_id_gen)
+        ModuleDefCollector(source_code_parser, entity_id_gen, self.model)
 
         file_list = [f for f in self.file_set]
 
         self.def_collection_orchestrator.process(file_list)
 
-        for (func_name, repo) in [('on_module', global_module_repo),
-                                  ('on_class', global_class_repo),
-                                  ('on_function', global_function_repo)]:
+        for (func_name, repo) in [('on_module', self.model.modules),
+                                  ('on_class', self.model.classes),
+                                  ('on_function', self.model.functions)]:
             for value in repo.get_all():
                 self._safely_notify(func_name, value)
 

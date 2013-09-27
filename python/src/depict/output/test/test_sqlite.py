@@ -16,9 +16,10 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.output.sqlite import SQLite
-from mock import patch, MagicMock, Mock
+from mock import patch, MagicMock, Mock, ANY
 import unittest
 from formic.formic import FileSet
+from depict.model.model import Model
 
 class TestSQLite(unittest.TestCase):
 
@@ -29,7 +30,7 @@ class TestSQLite(unittest.TestCase):
 
             sqlite = SQLite(fileset_mock, ':memory:')
 
-            static_data_notifier_mock.assert_called_once_with(fileset_mock, sqlite.sqlite_db)
+            static_data_notifier_mock.assert_called_once_with(fileset_mock, sqlite.sqlite_db, ANY)
 
     def test_init_creates_sqlite_db(self):
         with patch('depict.output.sqlite.SQLiteDB') as sqlite_db_class_mock:

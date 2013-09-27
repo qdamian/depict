@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.output.html import Html
-from mock import patch, MagicMock, Mock
+from mock import patch, MagicMock, Mock, ANY
 import unittest
 
 class TestHtml(unittest.TestCase):
@@ -27,7 +27,8 @@ class TestHtml(unittest.TestCase):
             fileset_mock = Mock()
             html = Html(fileset_mock, 'dummy_title', 'dummy_out_file')
             static_data_notifier_mock.assert_called_once_with(fileset_mock,
-                                                              html.html_doc)
+                                                              html.html_doc,
+                                                              ANY)
 
     def test_init_creates_html_doc(self):
         with patch('depict.output.html.HtmlDoc') as html_doc_class_mock:

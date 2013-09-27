@@ -17,13 +17,15 @@
 
 from depict.persistence.html.html_doc import HtmlDoc
 from depict.modeling.static_data_notifier import StaticDataNotifier
+from depict.model.model import Model
 
 # pylint:disable = too-few-public-methods
 class Html(object):
 
     def __init__(self, file_set, title, out_filename):
         self.html_doc = HtmlDoc(title, out_filename)
-        self.static_data_notifier = StaticDataNotifier(file_set, self.html_doc)
+        self.static_data_notifier = StaticDataNotifier(file_set, self.html_doc,
+                                                       Model())
 
     def run(self):
         self.static_data_notifier.run()

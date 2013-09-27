@@ -16,14 +16,14 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.persistence.json.json_serializer import JsonSerializer
-from depict.model.util.module_repo import global_module_repo
 
 # pylint:disable = too-few-public-methods
 class JsonDoc(object):
-    def __init__(self, out_filename):
+    def __init__(self, out_filename, model):
         self.out_filename = out_filename
+        self.model = model
 
     def on_collection_completed(self):
         with open(self.out_filename, 'w') as out_file:
-            modules = global_module_repo.get_all()
+            modules = self.model.modules.get_all()
             out_file.write(JsonSerializer.serialize(modules, 'id_'))

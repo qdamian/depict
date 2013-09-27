@@ -20,6 +20,6 @@ from depict.output.html import Html
 from formic.formic import FileSet
 
 if __name__ == '__main__':
-    file_set = FileSet(directory='depict/model', include='/*.py')
+    file_set = FileSet(directory='depict/model/entity', include='/*.py', exclude='/__init__.py')
     html = Html(file_set, "depict's Model", 'model.html')
     html.run()

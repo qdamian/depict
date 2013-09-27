@@ -17,6 +17,7 @@
 
 from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.collection.static.source_code_parser import SourceCodeParser
+from depict.model.model import Model
 
 class AlreadyProcessed(Exception):
     pass
@@ -25,6 +26,7 @@ class DefCollectionOrchestator(object):
     def __init__(self, base_path):
         self.collectors = []
         self.entity_id_generator = EntityIdGenerator(base_path)
+        self.model = Model()
         self.source_code_parser = SourceCodeParser(base_path)
 
     def include(self, collector):
@@ -35,6 +37,8 @@ class DefCollectionOrchestator(object):
             raise AlreadyProcessed()
 
         for collector in self.collectors:
-            collector(self.source_code_parser, self.entity_id_generator)
+            collector(self.source_code_parser,
+                      self.entity_id_generator,
+                      self.model)
 
         self.source_code_parser.parse()
