@@ -18,7 +18,6 @@
 from mock import Mock, patch, PropertyMock
 from depict.modeling.function_call_notifier import FunctionCallNotifier
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
-from depict.model.entity.thread import Thread
 from nose.tools import assert_equal
 
 @patch('depict.modeling.function_call_notifier.ThreadScopedTracer')
@@ -30,8 +29,8 @@ class TestFunctionCallNotifier():
             function_call_notifier = FunctionCallNotifier(Mock(), Mock(), Mock())
             tracer_class_mock.assert_called_once_with(function_call_notifier)
 
-    @patch('depict.modeling.function_call_notifier.threading')
-    @patch('depict.modeling.function_call_notifier.global_thread_repo')
+    @patch('depict.modeling.function_call_notifier.threading', autospec=True)
+    @patch('depict.modeling.function_call_notifier.global_thread_repo', autospec=True)
     def test_init_creates_a_thread_entity_for_the_current_thread(self, tracer_class_mock, thread_repo_mock, threading_mock):
         thread_mock = Mock()
         thread_mock.name = 'FakeMainThread'

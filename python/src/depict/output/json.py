@@ -30,3 +30,4 @@ class Json(object):
 
     def run(self):
         self.static_data_notifier.run()
+        self.json_doc.generate()

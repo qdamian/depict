@@ -19,17 +19,24 @@ from depict.output.json import Json
 from mock import patch, MagicMock, Mock, ANY
 import unittest
 
+@patch('depict.output.json.StaticDataNotifier', autospec=True)
+@patch('depict.output.json.JsonDoc', autospec=True)
 class TestJson(unittest.TestCase):
 
-    def test_init_creates_static_data_notifier(self):
-        with patch('depict.output.json.StaticDataNotifier') as static_data_notifier_mock:
-            fileset_mock = Mock()
-            json = Json(fileset_mock, 'dummy_out_file')
-            static_data_notifier_mock.assert_called_once_with(fileset_mock, json.json_doc, ANY)
+    def test_can_be_created(self, json_doc_class_mock, static_data_class_mock):
+        fileset_mock = Mock()
+        Json(fileset_mock, 'dummy_out_file')
 
-    def test_runs_static_def_notifier(self):
-        with patch('depict.output.json.JsonDoc') as json_doc_class_mock:
-            json = Json(MagicMock(), 'dummy_out_file')
-            json.static_data_notifier = Mock()
-            json.run()
-            json.static_data_notifier.run.assert_called_once_with()
+    def test_runs_static_def_notifier(self, json_doc_class_mock, static_data_class_mock):
+        static_data_mock = Mock()
+        static_data_class_mock.return_value = static_data_mock
+        json = Json(MagicMock(), 'dummy_out_file')
+        json.run()
+        static_data_mock.run.assert_called_once_with()
+
+    def test_generates_json_output(self, json_doc_class_mock, static_data_class_mock):
+        json_doc_mock = Mock()
+        json_doc_class_mock.return_value = json_doc_mock
+        json = Json(MagicMock(), 'dummy_out_file')
+        json.run()
+        json_doc_mock.generate.assert_called_once_with()

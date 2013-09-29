@@ -17,11 +17,12 @@
 
 from depict.modeling.function_call_notifier import FunctionCallNotifier
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
+from depict.model.model import Model
 
 class FunctionCallList(object):
     def __init__(self, out_filename, base_path):
         self.out_file = open(out_filename, 'w')
-        orchestrator = DefCollectionOrchestator(base_path)
+        orchestrator = DefCollectionOrchestator(base_path, Model())
         self.function_call_notifier = FunctionCallNotifier(self,
                             orchestrator.entity_id_generator,
                             orchestrator)

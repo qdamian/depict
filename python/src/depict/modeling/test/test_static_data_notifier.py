@@ -36,7 +36,7 @@ class TestStaticDataNotifier(unittest.TestCase):
     def test_init(self):
         dummy_file_set = FileSet(directory='.', include=['a.py', 'path/to/b.py'])
         dummy_observer = Mock()
-        StaticDataNotifier(dummy_file_set, dummy_observer, MagicMock())
+        StaticDataNotifier(dummy_file_set, dummy_observer, Mock())
 
     @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
     def test_collects_data_from_each_file(self, orchestrator_mock_class):
@@ -52,10 +52,10 @@ class TestStaticDataNotifier(unittest.TestCase):
     @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
     def test_notifies_collected_modules(self, orchestrator_mock):
         fake_module = Module('fake_module_id', 'fake_function_name')
-        model = MagicMock()
-        model.modules.get_all.return_value = [fake_module]
+        model_mock = MagicMock()
+        model_mock.modules.get_all.return_value = [fake_module]
         fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model)
+        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model_mock)
 
         static_data_notifier.run()
 
@@ -98,7 +98,7 @@ class TestStaticDataNotifier(unittest.TestCase):
         function_repo_mock.get_all.return_value = [fake_function]
         fake_observer = Mock()
         fake_observer.on_function.side_effect = AttributeError
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, Mock())
+        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer)
         static_data_notifier.run()
 
     @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')

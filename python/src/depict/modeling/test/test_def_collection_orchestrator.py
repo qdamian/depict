@@ -21,15 +21,15 @@ from mock import Mock, patch, ANY
 from nose.tools import assert_raises
 import unittest
 
-@patch('depict.modeling.def_collection_orchestrator.EntityIdGenerator')
-@patch('depict.modeling.def_collection_orchestrator.SourceCodeParser')
+@patch('depict.modeling.def_collection_orchestrator.EntityIdGenerator', autospec=True)
+@patch('depict.modeling.def_collection_orchestrator.SourceCodeParser', autospec=True)
 class TestDefCollectionOrchestrator(unittest.TestCase):
     def setUp(self):
         self.fake_collector = Mock()
         self.fake_collector_class = Mock(return_value=self.fake_collector)
 
     def test_creates_included_collectors(self, dummy1, dummy2):
-        def_collection_orchestrator = DefCollectionOrchestator('.')
+        def_collection_orchestrator = DefCollectionOrchestator('.', Mock())
 
         def_collection_orchestrator.include(self.fake_collector_class)
         def_collection_orchestrator.process('fake_file_name')
@@ -40,7 +40,7 @@ class TestDefCollectionOrchestrator(unittest.TestCase):
         source_code_parser_mock = Mock()
         source_code_parser_mock.add_files.side_effect = [True, False]
         source_code_parser_class_mock.return_value = source_code_parser_mock
-        def_collection_orchestrator = DefCollectionOrchestator('.')
+        def_collection_orchestrator = DefCollectionOrchestator('.', Mock())
 
         def_collection_orchestrator.include(self.fake_collector_class)
         def_collection_orchestrator.process('fake_file_name')

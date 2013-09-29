@@ -85,8 +85,8 @@ class TestSQLiteDB(unittest.TestCase):
             sqlite_db.on_class(fake_class)
             class_table_mock.insert.assert_called_with(fake_class)
 
-    @patch('depict.persistence.sqlite.sqlite_db.FunctionTable')
-    @patch('depict.persistence.sqlite.sqlite_db.MethodTable')
+    @patch('depict.persistence.sqlite.sqlite_db.FunctionTable', autospec=True)
+    @patch('depict.persistence.sqlite.sqlite_db.MethodTable', autospec=True)
     def test_methods_reference_their_classes(self, function_table_class_mock, method_table_class_mock):
         function_table_mock = Mock()
         function_table_class_mock.return_value = function_table_mock

@@ -23,7 +23,7 @@ class JsonDoc(object):
         self.out_filename = out_filename
         self.model = model
 
-    def on_collection_completed(self):
+    def generate(self):
         with open(self.out_filename, 'w') as out_file:
             modules = self.model.modules.get_all()
             out_file.write(JsonSerializer.serialize(modules, 'id_'))

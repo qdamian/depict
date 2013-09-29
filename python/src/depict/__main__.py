@@ -15,11 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.cli.representations_recruiter import get_representations
 import argparse
 from os import path
 import sys
-import importlib
+from depict.cli.representations_recruiter import RepresentationsRecruiter
 
 # pylint:disable = invalid-name
 
@@ -37,21 +36,13 @@ def parse_args(argv):
 
 def list_repr(program_path):
     base_path = path.abspath(path.dirname(path.dirname(program_path)))
-    modules = get_representations(base_path)
-    repr_dict = {}
-    for mod in modules:
-        try:
-            imported_mod = importlib.import_module(mod.name + '.profile')
-            repr_dict[mod.name] = imported_mod.DESCRIPTION
-        except ImportError:
-            pass
-    return repr_dict
+    return RepresentationsRecruiter(base_path).run()
 
-def format_repr(repr_dict):
+def format_repr(repr_desc):
     msg = ['Available representations:']
     msg += []
-    for key in repr_dict:
-        msg += ['\n%s : %s' % (key, repr_dict[key])]
+    for item in repr_desc:
+        msg += ['\n%s : %s' % (item[0], item[1])]
     return '\n'.join(msg)
 
 def main(argv):

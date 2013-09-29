@@ -29,21 +29,20 @@ def assert_equal_json(a, b):
     assert_equal(normalize(a), normalize(b))
 
 class TestJsonDoc():
-
     def test_outputs_module_names(self):
         open_mock = mock_open()
         with patch('depict.persistence.json.json_doc.open', open_mock, create=True):
             handle = open_mock()
 
             model = Model()
+            assert_equal(model.modules.get_all(), [])
 
             fake_module1 = Module('fake_module_id1', 'fake_module_name1')
             model.modules.add(fake_module1)
             fake_module2 = Module('fake_module_id2', 'fake_module_name2')
             model.modules.add(fake_module2)
 
-            json_doc = JsonDoc('dummy_filename', model)
-            json_doc.on_collection_completed()
+            JsonDoc('dummy_filename', model).generate()
 
             actual_calls = [call[0][0] for call in handle.write.call_args_list]
             assert_equal_json(''.join(actual_calls), '''

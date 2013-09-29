@@ -44,7 +44,7 @@ class TestFrameDigest(unittest.TestCase):
 
         self.assertEqual(actual_function_name, expected_function_name)
 
-    @patch('os.path.abspath')
+    @patch('os.path.abspath', autospec=True)
     def test_file_name_returns_full_path_to_file(self, abspath_mock):
         abspath_mock.return_value = 'absolute/path/to/file'
         frame_mock = Mock()

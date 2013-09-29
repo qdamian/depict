@@ -49,8 +49,8 @@ class TestSQLite(unittest.TestCase):
         sqlite.run()
         sqlite.static_data_notifier.run.assert_called_once_with()
 
-    @patch('depict.output.sqlite.StaticDataNotifier')
-    @patch('depict.output.sqlite.SQLiteDB')
+    @patch('depict.output.sqlite.StaticDataNotifier', autospec=True)
+    @patch('depict.output.sqlite.SQLiteDB', autospec=True)
     def test_run_populates_db(self, sqlite_db_class_mock, static_data_notifier_mock):
             sqlite_db_mock = Mock()
             sqlite_db_class_mock.return_value = sqlite_db_mock

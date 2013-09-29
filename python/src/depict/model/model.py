@@ -19,6 +19,7 @@ from depict.model.util.repo import Repo
 
 # pylint:disable = too-few-public-methods
 class Model(object):
-    modules = Repo()
-    classes = Repo()
-    functions = Repo()
+    def __init__(self):
+        self.modules = Repo()
+        self.classes = Repo()
+        self.functions = Repo()

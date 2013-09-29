@@ -28,7 +28,7 @@ class StaticDataNotifier(object):
         self.file_set = file_set
         self.model = model
         self.def_collection_orchestrator = DefCollectionOrchestator(
-                                                            file_set.directory)
+                                                file_set.directory, self.model)
 
     def _safely_notify(self, function_name, value=None):
         try:
@@ -61,3 +61,4 @@ class StaticDataNotifier(object):
                 self._safely_notify(func_name, value)
 
         self._safely_notify('on_collection_completed')
+        return self.model

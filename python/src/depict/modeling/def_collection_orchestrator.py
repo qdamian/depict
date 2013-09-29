@@ -17,16 +17,15 @@
 
 from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.collection.static.source_code_parser import SourceCodeParser
-from depict.model.model import Model
 
 class AlreadyProcessed(Exception):
     pass
 
 class DefCollectionOrchestator(object):
-    def __init__(self, base_path):
+    def __init__(self, base_path, model):
         self.collectors = []
         self.entity_id_generator = EntityIdGenerator(base_path)
-        self.model = Model()
+        self.model = model
         self.source_code_parser = SourceCodeParser(base_path)
 
     def include(self, collector):
