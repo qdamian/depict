@@ -25,7 +25,8 @@ class Json(object):
     def __init__(self, file_set, out_filename):
         model = Model()
         self.json_doc = JsonDoc(out_filename, model)
-        self.static_data_notifier = StaticDataNotifier(file_set, self.json_doc,
+        self.static_data_notifier = StaticDataNotifier(file_set,
+                                                       self.json_doc,
                                                        model)
 
     def run(self):

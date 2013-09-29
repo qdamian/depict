@@ -18,14 +18,15 @@
 import os
 
 class FrameDigest(object):
-    '''Summary of a frame object'''
+    '''
+    Summarized information of a frame object.
+
+    Used for easy access to the properties of a Frame object passed by the
+    system's tracer.
+    '''
 
     def __init__(self, frame):
         self.frame = frame
-
-    @property
-    def function_name(self):
-        return self.frame.f_code.co_name
 
     @property
     def module_name(self):
@@ -34,6 +35,10 @@ class FrameDigest(object):
     @property
     def file_name(self):
         return os.path.abspath(self.frame.f_code.co_filename)
+
+    @property
+    def function_name(self):
+        return self.frame.f_code.co_name
 
     @property
     def line_number(self):

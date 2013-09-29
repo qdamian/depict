@@ -16,19 +16,22 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from logilab.astng.utils import LocalsVisitor
-from depict.collection.static.notifier import safely_notify
+from depict.collection.static.notifier import best_effort_notify
 
 class DefsVisitor(LocalsVisitor):
-
+    '''
+    Visit the project notifying the observers about (some types of) definitions
+    found. Nodes that define a relation between entities are not notified.
+    '''
     def __init__(self, observers):
         LocalsVisitor.__init__(self)
         self.observers = observers
 
-    def visit_class(self, node):
-        safely_notify(self.observers, 'on_class', node)
-
     def visit_module(self, node):
-        safely_notify(self.observers, 'on_module', node)
+        best_effort_notify(self.observers, 'on_module', node)
+
+    def visit_class(self, node):
+        best_effort_notify(self.observers, 'on_class', node)
 
     def visit_function(self, node):
-        safely_notify(self.observers, 'on_function', node)
+        best_effort_notify(self.observers, 'on_function', node)

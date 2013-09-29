@@ -19,6 +19,16 @@ import os
 
 # pylint:disable = too-few-public-methods
 class EntityIdGenerator(object):
+    '''
+    Generate an identifier for a source code entity (node in the AST) based on
+    the file name and line number in which the entity is found.
+
+    Right now the id. is just a concatenation of the relative path to the file
+    with respect to the project's base path plus the line number. Using this
+    pattern for the id. helps in relating the static and dynamic data.
+    Besides that, an id. generated in this way is stable across program
+    executions (provided that the program didn't change).
+    '''
     def __init__(self, base_path):
         self.base_path = base_path
 

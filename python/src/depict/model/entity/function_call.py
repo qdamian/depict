@@ -17,8 +17,9 @@
 
 from depict.model.util.tree import TreeNode
 
-# pylint:disable = too-few-public-methods
 class FunctionCall(TreeNode):
+    '''Represent a call to a function (including methods)'''
+
     def __init__(self, id_, function_id, parent, model):
         self.id_ = id_
         self.function_id = function_id
@@ -33,4 +34,4 @@ class FunctionCall(TreeNode):
         return self.id_ == other.id_
 
     def __repr__(self):
-        return 'ID: ' + self.id_
+        return str(self.__dict__)

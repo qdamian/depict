@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-def safely_notify(observers, function, node):
+def best_effort_notify(observers, function, *args):
     for obs in observers:
         try:
             method = getattr(obs, function)
-            method(node)
+            method(*args)
         except AttributeError:
             pass

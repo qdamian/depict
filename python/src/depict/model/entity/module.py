@@ -18,6 +18,8 @@
 # pylint:disable = invalid-name, too-few-public-methods
 
 class Module(object):
+    '''Represent a module'''
+
     def __init__(self, id_, name):
         self.id_ = id_
         self.name = name
@@ -31,3 +33,6 @@ class Module(object):
             self.dependencies.extend(modules)
         except TypeError:
             self.dependencies.append(modules)
+
+    def __repr__(self):
+        return str(self.__dict__)

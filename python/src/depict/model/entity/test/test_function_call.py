@@ -17,7 +17,7 @@
 
 from depict.model.entity.function import Function
 from depict.model.entity.function_call import FunctionCall
-from depict.model.util.repo import Repo
+from depict.model.util.entity_repo import EntityRepo
 from depict.model.util.tree import RootNode
 from mock import patch, Mock
 from nose.tools import assert_equal

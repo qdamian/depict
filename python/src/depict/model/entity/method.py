@@ -19,9 +19,11 @@ from depict.model.entity.function import Function
 
 # pylint:disable = invalid-name, too-few-public-methods
 class Method(Function):
+    '''Represent a class method'''
+
     def __init__(self, id_, name, Class_):
         super(Method, self).__init__(id_, name)
         self.Class_ = Class_
 
     def __repr__(self):
-        return 'Method, name: ' + self.name + ', ID: ' + str(self.id_)
+        return str(self.__dict__)

@@ -22,10 +22,10 @@ from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.modeling.module_def_collector import ModuleDefCollector
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 import threading
-from depict.model.util.thread_repo import global_thread_repo
 from depict.model.entity.thread import Thread
 import time
 import uuid
+from depict.model.util.entity_repo import EntityRepo
 
 class FunctionCallNotifier(object):
     def __init__(self, observer, entity_id_generator,
@@ -40,7 +40,8 @@ class FunctionCallNotifier(object):
         self.stop = self.thread_scoped_tracer.stop
 
         current_thread = Thread(threading.current_thread().name)
-        global_thread_repo.add(current_thread)
+        thread_repo = EntityRepo()
+        thread_repo.add(current_thread)
         self.current_function = current_thread
 
     def start(self):
@@ -71,4 +72,3 @@ class FunctionCallNotifier(object):
             self.def_collection_orchestrator.process(file_name)
         except AlreadyProcessed:
             pass
-

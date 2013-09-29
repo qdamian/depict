@@ -17,31 +17,28 @@
 
 from depict.model.entity.module import Module
 
-# pylint:disable = too-few-public-methods
 class ModuleDefCollector(object):
     def __init__(self, source_code_parser, entity_id_generator, model):
         self.source_code_parser = source_code_parser
         self.entity_id_generator = entity_id_generator
         self.model = model
-        self.current_module = None
         source_code_parser.register(self)
 
     def on_module(self, node):
         module_id = self.entity_id_generator.create(node.file)
-        self.current_module = Module(module_id, node.name)
-        self.model.modules.add(self.current_module)
+        self.model.modules.add(Module(module_id, node.name))
 
-    def on_import(self, node):
+    def on_import(self, parent_node, node):
         for module_name in node.names:
-            try:
-                module = self.model.modules.get_by_name(module_name[0])
-                self.current_module.depends_on(module)
-            except KeyError:
-                pass
+            self._assign_dependency(parent_node.name, module_name[0])
 
-    def on_from(self, node):
+    def on_from(self, parent_node, node):
+        self._assign_dependency(parent_node.name, node.modname)
+
+    def _assign_dependency(self, importer_name, imported_name):
         try:
-            module = self.model.modules.get_by_name(node.modname)
-            self.current_module.depends_on(module)
+            importer = self.model.modules.get_by_name(importer_name)
+            imported = self.model.modules.get_by_name(imported_name)
+            importer.depends_on(imported)
         except KeyError:
             pass

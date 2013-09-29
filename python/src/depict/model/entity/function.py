@@ -17,6 +17,8 @@
 
 # pylint:disable = too-few-public-methods
 class Function(object):
+    '''Represent a function (including methods)'''
+
     def __init__(self, id_, name):
         self.id_ = id_
         self.name = name
@@ -25,4 +27,4 @@ class Function(object):
         return other.id_ == self.id_
 
     def __repr__(self):
-        return 'ID: %s, name: %s' % (self.id_, self.name)
+        return str(self.__dict__)

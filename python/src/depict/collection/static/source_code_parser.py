@@ -22,35 +22,35 @@ from logilab.astng.exceptions import ASTNGBuildingException
 from logilab.astng.manager import ASTNGManager
 import sys
 
-def astng_ignore_modname_wrapper(func, modname):
-    '''A no-op decorator that must be passed to ASTNGManager to override its
-       default behavior which is to print the module names to stdout'''
-    try:
-        return func(modname)
-    except ASTNGBuildingException, exc:
-        print exc
-    except Exception, exc:
-        import traceback
-        traceback.print_exc()
-
 class SourceCodeParser(object):
-    '''Parse source files using LogiLab's Abstract Syntax Tree Next Generation
-       and notify defs and relations to observers'''
+    '''
+    Parse source files using LogiLab's Abstract Syntax Tree Next Generation and
+    notify definitions and relations to observers.
+
+    The source files to parse are specified by the user of this class by passing
+    a "base path" on construction (root of the program to be analyzed) and
+    relative paths to the source files later.
+    '''
 
     def __init__(self, base_path):
         self.file_paths = set()
-        self.observers = []
+        self.observers = set()
         self.entity_id_gen = EntityIdGenerator(base_path)
         # For ASTNManager:
         sys.path.insert(0, base_path)
 
     def add_files(self, paths):
+        '''Try to add the given path(s). Return True if at least one path was
+           added, False otherwise'''
         if not isinstance(paths, list):
             paths = [paths]
 
         len_before = len(self.file_paths)
         self.file_paths.update(paths)
         return len(self.file_paths) != len_before
+
+    def register(self, observer):
+        self.observers.update([observer])
 
     def parse(self):
         manager = ASTNGManager()
@@ -63,5 +63,13 @@ class SourceCodeParser(object):
         DefsVisitor(self.observers).visit(project)
         RelationsVisitor(self.observers).visit(project)
 
-    def register(self, observer):
-        self.observers.append(observer)
+def astng_ignore_modname_wrapper(func, modname):
+    '''A no-op decorator that must be passed to ASTNGManager to override its
+       default behavior which is to print the module names to stdout'''
+    try:
+        return func(modname)
+    except ASTNGBuildingException, exc:
+        print exc
+    except Exception, exc:
+        import traceback
+        traceback.print_exc()

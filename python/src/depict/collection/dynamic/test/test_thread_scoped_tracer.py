@@ -16,8 +16,8 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
+from nose.tools import assert_equal
 from mock import Mock
-import unittest
 
 def function1():
     return 1
@@ -25,39 +25,46 @@ def function1():
 def function2(arg):
     return arg
 
-class TestThreadScopedTracer(unittest.TestCase):
+class TestThreadScopedTracer():
 
     def test_notifies_one_function_call(self):
+        # Arrange
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
 
+        # Act
         thread_scoped_tracer.start()
         function1()
         thread_scoped_tracer.stop()
 
-        self.assertEqual(observer.on_call.call_count, 1)
-        thread_digest = observer.on_call.call_args_list[0][0][0]
-        actual_function_name = thread_digest.function_name
-        self.assertEqual(actual_function_name, 'function1')
+        # Assert
+        assert_equal(observer.on_call.call_count, 1)
+        actual_thread_digest = observer.on_call.call_args_list[0][0][0]
+        actual_function_name = actual_thread_digest.function_name
+        assert_equal(actual_function_name, 'function1')
 
     def test_notifies_two_function_calls(self):
+        # Arrange
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
 
+        # Act
         thread_scoped_tracer.start()
         function1()
         function2(1)
         thread_scoped_tracer.stop()
 
-        self.assertEqual(observer.on_call.call_count, 2)
-        thread_digest1 = observer.on_call.call_args_list[0][0][0]
-        actual_function_name1 = thread_digest1.function_name
-        self.assertEqual(actual_function_name1, 'function1')
+        # Assert
+        assert_equal(observer.on_call.call_count, 2)
+        actual_thread_digest1 = observer.on_call.call_args_list[0][0][0]
+        actual_function_name1 = actual_thread_digest1.function_name
+        assert_equal(actual_function_name1, 'function1')
         thread_digest2 = observer.on_call.call_args_list[1][0][0]
         actual_function_name2 = thread_digest2.function_name
-        self.assertEqual(actual_function_name2, 'function2')
+        assert_equal(actual_function_name2, 'function2')
 
     def test_notifies_return_from_function(self):
+        # Arrange
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
 
@@ -65,31 +72,38 @@ class TestThreadScopedTracer(unittest.TestCase):
         function1()
         thread_scoped_tracer.stop()
 
-        self.assertEqual(observer.on_return.call_count, 1)
+        assert_equal(observer.on_return.call_count, 1)
         thread_digest = observer.on_return.call_args_list[0][0][0]
         actual_function_name = thread_digest.function_name
-        self.assertEqual(actual_function_name, 'function1')
+        assert_equal(actual_function_name, 'function1')
 
     def test_does_not_notify_after_stop(self):
+        # Arrange
         observer = Mock()
         thread_scoped_tracer = ThreadScopedTracer(observer)
 
+        # Act
         thread_scoped_tracer.start()
         function1()
         thread_scoped_tracer.stop()
         function2(1)
 
-        self.assertEqual(observer.on_call.call_count, 1)
+        # Assert
+        assert_equal(observer.on_call.call_count, 1)
         thread_digest = observer.on_call.call_args_list[0][0][0]
         actual_function_name = thread_digest.function_name
-        self.assertEqual(actual_function_name, 'function1')
+        assert_equal(actual_function_name, 'function1')
 
     def test_ignores_attribute_error_on_notification(self):
+        # Arrange
         observer = Mock()
         observer.on_call.side_effect = AttributeError
         observer.on_return.side_effect = AttributeError
         thread_scoped_tracer = ThreadScopedTracer(observer)
 
+        # Act
         thread_scoped_tracer.start()
         function1()
         thread_scoped_tracer.stop()
+
+        # Assert no exceptions are thrown

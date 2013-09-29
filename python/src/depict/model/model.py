@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.util.repo import Repo
+from depict.model.util.entity_repo import EntityRepo
 
 # pylint:disable = too-few-public-methods
 class Model(object):
     def __init__(self):
-        self.modules = Repo()
-        self.classes = Repo()
-        self.functions = Repo()
+        self.modules = EntityRepo()
+        self.classes = EntityRepo()
+        self.functions = EntityRepo()

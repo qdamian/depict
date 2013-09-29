@@ -16,8 +16,9 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 # pylint:disable = invalid-name, too-few-public-methods
-
 class Class_(object):
+    '''Represent a class'''
+
     def __init__(self, id_, name, module=None):
         self.id_ = id_
         self.name = name
@@ -30,4 +31,4 @@ class Class_(object):
         return self.id_ == other.id_
 
     def __repr__(self):
-        return 'ID: %s, name: %s' % (self.id_, self.name)
+        return str(self.__dict__)

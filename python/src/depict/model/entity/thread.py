@@ -19,6 +19,8 @@ from depict.model.util.tree import RootNode
 
 # pylint:disable = too-few-public-methods
 class Thread(RootNode):
+    '''Represent a thread such as the MainThread'''
+
     def __init__(self, id_):
         self.id_ = id_
         super(Thread, self).__init__()
@@ -27,4 +29,4 @@ class Thread(RootNode):
         return other.id_ == self.id_
 
     def __repr__(self):
-        return 'ID: %s' % (self.id_)
+        return str(self.__dict__)
