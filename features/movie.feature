@@ -15,16 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: help
+Feature: movie
 
-# User story: As a first-time user I want the tool to guide me on how to use it.
+# User story: As a user I want depict to generate a movie of my program so that
+#             I can see the interactions between classes and modules along time.
 
-Scenario: provide inline help
-    When I run depict with incorrect options
-    Then I see basic usage information
-    And I see a link to the user guide
-
-Scenario: provide a built-in sample program
-    Given I dumped the sample program provided by depict
-    When I run the sample program
-    Then it executes successfully
+Scenario: advertise the movie representation 
+    When I run depict asking for the list of available representations
+    Then I see movie listed

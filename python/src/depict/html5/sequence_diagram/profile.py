@@ -15,16 +15,4 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: help
-
-# User story: As a first-time user I want the tool to guide me on how to use it.
-
-Scenario: provide inline help
-    When I run depict with incorrect options
-    Then I see basic usage information
-    And I see a link to the user guide
-
-Scenario: provide a built-in sample program
-    Given I dumped the sample program provided by depict
-    When I run the sample program
-    Then it executes successfully
+DESCRIPTION = 'Generate a call sequence diagram'

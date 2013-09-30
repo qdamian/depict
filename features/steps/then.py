@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from nose.tools import assert_equal
+
 @then(u'I see basic usage information')
 def step_impl(context):
     assert 'usage' in context.stdout
@@ -26,3 +28,15 @@ def step_impl(context):
 @then(u'I see trace listed')
 def step_impl(context):
     assert 'depict.txt.trace' in context.stdout
+
+@then(u'I see sequence_diagram listed')
+def step_impl(context):
+    assert 'depict.html5.sequence_diagram' in context.stdout
+
+@then(u'I see movie listed')
+def step_impl(context):
+    assert 'depict.html5.movie' in context.stdout
+
+@then(u'it executes successfully')
+def step_impl(context):
+    assert_equal(context.exit_code, 0)

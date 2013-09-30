@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-import argparse
-from os import path
-import sys
 from depict.cli.representations_recruiter import RepresentationsRecruiter
+from shutil import copytree
+from os import path
+import argparse
+import sys
 
 # pylint:disable = invalid-name
 
@@ -29,26 +30,36 @@ def parse_args(argv):
     parser = argparse.ArgumentParser(prog='python -m depict',
                                      description=description,
                                      epilog=epilog)
-    parser.add_argument('--list', action='store_true',
+    parser.add_argument('-l', '--list-representations', action='store_true',
                         help='list available representations')
+    parser.add_argument('-d', '--dump-sample-program', action='store',
+                        const='sample', nargs='?',
+                        help='generate a sample program in the given directory')
     args = parser.parse_args(argv)
     return [parser, args]
 
-def list_repr(program_path):
-    base_path = path.abspath(path.dirname(path.dirname(program_path)))
+def list_repr(base_path):
     return RepresentationsRecruiter(base_path).run()
 
 def format_repr(repr_desc):
     msg = ['Available representations:']
     msg += []
     for item in repr_desc:
-        msg += ['\n%s : %s' % (item[0], item[1])]
+        msg += ['\t%s : %s' % (item[0], item[1])]
     return '\n'.join(msg)
+
+def dump_sample_program(base_path, dst_path):
+    src_path = path.join(base_path, 'depict', 'data', 'sample')
+    copytree(src_path, dst_path)
+    return 'Done!'
 
 def main(argv):
     [parser, args] = parse_args(argv[1:])
-    if args.list:
-        return format_repr(list_repr(argv[0]))
+    base_path = path.abspath(path.dirname(path.dirname(sys.argv[0])))
+    if args.list_representations:
+        return format_repr(list_repr(base_path))
+    elif args.dump_sample_program:
+        return dump_sample_program(base_path, args.dump_sample_program)
     return parser.format_help()
 
 if __name__ == '__main__':

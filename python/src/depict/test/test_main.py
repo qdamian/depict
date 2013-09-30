@@ -19,6 +19,7 @@ from depict.__main__ import main
 from mock import patch
 from nose.tools import assert_true
 import depict
+import os
 
 @patch('sys.stderr', autospec=True)
 @patch('argparse.ArgumentParser.exit', autospec=True)
@@ -34,5 +35,13 @@ class TestMain():
  
     @patch('depict.__main__.RepresentationsRecruiter')
     def test_returns_list_of_representations_when_asked_to(self, repr_recruiter_mock, _1, _2):
-        msg = main([depict.__main__.__file__, '--list'])
+        msg = main([depict.__main__.__file__, '--list-representations'])
         assert_true('Available representations' in msg)
+
+    @patch('depict.__main__.copytree')
+    @patch('depict.__main__.sys')
+    def test_dumps_a_sample_program_when_asked_to(self, sys_mock, copytree_mock, _1, _2):
+        sys_mock.argv = ['depict/__main__.py']
+        main([depict.__main__.__file__, '--dump-sample-program', 'mydir'])
+        expected_src_path = os.path.abspath('depict/data/sample')
+        copytree_mock.assert_called_once_with(expected_src_path, 'mydir')

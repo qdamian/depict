@@ -15,22 +15,21 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from nose.tools import assert_true, assert_false
 import subprocess
+import shutil
 import os
 
-@when(u'I run depict with incorrect options')
+@given(u'I dumped the sample program provided by depict')
 def step_impl(context):
-    proc = subprocess.Popen('python -m depict'.split(), stdout=subprocess.PIPE)
-    context.stdout = proc.stdout.read()
-
-@when(u'I run depict asking for the list of available representations')
-def step_impl(context):
-    proc = subprocess.Popen('python -m depict --list'.split(), stdout=subprocess.PIPE)
-    context.stdout = proc.stdout.read()
-
-@when(u'I run the sample program')
-def step_impl(context):
+    # Arrange
     context.sample_program_dir = 'sample'
-    sample_program_main = os.path.join(context.sample_program_dir, 'main.py')
-    cmd_line = 'python ' + sample_program_main
-    context.exit_code = subprocess.call(cmd_line.split())
+    shutil.rmtree(context.sample_program_dir, ignore_errors=True)
+    assert_false(os.path.isdir(context.sample_program_dir))
+    cmd_line = 'python -m depict --dump-sample-program ' + context.sample_program_dir
+
+    # Act
+    subprocess.call(cmd_line.split())
+
+    # Assert
+    assert_true(os.path.isdir(context.sample_program_dir))

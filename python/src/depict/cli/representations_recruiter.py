@@ -32,7 +32,9 @@ def get_repr_module_names(file_set):
 # pylint:disable = too-few-public-methods
 class RepresentationsRecruiter(object):
     def __init__(self, base_path):
-        self.file_set = FileSet(directory=base_path, include='depict/txt/**')
+        self.file_set = FileSet(directory=base_path,
+                                include=['depict/txt/**',
+                                         'depict/html5/**'])
 
     def run(self):
         mod_names = get_repr_module_names(self.file_set)
