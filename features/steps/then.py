@@ -40,3 +40,9 @@ def step_impl(context):
 @then(u'it executes successfully')
 def step_impl(context):
     assert_equal(context.exit_code, 0)
+
+@then(u'I see the function calls printed')
+def step_impl(context):
+    assert 'main' in context.stdout
+    assert 'say_hi' in context.stdout
+    assert 'say_bye' in context.stdout

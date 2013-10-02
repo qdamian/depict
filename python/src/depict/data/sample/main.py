@@ -15,8 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+import sys
+
+logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+LOGGER = logging.getLogger(__name__)
+
+def say_hi():
+    LOGGER.debug('Hi!')
+
+def say_bye():
+    LOGGER.debug('Bye!')
+
 def main():
-    print "This is depict's sample program"
+    LOGGER.debug("This is depict's sample program")
+    say_hi()
+    say_bye()
 
 if __name__ == '__main__':
     main()

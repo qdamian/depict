@@ -15,13 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: trace
+# pylint:disable = too-few-public-methods
 
-Scenario: advertise the trace representation 
-    When I run depict asking for the list of available representations
-    Then I see trace listed
+class ProgramEnvEmulator(object):
 
-Scenario: trace function calls
-    Given I dumped the sample program provided by depict
-    When I run depict with the trace representation
-    Then I see the function calls printed
+    def __init__(self, argv):
+        program_name = argv[1]
+        self.globals = { '__file__': program_name,
+                         '__name__': '__main__',
+                         '__package__': None,
+                         '__cached__': None
+                        }
+        with open(program_name, 'r') as program_file:
+            self.code = compile(program_file.read(), program_name, 'exec')

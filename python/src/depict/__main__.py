@@ -25,8 +25,8 @@ import sys
 
 def parse_args(argv):
     description = 'Create representations of a python program'
-    epilog = \
-          'For more info see: https://github.com/qdamian/depict/wiki/User-guide'
+    epilog = 'For more information, see ' \
+             'https://github.com/qdamian/depict/wiki/User-guide'
     parser = argparse.ArgumentParser(prog='python -m depict',
                                      description=description,
                                      epilog=epilog)
@@ -51,7 +51,7 @@ def format_repr(repr_desc):
 def dump_sample_program(base_path, dst_path):
     src_path = path.join(base_path, 'depict', 'data', 'sample')
     copytree(src_path, dst_path)
-    return 'Done!'
+    return "Generated '%s'" % dst_path
 
 def main(argv):
     [parser, args] = parse_args(argv[1:])

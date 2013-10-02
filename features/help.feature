@@ -17,8 +17,6 @@
 
 Feature: help
 
-# User story: As a first-time user I want the tool to guide me on how to use it.
-
 Scenario: provide inline help
     When I run depict with incorrect options
     Then I see basic usage information

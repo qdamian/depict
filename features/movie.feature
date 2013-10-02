@@ -17,9 +17,6 @@
 
 Feature: movie
 
-# User story: As a user I want depict to generate a movie of my program so that
-#             I can see the interactions between classes and modules along time.
-
 Scenario: advertise the movie representation 
     When I run depict asking for the list of available representations
     Then I see movie listed

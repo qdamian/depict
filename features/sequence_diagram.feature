@@ -17,10 +17,6 @@
 
 Feature: sequence_diagram
 
-# User story: As a user I want depict to generate a sequence diagram of my
-#             program so that I can see the interactions between classes and
-#             modules along time.
-
 Scenario: advertise the sequence_diagram representation 
     When I run depict asking for the list of available representations
     Then I see sequence_diagram listed

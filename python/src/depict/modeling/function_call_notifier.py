@@ -48,6 +48,10 @@ class FunctionCallNotifier(object):
         self.thread_scoped_tracer.start()
 
     def on_call(self, frame_digest):
+
+        if frame_digest.function_name == '<module>':
+            return
+
         function_id = self.entity_id_generator.create(frame_digest.file_name,
                                                       frame_digest.line_number)
         function_call_id = '%s@%s-%s' % (function_id, time.time(), uuid.uuid4())

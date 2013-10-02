@@ -15,13 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: trace
+def say_hi():
+    print 'Hi!'
 
-Scenario: advertise the trace representation 
-    When I run depict asking for the list of available representations
-    Then I see trace listed
+def say_bye():
+    print '<the end>'
 
-Scenario: trace function calls
-    Given I dumped the sample program provided by depict
-    When I run depict with the trace representation
-    Then I see the function calls printed
+def main():
+    print "This is depict's sample program"
+    say_hi()
+    say_bye()
+
+if __name__ == '__main__':
+    main()

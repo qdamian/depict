@@ -17,20 +17,24 @@
 
 import subprocess
 import os
+from utils import call
 
 @when(u'I run depict with incorrect options')
 def step_impl(context):
-    proc = subprocess.Popen('python -m depict'.split(), stdout=subprocess.PIPE)
+    proc = call('python -m depict')
     context.stdout = proc.stdout.read()
 
 @when(u'I run depict asking for the list of available representations')
 def step_impl(context):
-    proc = subprocess.Popen('python -m depict --list'.split(), stdout=subprocess.PIPE)
+    proc = call('python -m depict --list')
     context.stdout = proc.stdout.read()
 
 @when(u'I run the sample program')
 def step_impl(context):
-    context.sample_program_dir = 'sample'
-    sample_program_main = os.path.join(context.sample_program_dir, 'main.py')
-    cmd_line = 'python ' + sample_program_main
-    context.exit_code = subprocess.call(cmd_line.split())
+    proc = call('python ' + context.sample_program_main)
+    context.exit_code = proc.wait()
+
+@when(u'I run depict with the trace representation')
+def step_impl(context):
+    proc = call('python -m depict.txt.trace ' + context.sample_program_main)
+    context.stdout = proc.stdout.read()

@@ -15,13 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-Feature: trace
+import subprocess
 
-Scenario: advertise the trace representation 
-    When I run depict asking for the list of available representations
-    Then I see trace listed
-
-Scenario: trace function calls
-    Given I dumped the sample program provided by depict
-    When I run depict with the trace representation
-    Then I see the function calls printed
+def call(command):
+    return subprocess.Popen(command.split(), stdout=subprocess.PIPE)

@@ -16,6 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from nose.tools import assert_true, assert_false
+from utils import call
 import subprocess
 import shutil
 import os
@@ -24,12 +25,14 @@ import os
 def step_impl(context):
     # Arrange
     context.sample_program_dir = 'sample'
+    context.sample_program_main = os.path.join(context.sample_program_dir, 'main.py')
     shutil.rmtree(context.sample_program_dir, ignore_errors=True)
     assert_false(os.path.isdir(context.sample_program_dir))
     cmd_line = 'python -m depict --dump-sample-program ' + context.sample_program_dir
 
     # Act
-    subprocess.call(cmd_line.split())
+    proc = call(cmd_line)
+    proc.wait()
 
     # Assert
     assert_true(os.path.isdir(context.sample_program_dir))
