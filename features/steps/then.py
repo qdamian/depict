@@ -25,6 +25,10 @@ def step_impl(context):
 def step_impl(context):
     assert 'https://github.com/qdamian/depict/wiki/User-guide' in context.stdout
 
+@then(u'I see a copyright notice')
+def step_impl(context):
+    assert 'GPL' in context.stdout
+
 @then(u'I see trace listed')
 def step_impl(context):
     assert 'depict.txt.trace' in context.stdout

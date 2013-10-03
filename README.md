@@ -1,4 +1,4 @@
-Depict
+depict
 ======
 
 [![Build Status](https://travis-ci.org/qdamian/depict.png?branch=master)](https://travis-ci.org/qdamian/depict)
@@ -14,7 +14,7 @@ Description
 
 > /dɪˈpɪkt/: to represent or show something in a picture or story
 
-Depict has two components:
+depict has two components:
 
 * A python module to model the structure and behavior of a program based on the program's source code and data gathered during the program execution.
 
@@ -22,9 +22,9 @@ Depict has two components:
 
 See some [alternatives](https://github.com/qdamian/depict#alternatives) below.
 
-Like disptrace, Depict uses HTML5 as the prefered type of output format, and provides collapse/expand capabilities to choose which part of the repesentation is displayed.
+Like disptrace, depict uses HTML5 as the prefered type of output format, and provides collapse/expand capabilities to choose which part of the repesentation is displayed.
 
-Like pyreverse, Depict allows to limit the scope of the representation to a part of the program, e.g. a group of classes.
+Like pyreverse, depict allows to limit the scope of the representation to a part of the program, e.g. a group of classes.
 
 Alternatives
 ------------
@@ -49,4 +49,4 @@ Feel free to email me at qdamian@gmail.com
 
 ---
 
-Copyright 2013 Damian Quiroga
+Copyright 2013, Damian Quiroga
