@@ -28,7 +28,7 @@ def step_impl(context):
     context.sample_program_main = os.path.join(context.sample_program_dir, 'main.py')
     shutil.rmtree(context.sample_program_dir, ignore_errors=True)
     assert_false(os.path.isdir(context.sample_program_dir))
-    cmd_line = 'python -m depict --dump-sample-program ' + context.sample_program_dir
+    cmd_line = 'python -m depict --sample ' + context.sample_program_dir
 
     # Act
     proc = call(cmd_line)

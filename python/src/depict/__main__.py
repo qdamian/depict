@@ -39,11 +39,11 @@ def parse_args(argv):
                                      description=description,
                                      epilog=epilog,
                                      formatter_class=RawTextHelpFormatter)
-    parser.add_argument('-l', '--list-representations', action='store_true',
+    parser.add_argument('-l', '--list', action='store_true',
                         help='list available representations')
-    parser.add_argument('-d', '--dump-sample-program', action='store',
+    parser.add_argument('-s', '--sample', action='store',
                         const='sample', nargs='?',
-                        help='generate a sample program in the given directory')
+                        help='dump a sample program in the given directory')
     args = parser.parse_args(argv)
     return [parser, args]
 
@@ -65,10 +65,10 @@ def dump_sample_program(base_path, dst_path):
 def main(argv):
     [parser, args] = parse_args(argv[1:])
     base_path = path.abspath(path.dirname(path.dirname(sys.argv[0])))
-    if args.list_representations:
+    if args.list:
         return format_repr(list_repr(base_path))
-    elif args.dump_sample_program:
-        return dump_sample_program(base_path, args.dump_sample_program)
+    elif args.sample:
+        return dump_sample_program(base_path, args.sample)
     return parser.format_help()
 
 if __name__ == '__main__':
