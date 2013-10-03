@@ -29,6 +29,7 @@ def step_impl(context):
     shutil.rmtree(context.sample_program_dir, ignore_errors=True)
     assert_false(os.path.isdir(context.sample_program_dir))
     cmd_line = 'python -m depict --sample ' + context.sample_program_dir
+    context.cleanup.append(lambda: shutil.rmtree(context.sample_program_dir))
 
     # Act
     proc = call(cmd_line)
