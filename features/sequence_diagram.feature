@@ -17,6 +17,7 @@
 
 Feature: sequence_diagram
 
+@seqdiag @help
 Scenario: advertise the sequence_diagram representation 
     When I run depict asking for the list of available representations
     Then I see sequence_diagram listed

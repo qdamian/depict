@@ -17,10 +17,12 @@
 
 Feature: trace
 
+@trace @help
 Scenario: advertise the trace representation 
     When I run depict asking for the list of available representations
     Then I see trace listed
 
+@trace @calls
 Scenario: trace function calls
     Given I dumped the sample program provided by depict
     When I run depict with the trace representation

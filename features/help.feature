@@ -17,12 +17,14 @@
 
 Feature: help
 
+@help
 Scenario: provide inline help
     When I run depict with incorrect options
     Then I see basic usage information
     And I see a link to the user guide
     And I see a copyright notice
 
+@help
 Scenario: provide a built-in sample program
     Given I dumped the sample program provided by depict
     When I run the sample program

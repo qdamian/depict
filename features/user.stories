@@ -1,23 +1,23 @@
-# HELP
+# help
 
 As a first-time user I want the tool to guide me on how to use it.
 
-# TRACE
+# trace
 
 As a user I want depict to be able to generate a trace of my program so that
 I can know its call flow.
 
-# MOVIE
+# movie
 
 As a user I want depict to be able to generate a movie of my program so that
 I can see the interactions between classes and modules along time.
 
-# SEQDIAG
+# seqdiag
 
 As a user I want depict to be able to generate a sequence diagram of my program
 so that I can see the interactions between classes and modules along time.
 
-# CALLS
+# calls
 
 As a user I want to be able to see all function calls in the time-based
 representations.

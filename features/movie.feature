@@ -17,6 +17,7 @@
 
 Feature: movie
 
+@movie @help
 Scenario: advertise the movie representation 
     When I run depict asking for the list of available representations
     Then I see movie listed
