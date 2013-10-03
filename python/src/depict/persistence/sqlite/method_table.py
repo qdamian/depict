@@ -30,4 +30,4 @@ class MethodTable(object):
     def insert(self, function):
         self._connection.execute('''INSERT INTO method(class_id,
                                     function_id) VALUES (?, ?)''',
-                                    (function.Class_.id_, function.id_))
+                                    (function.class_.id_, function.id_))

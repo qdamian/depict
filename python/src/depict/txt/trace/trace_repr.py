@@ -35,7 +35,7 @@ class TraceRepr(object):
     def on_call(self, function_call):
         line = '| '
         try:
-            line += function_call.function.Class_.name + '.'
+            line += function_call.function.class_.name + '.'
         except (AttributeError, KeyError):
             pass
 

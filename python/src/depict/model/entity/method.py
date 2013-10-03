@@ -21,9 +21,9 @@ from depict.model.entity.function import Function
 class Method(Function):
     '''Represent a class method'''
 
-    def __init__(self, id_, name, Class_):
+    def __init__(self, id_, name, class_):
         super(Method, self).__init__(id_, name)
-        self.Class_ = Class_
+        self.class_ = class_
 
     def __repr__(self):
         return str(self.__dict__)
