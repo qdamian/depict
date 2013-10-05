@@ -17,7 +17,6 @@
 
 import os
 
-# pylint:disable = too-few-public-methods
 class EntityIdGenerator(object):
     '''
     Generate an identifier for a source code entity (node in the AST) based on

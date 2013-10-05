@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint:disable = invalid-name, too-few-public-methods
+# pylint:disable = invalid-name
 class Class_(object):
     '''Represent a class'''
 

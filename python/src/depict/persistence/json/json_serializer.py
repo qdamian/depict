@@ -34,7 +34,6 @@ class ObjectEncoder(JSONEncoder):
         encoder.key = self.key
         return loads(dumps(values, cls=ReferenceEncoder))
 
-# pylint:disable = too-few-public-methods
 class JsonSerializer(object):
     @staticmethod
     def serialize(obj, key):

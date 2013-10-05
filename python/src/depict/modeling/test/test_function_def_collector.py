@@ -15,70 +15,65 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.entity.class_ import Class_
 from depict.model.entity.function import Function
 from depict.model.entity.method import Method
-from depict.modeling.function_def_collector import FunctionDefCollector
-from mock import Mock, create_autospec, patch
-import logilab
-import unittest
 from depict.model.util.entity_id_generator import EntityIdGenerator
+from depict.modeling.function_def_collector import FunctionDefCollector
+from depict.test.template import fake, real
+from mock import Mock, MagicMock
+import logilab
 
-class TestFunctionDefCollector(unittest.TestCase):
+class TestFunctionDefCollector():
+    def setUp(self):
+        self.source_code_parser = fake('SourceCodeParser')
+        self.entity_id_generator = fake('EntityIdGenerator')
+        self.model = fake('Model')
+        self.function_def_collector = FunctionDefCollector(self.source_code_parser,
+                                                           self.entity_id_generator,
+                                                           self.model)
 
-    def test_creation(self):
-        code_parser_mock = Mock()
-        class_def_locator = FunctionDefCollector(code_parser_mock, Mock(), Mock())
-        code_parser_mock.register.assert_called_once_with(class_def_locator)
-
-    def test_register_itself_with_source_code_parser(self):
-        source_code_parser_mock = Mock()
-        class_def_locator = FunctionDefCollector(source_code_parser_mock, Mock(), Mock())
-        source_code_parser_mock.register.assert_called_once_with(class_def_locator)
+    def test_it_registers_itself_with_source_code_parser(self):
+        # Arranged and acted in setUp
+        # Assert
+        self.source_code_parser.register.assert_called_once_with(self.function_def_collector)
 
     def test_one_function_is_added_to_function_repo(self):
-        source_code_parser_mock = Mock()
-        entity_id_generator_mock = Mock()
-        entity_id_generator_mock.create.return_value = 'fake_file_name.py:44'
-        model_mock = Mock()
-        add_mock = Mock()
-        model_mock.functions.add = add_mock
-        function_def_collector = FunctionDefCollector(source_code_parser_mock,
-                                                      entity_id_generator_mock,
-                                                      model_mock)
-        fake_node = Mock()
-        fake_node.parent.file = 'fake_file_name.py'
-        fake_node.name = 'fake_function_name'
-        fake_node.lineno = 44
+        # Arrange
+        self.entity_id_generator.create.return_value = 'fake_file_name.py:44'
+        node = fake('Node', spec_set=False)
+        node.parent.file = 'fake_file_name.py'
+        node.name = 'fake_function_name'
+        node.lineno = 44
 
-        function_def_collector.on_function(fake_node)
+        # Act
+        self.function_def_collector.on_function(node)
 
-        expected_function = Function('fake_file_name.py:44', 'fake_function_name')
-        add_mock.assert_called_once_with(expected_function)
+        # Assert
+        expected_function = Function('fake_file_name.py:44',
+                                     'fake_function_name')
+        self.model.functions.add.assert_called_once_with(expected_function)
 
     def test_one_method_is_added_to_function_repo(self):
-        model_mock = Mock()
-
-        class_mock = create_autospec(Class_)
+        # Arrange
+        class_mock = real('Class_')
         class_mock.id_ = 'fake_file_name:33'
-        model_mock.classes.add(class_mock)
-        
-        funtions_mock = Mock()
-        model_mock.functions = funtions_mock
+        self.model.classes.add(class_mock)
 
-        entity_id_generator = EntityIdGenerator('.')
+        function_def_collector = FunctionDefCollector(self.source_code_parser,
+                                                      EntityIdGenerator('.'),
+                                                      self.model)
+        node = MagicMock()
+        node.parent = Mock(spec=logilab.astng.scoped_nodes.Class)
+        node.parent.parent.file = 'fake_file_name'
+        node.parent.lineno = 33
+        node.name = 'fake_function_name'
+        node.lineno = 44
 
-        function_def_collector = FunctionDefCollector(Mock(), entity_id_generator, model_mock)
-        fake_node = Mock()
-        fake_node.parent = Mock(spec=logilab.astng.scoped_nodes.Class)
-        fake_node.parent.parent.file = 'fake_file_name'
-        fake_node.parent.lineno = 33
-        fake_node.name = 'fake_function_name'
-        fake_node.lineno = 44
+        # Act
+        function_def_collector.on_function(node)
 
-        function_def_collector.on_function(fake_node)
-
+        # Assert
         expected_function = Method('fake_file_name:44',
                                    'fake_function_name',
                                    class_mock)
-        funtions_mock.add.assert_called_once_with(expected_function)
+        self.model.functions.add.assert_called_once_with(expected_function)

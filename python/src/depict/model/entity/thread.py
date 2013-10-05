@@ -17,7 +17,6 @@
 
 from depict.model.util.tree import RootNode
 
-# pylint:disable = too-few-public-methods
 class Thread(RootNode):
     '''Represent a thread such as the MainThread'''
 

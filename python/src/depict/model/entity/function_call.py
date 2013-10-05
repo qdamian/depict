@@ -20,11 +20,11 @@ from depict.model.util.tree import TreeNode
 class FunctionCall(TreeNode):
     '''Represent a call to a function (including methods)'''
 
-    def __init__(self, id_, function_id, parent, model):
+    def __init__(self, id_, function_id, thread, model):
         self.id_ = id_
         self.function_id = function_id
         self.model = model
-        super(FunctionCall, self).__init__(parent)
+        super(FunctionCall, self).__init__(thread)
 
     @property
     def function(self):

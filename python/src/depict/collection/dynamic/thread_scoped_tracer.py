@@ -23,7 +23,6 @@ def _get_filename_without_extension(filepath):
     base = os.path.basename(filepath)
     return os.path.splitext(base)[0]
 
-# pylint:disable = too-few-public-methods
 class ThreadScopedTracer(object):
     '''
     Trace function calls & returns using the system's trace function.

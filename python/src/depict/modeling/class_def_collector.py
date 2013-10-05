@@ -17,7 +17,6 @@
 
 from depict.model.entity.class_ import Class_
 
-# pylint:disable = too-few-public-methods
 class ClassDefCollector(object):
     def __init__(self, source_code_parser, entity_id_gen, model):
         self.entity_id_gen = entity_id_gen

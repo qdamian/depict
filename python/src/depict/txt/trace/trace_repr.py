@@ -20,7 +20,6 @@ from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.function_call_notifier import FunctionCallNotifier
 import sys
 
-# pylint:disable = too-few-public-methods
 class TraceRepr(object):
 
     def __init__(self, base_path):

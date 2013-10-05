@@ -19,7 +19,6 @@ from depict.model.entity.function import Function
 from depict.model.entity.method import Method
 from logilab import astng
 
-# pylint:disable = too-few-public-methods
 class FunctionDefCollector(object):
     def __init__(self, source_code_parser, entity_id_gen, model):
         self.entity_id_gen = entity_id_gen

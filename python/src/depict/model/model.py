@@ -17,7 +17,6 @@
 
 from depict.model.util.entity_repo import EntityRepo
 
-# pylint:disable = too-few-public-methods
 class Model(object):
     def __init__(self):
         self.modules = EntityRepo()

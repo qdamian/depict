@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint:disable = too-few-public-methods
 class Function(object):
     '''Represent a function (including methods)'''
 

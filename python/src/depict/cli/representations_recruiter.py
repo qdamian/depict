@@ -29,7 +29,6 @@ def get_repr_module_names(file_set):
     StaticDataNotifier(file_set, None, model).run()
     return [mod.name for mod in model.modules.get_all()]
 
-# pylint:disable = too-few-public-methods
 class RepresentationsRecruiter(object):
     def __init__(self, base_path):
         self.file_set = FileSet(directory=base_path,

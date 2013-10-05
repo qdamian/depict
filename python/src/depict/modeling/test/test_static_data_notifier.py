@@ -18,93 +18,82 @@
 from depict.model.entity.class_ import Class_
 from depict.model.entity.function import Function
 from depict.model.entity.method import Method
-from depict.modeling.class_def_collector import ClassDefCollector
-from depict.modeling.function_def_collector import FunctionDefCollector
-from depict.modeling.module_def_collector import ModuleDefCollector
+from depict.model.entity.module import Module
 from depict.modeling.static_data_notifier import StaticDataNotifier
 from mock import Mock, call, MagicMock, patch
-import unittest
-from depict.model.entity.module import Module
-from formic.formic import FileSet
-from depict.model.model import Model
+from depict.test.template import fake, real, unique
 
-class TestStaticDataNotifier(unittest.TestCase):
+class TestStaticDataNotifier():
     def setUp(self):
-        self.file_set_mock = MagicMock()
-        self.file_set_mock.directory = '.'
+        self.patcher = patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
+        self.orchestrator_mock = Mock()
+        self.def_collection_orchestrator_class = self.patcher.start()
+        self.def_collection_orchestrator_class.return_value = self.orchestrator_mock
 
-    def test_init(self):
-        dummy_file_set = FileSet(directory='.', include=['a.py', 'path/to/b.py'])
-        dummy_observer = Mock()
-        StaticDataNotifier(dummy_file_set, dummy_observer, Mock())
+        self.file_set = fake('FileSet')
+        self.observer = real('generic_observer')
+        self.model = fake('Model')
+        self.static_data_notifier = StaticDataNotifier(self.file_set,
+                                                       self.observer,
+                                                       self.model)
 
-    @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    def test_collects_data_from_each_file(self, orchestrator_mock_class):
-        orchestrator_mock = Mock()
-        orchestrator_mock_class.return_value = orchestrator_mock
-        file_set_mock = MagicMock()
-        file_set_mock.__iter__.return_value = ['a.py', 'path/to/b.py']
-        dummy_observer = Mock()
-        static_data_notifier = StaticDataNotifier(file_set_mock, dummy_observer, MagicMock())
-        static_data_notifier.run()
-        orchestrator_mock.process.assert_called_once_with(['a.py', 'path/to/b.py'])
+    def tearDown(self):
+        self.patcher.stop()
 
-    @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    def test_notifies_collected_modules(self, orchestrator_mock):
-        fake_module = Module('fake_module_id', 'fake_function_name')
-        model_mock = MagicMock()
-        model_mock.modules.get_all.return_value = [fake_module]
-        fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model_mock)
+    def test_collects_data_from_each_file(self):
+        # Arrange
+        self.file_set.__iter__.return_value = ['a.py', 'path/to/b.py']
 
-        static_data_notifier.run()
+        # Act
+        self.static_data_notifier.run()
 
-        expected_calls = [call(fake_module)]
-        fake_observer.on_module.assert_has_calls(expected_calls)
+        # Assert
+        self.orchestrator_mock.process.assert_called_once_with(['a.py', 'path/to/b.py'])
 
-    @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    def test_notifies_collected_classes(self, orchestrator_mock):
-        fake_class_1 = Class_('fake_class_id1', 'fake_class_name1')
-        fake_class_2 = Class_('fake_class_id2', 'fake_class_name2')
-        model_mock = MagicMock()
-        model_mock.classes.get_all.return_value = [fake_class_1, fake_class_2]
+    def test_notifies_collected_modules(self):
+        # Arrange
+        module = real('Module')
+        self.model.modules.get_all.return_value = [module]
 
-        fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model_mock)
+        # Act
+        self.static_data_notifier.run()
 
-        static_data_notifier.run()
+        # Assert
+        self.observer.on_module.assert_has_calls([call(module)])
 
-        expected_calls = [call(fake_class_1), call(fake_class_2)]
-        fake_observer.on_class.assert_has_calls(expected_calls)
+    def test_notifies_collected_classes(self):
+        # Arrange
+        class_1 = unique(real('Class_'))
+        class_2 = unique(real('Class_'))
+        self.model.classes.get_all.return_value = [class_1, class_2]
 
-    @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    def test_notifies_collected_functions(self, orchestrator_mock):
-        fake_function = Function('fake_function_name', 'fake_function_id')
-        fake_class = Class_('fake_class_id', 'fake_class_name')
-        fake_method = Method('fake_method_id', 'fake_method_name', fake_class)
-        model_mock = MagicMock()
-        model_mock.functions.get_all.return_value = [fake_function, fake_method]
-        fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, model_mock)
+        # Act
+        self.static_data_notifier.run()
 
-        static_data_notifier.run()
+        # Assert
+        expected_calls = [call(class_1), call(class_2)]
+        self.observer.on_class.assert_has_calls(expected_calls)
 
-        expected_calls = [call(fake_function), call(fake_method)]
-        fake_observer.on_function.assert_has_calls(expected_calls)
+    def test_notifies_collected_functions(self):
+        # Arrange
+        function = fake('Function')
+        method = fake('Method')
+        self.model.functions.get_all.return_value = [function, method]
+
+        # Act
+        self.static_data_notifier.run()
+
+        # Assert
+        expected_calls = [call(function), call(method)]
+        self.observer.on_function.assert_has_calls(expected_calls)
 
     def test_ignores_error_if_observer_does_not_expect_a_notification(self):
-        function_repo_mock = Mock()
-        fake_function = Function('fake_function_name', 'fake_function_id')
-        function_repo_mock.get_all.return_value = [fake_function]
-        fake_observer = Mock()
-        fake_observer.on_function.side_effect = AttributeError
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer)
-        static_data_notifier.run()
+        # Arrange
+        fake_function = real('Function')
+        self.model.functions.get_all.return_value = [fake_function]
+        self.observer.on_function.side_effect = AttributeError
 
-    @patch('depict.modeling.static_data_notifier.DefCollectionOrchestator')
-    def test_ignores_error_if_observer_does_not_expect_a_notification(self, orchestrator_mock):
-        function_repo_mock = MagicMock()
-        fake_observer = Mock()
-        static_data_notifier = StaticDataNotifier(self.file_set_mock, fake_observer, MagicMock())
-        static_data_notifier.run()
-        fake_observer.on_collection_completed.assert_called_once_with()
+        # Act
+        self.static_data_notifier.run()
+
+        # Assert that no exceptions are raised

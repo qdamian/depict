@@ -19,30 +19,39 @@ from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 from mock import Mock, patch, ANY
 from nose.tools import assert_raises
-import unittest
+from depict.test.template import fake
 
 @patch('depict.modeling.def_collection_orchestrator.EntityIdGenerator', autospec=True)
 @patch('depict.modeling.def_collection_orchestrator.SourceCodeParser', autospec=True)
-class TestDefCollectionOrchestrator(unittest.TestCase):
+class TestDefCollectionOrchestrator():
     def setUp(self):
-        self.fake_collector = Mock()
-        self.fake_collector_class = Mock(return_value=self.fake_collector)
+        self.generic_collector_class = Mock()
 
-    def test_creates_included_collectors(self, dummy1, dummy2):
-        def_collection_orchestrator = DefCollectionOrchestator('.', Mock())
+    def test_it_creates_the_included_collectors(self, _, __):
+        # Arrange
+        def_collection_orchestrator = DefCollectionOrchestator(fake('base_path'),
+                                                               fake('Model'))
 
-        def_collection_orchestrator.include(self.fake_collector_class)
-        def_collection_orchestrator.process('fake_file_name')
+        # Act
+        def_collection_orchestrator.include(self.generic_collector_class)
+        def_collection_orchestrator.process('file_name')
 
-        self.fake_collector_class.assert_called_once_with(ANY, ANY, ANY)
+        # Assert
+        self.generic_collector_class.assert_called_once_with(ANY, ANY, ANY)
 
-    def test_process_raises_already_processed_if_all_files_had_been_processed(self, source_code_parser_class_mock, entity_id_generator_class_mock):
-        source_code_parser_mock = Mock()
+    def test_process_raises_exception_if_all_files_had_been_processed(self,
+                                              source_code_parser_class_mock,
+                                              entity_id_generator_class_mock):
+        # Arrange
+        source_code_parser_mock = fake('SourceCodeParser')
         source_code_parser_mock.add_files.side_effect = [True, False]
         source_code_parser_class_mock.return_value = source_code_parser_mock
-        def_collection_orchestrator = DefCollectionOrchestator('.', Mock())
+        def_collection_orchestrator = DefCollectionOrchestator(fake('base_path'),
+                                                               fake('Model'))
 
-        def_collection_orchestrator.include(self.fake_collector_class)
-        def_collection_orchestrator.process('fake_file_name')
+        # Act
+        def_collection_orchestrator.include(self.generic_collector_class)
+        def_collection_orchestrator.process('file_name')
 
-        assert_raises(AlreadyProcessed, def_collection_orchestrator.process, 'fake_file_name')
+        # Assert
+        assert_raises(AlreadyProcessed, def_collection_orchestrator.process, 'file_name')

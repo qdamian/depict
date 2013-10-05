@@ -17,7 +17,6 @@
 
 from depict.persistence.json.json_serializer import JsonSerializer
 
-# pylint:disable = too-few-public-methods
 class JsonDoc(object):
     def __init__(self, out_filename, model):
         self.out_filename = out_filename

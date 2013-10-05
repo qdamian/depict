@@ -21,7 +21,6 @@ from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.modeling.module_def_collector import ModuleDefCollector
 
-# pylint:disable = too-few-public-methods
 class StaticDataNotifier(object):
     def __init__(self, file_set, observer, model):
         self.observer = observer
@@ -30,7 +29,7 @@ class StaticDataNotifier(object):
         self.def_collection_orchestrator = DefCollectionOrchestator(
                                                 file_set.directory, self.model)
 
-    def _safely_notify(self, function_name, value=None):
+    def _best_effort_notify(self, function_name, value=None):
         try:
             notification_function = getattr(self.observer, function_name)
             if value:
@@ -58,7 +57,6 @@ class StaticDataNotifier(object):
                                   ('on_class', self.model.classes),
                                   ('on_function', self.model.functions)]:
             for value in repo.get_all():
-                self._safely_notify(func_name, value)
+                self._best_effort_notify(func_name, value)
 
-        self._safely_notify('on_collection_completed')
         return self.model

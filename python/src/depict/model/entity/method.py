@@ -17,7 +17,6 @@
 
 from depict.model.entity.function import Function
 
-# pylint:disable = invalid-name, too-few-public-methods
 class Method(Function):
     '''Represent a class method'''
 
