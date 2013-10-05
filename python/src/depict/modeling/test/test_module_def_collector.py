@@ -37,7 +37,7 @@ class TestModuleDefCollector(unittest.TestCase):
 
     def test_adds_one_module_to_the_model(self):
         # Arrange
-        fake_node = fake('Node', spec_set=False)
+        fake_node = fake('NodeNG', spec_set=False)
         fake_node.file = 'path/to/file.py'
         fake_node.name = 'path.to.file'
         self.entity_id_generator.create.return_value = 'to/file.py'
@@ -70,7 +70,7 @@ class TestDependencyCollection():
 
     def test_registers_dependency_with_other_modules_due_to_import(self):
         # Arrange: emulate 'import some.module, some.other.module'
-        fake_import_node = fake('Node', spec_set=False)
+        fake_import_node = fake('NodeNG', spec_set=False)
         fake_import_node.names = [('some.module', None),
                              ('some.other.module', None)]
 
@@ -82,7 +82,7 @@ class TestDependencyCollection():
 
     def test_registers_dependency_with_other_module_due_to_from_import(self):
         # Arrange: emulate 'from some.module import x'
-        fake_from_node = fake('Node', spec_set=False)
+        fake_from_node = fake('NodeNG', spec_set=False)
         fake_from_node.modname = 'some.module'
 
         # Act

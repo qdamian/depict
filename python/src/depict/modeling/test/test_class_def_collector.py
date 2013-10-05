@@ -37,7 +37,7 @@ class TestClassDefCollector():
 
     def test_it_adds_one_class_to_repo(self):
         # Arrange
-        node = fake('Node', spec_set=False)
+        node = fake('NodeNG', spec_set=False)
         node.parent.file = 'path/to/file.py'
         node.lineno = 27
         node.name = 'fake_class_name'
@@ -55,7 +55,7 @@ class TestClassDefCollector():
         self.entity_id_generator.create.return_value = 'path/to/file.py:27'
         module = fake('Module')
         self.model.modules.get_by_id.return_value = module
-        node = fake('Node', spec_set=False)
+        node = fake('NodeNG', spec_set=False)
         node.parent.file = 'path/to/file.py'
         node.lineno = 27
         node.name = 'fake_class_name'

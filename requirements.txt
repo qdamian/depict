@@ -4,7 +4,6 @@ nose-parameterized
 pylint
 formic
 pyratemp
-logilab-astng
 python-coveralls
 coverage
 nose-exclude

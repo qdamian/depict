@@ -18,14 +18,14 @@
 from depict.collection.static.defs_visitor import DefsVisitor
 from depict.collection.static.relations_visitor import RelationsVisitor
 from depict.model.util.entity_id_generator import EntityIdGenerator
-from logilab.astng.exceptions import ASTNGBuildingException
-from logilab.astng.manager import ASTNGManager
+from astroid.exceptions import AstroidBuildingException
+from astroid.manager import AstroidManager
 import sys
 
 class SourceCodeParser(object):
     '''
-    Parse source files using LogiLab's Abstract Syntax Tree Next Generation and
-    notify definitions and relations to observers.
+    Parse source files using Astroid and notify definitions and relations to
+    observers.
 
     The source files to parse are specified by the user of this class by passing
     a "base path" on construction (root of the program to be analyzed) and
@@ -53,9 +53,9 @@ class SourceCodeParser(object):
         self.observers.update([observer])
 
     def parse(self):
-        manager = ASTNGManager()
+        manager = AstroidManager()
         project = manager.project_from_files(list(self.file_paths),
-                                   func_wrapper = astng_ignore_modname_wrapper)
+                                func_wrapper = astroid_ignore_modname_wrapper)
 
         # First collect all definitions (e.g. module X, function foo) before
         # trying to relate one definition with another (e.g. module X depends on
@@ -63,12 +63,12 @@ class SourceCodeParser(object):
         DefsVisitor(self.observers).visit(project)
         RelationsVisitor(self.observers).visit(project)
 
-def astng_ignore_modname_wrapper(func, modname):
-    '''A no-op decorator that must be passed to ASTNGManager to override its
+def astroid_ignore_modname_wrapper(func, modname):
+    '''A no-op decorator that must be passed to AstroidManager to override its
        default behavior which is to print the module names to stdout'''
     try:
         return func(modname)
-    except ASTNGBuildingException, exc:
+    except AstroidBuildingException, exc:
         print exc
     except Exception, exc:
         import traceback

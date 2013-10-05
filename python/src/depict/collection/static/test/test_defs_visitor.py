@@ -23,7 +23,7 @@ class TestDefsVisitor():
     def test_function_notifications_are_suitable_for_the_function_defs_collector(self):
         # Arrange
         function_def_collector = fake('FunctionDefCollector')
-        node = fake('Node')
+        node = fake('NodeNG')
         defs_visitor = DefsVisitor([function_def_collector])
 
         # Act

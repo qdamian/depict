@@ -21,7 +21,7 @@ from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.test.template import fake, real
 from mock import Mock, MagicMock
-import logilab
+import astroid
 
 class TestFunctionDefCollector():
     def setUp(self):
@@ -40,7 +40,7 @@ class TestFunctionDefCollector():
     def test_one_function_is_added_to_function_repo(self):
         # Arrange
         self.entity_id_generator.create.return_value = 'fake_file_name.py:44'
-        node = fake('Node', spec_set=False)
+        node = fake('NodeNG', spec_set=False)
         node.parent.file = 'fake_file_name.py'
         node.name = 'fake_function_name'
         node.lineno = 44
@@ -63,7 +63,7 @@ class TestFunctionDefCollector():
                                                       EntityIdGenerator('.'),
                                                       self.model)
         node = MagicMock()
-        node.parent = Mock(spec=logilab.astng.scoped_nodes.Class)
+        node.parent = Mock(spec=astroid.scoped_nodes.Class)
         node.parent.parent.file = 'fake_file_name'
         node.parent.lineno = 33
         node.name = 'fake_function_name'

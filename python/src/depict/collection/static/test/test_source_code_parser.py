@@ -22,7 +22,7 @@ from depict.collection.static.source_code_parser import SourceCodeParser
 class TestSourceCodeParser():
 
     def setUp(self):
-        self.ast_ng_manager_patcher = patch('depict.collection.static.source_code_parser.ASTNGManager')
+        self.ast_ng_manager_patcher = patch('depict.collection.static.source_code_parser.AstroidManager')
         self.ast_ng_manager_mock = Mock()
         self.ast_ng_manager_class_mock = self.ast_ng_manager_patcher.start()
         self.ast_ng_manager_class_mock.return_value = self.ast_ng_manager_mock

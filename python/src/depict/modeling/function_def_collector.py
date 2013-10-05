@@ -17,7 +17,7 @@
 
 from depict.model.entity.function import Function
 from depict.model.entity.method import Method
-from logilab import astng
+import astroid
 
 class FunctionDefCollector(object):
     def __init__(self, source_code_parser, entity_id_gen, model):
@@ -27,7 +27,7 @@ class FunctionDefCollector(object):
 
     def on_function(self, node):
         name = node.name
-        if isinstance(node.parent, astng.scoped_nodes.Class):
+        if isinstance(node.parent, astroid.scoped_nodes.Class):
             id_ = self.entity_id_gen.create(node.parent.parent.file,
                                             node.lineno)
             class_id = self.entity_id_gen.create(node.parent.parent.file,

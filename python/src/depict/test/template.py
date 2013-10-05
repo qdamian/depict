@@ -41,7 +41,7 @@ from depict.modeling.class_def_collector import ClassDefCollector
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.function_def_collector import FunctionDefCollector
 from formic.formic import FileSet
-from logilab.common.tree import Node
+from astroid.bases import NodeNG
 from mock import create_autospec, MagicMock
 import inspect
 import uuid
@@ -52,7 +52,7 @@ __SourceCodeParser = SourceCodeParser(__base_path)
 __EntityIdGenerator = EntityIdGenerator(__base_path)
 __Model = Model()
 __Module = Module('module_id', 'module_name')
-__Node = Node()
+__NodeNG = NodeNG()
 __DefCollectionOrchestrator = DefCollectionOrchestator(__base_path, __Model)
 __Thread = Thread('thread_id')
 __EntityRepo = EntityRepo()

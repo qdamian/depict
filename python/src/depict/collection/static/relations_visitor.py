@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from logilab.astng.utils import LocalsVisitor
+from astroid.utils import LocalsVisitor
 from depict.collection.static.notifier import best_effort_notify
 
 class RelationsVisitor(LocalsVisitor):
