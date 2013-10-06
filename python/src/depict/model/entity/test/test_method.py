@@ -15,16 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.entity.method import Method
-import unittest
+from depict.test.template import real, unique
+from nose.tools import assert_equal, assert_not_equal
 
-class TestMethod(unittest.TestCase):
+class TestMethod():
     def test_creation(self):
-        Method('fake_function_name',
-                   'fake_function_id',
-                   'fake_parent')
+        real('Method')
 
     def test_eq_comparison(self):
-        method1 = Method('fake_id1', 'dummy_function_name1', 'dummy_parent1')
-        method2 = Method('fake_id1', 'dummy_function_name2', 'dummy_parent2')
-        self.assertEqual(method1, method2)
+        method1 = real('Method')
+        method2 = real('Method')
+        assert_equal(method1, method2)
+
+    def test_not_eq_comparison(self):
+        method1 = unique(real('Method'))
+        method2 = unique(real('Method'))
+        assert_not_equal(method1, method2)

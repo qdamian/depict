@@ -15,9 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.util.tree import RootNode
+from depict.model.util.tree import TreeRootNode
 
-class Thread(RootNode):
+class Thread(TreeRootNode):
     '''Represent a thread such as the MainThread'''
 
     def __init__(self, id_):

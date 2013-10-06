@@ -27,3 +27,9 @@ Scenario: trace function calls
     Given I dumped the sample program provided by depict
     When I run depict with the trace representation
     Then I see the function calls printed
+
+@trace @actors
+Scenario: trace actors
+    Given I dumped the sample program provided by depict
+    When I run depict with the trace representation
+    Then I see the class or module each called function belongs to

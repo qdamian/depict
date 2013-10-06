@@ -18,25 +18,25 @@
 from depict.model.entity.function import Function
 from depict.model.entity.function_call import FunctionCall
 from depict.model.util.entity_repo import EntityRepo
-from depict.model.util.tree import RootNode
+from depict.model.util.tree import TreeRootNode
 from mock import patch, Mock
 from nose.tools import assert_equal
-import unittest
 from depict.model.model import Model
+from depict.test.template import real
 
-class TestFunctionCall(unittest.TestCase):
+class TestFunctionCall():
     def setUp(self):
-        self.thread = RootNode()
+        self.thread = TreeRootNode()
 
     def test_creation(self):
         FunctionCall('fake_function_call_id', 'fake_function_id', self.thread, Mock())
 
     def test_a_function_call_knows_which_function_was_called(self):
-        fake_function_id = 'fake_function_id'
-        expected_function = Function(fake_function_id, 'function_name')
+        expected_function = real('Function')
+        function_id = expected_function.id_
         model_mock = Model()
         model_mock.functions.add(expected_function)
-        function_call = FunctionCall('dummy_id', fake_function_id, self.thread, model_mock)
+        function_call = FunctionCall('dummy_id', function_id, self.thread, model_mock)
 
         actual_function = function_call.function
 

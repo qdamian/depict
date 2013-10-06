@@ -15,17 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
-from depict.output.toy.def_list import DefList
 from depict.collection.dynamic.frame_digest import FrameDigest
-from depict.model.entity.function_call import FunctionCall
-from depict.model.entity.function import Function
-import unittest
 from depict.model.entity.class_ import Class_
-from formic.formic import FileSet
+from depict.output.toy.def_list import DefList
+from depict.test.template import real
+from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
+from nose.tools import assert_true
 
 @patch('depict.output.toy.def_list.open', create=True)
-class TestDefList(unittest.TestCase):
+class TestDefList():
     def setUp(self):
         self.file_set_mock = MagicMock()
         self.file_set_mock.directory = '.'
@@ -50,16 +48,16 @@ class TestDefList(unittest.TestCase):
         file_mock = Mock()
         open_mock.return_value = file_mock
         def_list = DefList(self.file_set_mock, 'dummy_filename')
-        fake_function = Function('fake_id', 'fake_name')
+        fake_function = real('Function')
         def_list.on_function(fake_function)
-        expected_call = call('fake_name\n')
-        self.assertTrue(expected_call in file_mock.write.mock_calls)
+        expected_call = call('%s\n' % fake_function.name)
+        assert_true(expected_call in file_mock.write.mock_calls)
 
     def test_stores_class_name_for_each_class(self, open_mock):
         file_mock = Mock()
         open_mock.return_value = file_mock
         def_list = DefList(self.file_set_mock, 'dummy_filename')
-        fake_class = Class_('fake_id', 'fake_name')
+        fake_class = real('Class_')
         def_list.on_class(fake_class)
-        expected_call = call('fake_name\n')
-        self.assertTrue(expected_call in file_mock.write.mock_calls)
+        expected_call = call('%s\n' % fake_class.name)
+        assert_true(expected_call in file_mock.write.mock_calls)

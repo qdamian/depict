@@ -47,6 +47,10 @@ def step_impl(context):
 
 @then(u'I see the function calls printed')
 def step_impl(context):
-    assert 'main' in context.stdout
     assert 'say_hi' in context.stdout
-    assert 'say_bye' in context.stdout
+    assert 'elapsed' in context.stdout
+
+@then(u'I see the class or module each called function belongs to')
+def step_impl(context):
+    assert 'sample.main.say_hi' in context.stdout
+    assert 'Stopwatch.elapsed' in context.stdout

@@ -27,7 +27,7 @@ class TreeNode(object):
         self.children.append(node)
 
 
-class RootNode(TreeNode):
+class TreeRootNode(TreeNode):
     def __init__(self):
         self.branch_depth = 0
-        super(RootNode, self).__init__(None)
+        super(TreeRootNode, self).__init__(None)

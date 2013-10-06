@@ -47,11 +47,18 @@ class TestJsonDoc():
             actual_calls = [call[0][0] for call in handle.write.call_args_list]
             assert_equal_json(''.join(actual_calls), '''
                                   [{"id_": "fake_module_id1",
-                                    "dependencies": [],
-                                    "type": "Module",
-                                    "name": "fake_module_name1"},
+                                  "name": "fake_module_name1",
+                                  "parent": null,
+                                  "dependencies": [],
+                                  "branch_depth": 0,
+                                  "type": "Module",
+                                  "children": []},
                                   {"id_": "fake_module_id2",
-                                    "dependencies": [],
-                                    "type": "Module",
-                                    "name": "fake_module_name2"}]
+                                  "name": "fake_module_name2",
+                                  "parent": null,
+                                  "dependencies": [],
+                                  "branch_depth": 0,
+                                  "type": "Module",
+                                  "children": []}]
                                     ''')
+

@@ -20,22 +20,34 @@ from depict.model.entity.method import Method
 import astroid
 
 class FunctionDefCollector(object):
+    '''
+    Create an entity in the model for each function definition, converting
+    nodes from the Astroid representation to depict's representation.
+    '''
+
     def __init__(self, source_code_parser, entity_id_gen, model):
         self.entity_id_gen = entity_id_gen
         self.model = model
         source_code_parser.register(self)
 
     def on_function(self, node):
-        name = node.name
         if isinstance(node.parent, astroid.scoped_nodes.Class):
-            id_ = self.entity_id_gen.create(node.parent.parent.file,
-                                            node.lineno)
-            class_id = self.entity_id_gen.create(node.parent.parent.file,
-                                                 node.parent.lineno)
-            class_ = self.model.classes.get_by_id(class_id)
-            function = Method(id_, name, class_)
-            class_.add_method(function)
+            function = self._create_method_entity(node)
         else:
-            id_ = self.entity_id_gen.create(node.parent.file, node.lineno)
-            function = Function(id_, name)
+            function = self._create_function_entity(node)
         self.model.functions.add(function)
+
+    def _create_method_entity(self, node):
+        id_ = self.entity_id_gen.create(node.parent.parent.file, node.lineno)
+        class_id = self.entity_id_gen.create(node.parent.parent.file,
+                                             node.parent.lineno)
+        class_ = self.model.classes.get_by_id(class_id)
+        function = Method(id_, node.name, class_)
+        class_.add_method(function)
+        return function
+
+    def _create_function_entity(self, node):
+        id_ = self.entity_id_gen.create(node.parent.file, node.lineno)
+        module_id = self.entity_id_gen.create(node.parent.file)
+        module = self.model.modules.get_by_id(module_id)
+        return Function(id_, node.name, module)

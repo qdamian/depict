@@ -15,13 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-class Module(object):
+from depict.model.util.tree import TreeRootNode
+
+class Module(TreeRootNode):
     '''Represent a module'''
 
     def __init__(self, id_, name):
         self.id_ = id_
         self.name = name
         self.dependencies = []
+        super(Module, self).__init__()
 
     def __eq__(self, other):
         return self.id_ == other.id_

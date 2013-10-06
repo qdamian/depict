@@ -17,7 +17,7 @@
 
 from depict.model.entity.thread import Thread
 from nose.tools import assert_equal, assert_true
-from depict.model.util.tree import RootNode
+from depict.model.util.tree import TreeRootNode
 
 class TestFunction():
     def test_creation(self):
@@ -29,4 +29,4 @@ class TestFunction():
         assert_equal(thread1, thread2)
 
     def test_is_a_tree_root_node(self):
-        assert_true(isinstance(Thread(''), RootNode))
+        assert_true(isinstance(Thread(''), TreeRootNode))

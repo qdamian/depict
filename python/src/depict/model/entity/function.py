@@ -15,12 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-class Function(object):
+from depict.model.util.tree import TreeNode
+
+class Function(TreeNode):
     '''Represent a function (including methods)'''
 
-    def __init__(self, id_, name):
+    def __init__(self, id_, name, parent):
         self.id_ = id_
         self.name = name
+        super(Function, self).__init__(parent)
 
     def __eq__(self, other):
         return other.id_ == self.id_

@@ -39,18 +39,25 @@ class TestFunctionDefCollector():
 
     def test_one_function_is_added_to_function_repo(self):
         # Arrange
-        self.entity_id_generator.create.return_value = 'fake_file_name.py:44'
-        node = fake('NodeNG', spec_set=False)
-        node.parent.file = 'fake_file_name.py'
-        node.name = 'fake_function_name'
+        module = real('Module')
+        module.id_ = 'fake_file_name'
+        self.model.modules.add(module)
+
+        function_def_collector = FunctionDefCollector(self.source_code_parser,
+                                                      EntityIdGenerator('.'),
+                                                      self.model)
+        node = MagicMock()
+        node.parent = Mock(spec=astroid.scoped_nodes.Module)
+        node.parent.file = 'fake_file_name'
         node.lineno = 44
 
         # Act
-        self.function_def_collector.on_function(node)
+        function_def_collector.on_function(node)
 
         # Assert
-        expected_function = Function('fake_file_name.py:44',
-                                     'fake_function_name')
+        expected_function = Function('fake_file_name:44',
+                                     'fake_function_name',
+                                     module)
         self.model.functions.add.assert_called_once_with(expected_function)
 
     def test_one_method_is_added_to_function_repo(self):

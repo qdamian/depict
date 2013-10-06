@@ -15,23 +15,28 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.entity.class_ import Class_
 from depict.model.entity.method import Method
-import unittest
+from depict.test.template import real, unique
+from nose.tools import assert_equal, assert_not_equal
 
-class TestClass(unittest.TestCase):
+class TestClass():
     def test_creation(self):
-        class_ = Class_('fake_class_id', 'fake_class_name', 'fake_module')
-        self.assertEqual(class_.id_, 'fake_class_id')
-        self.assertEqual(class_.name, 'fake_class_name')
-        self.assertEqual(class_.module, 'fake_module')
+        # Arrange nothing
+        # Act
+        real('Class_')
+        # Asserting that no exceptions are raised
 
     def test_add_one_method(self):
-        class_ = Class_('dummy_class_id', 'dummy_class_name')
+        class_ = real('Class_')
         method = Method('dummy_id', 'dummy_name', class_)
         class_.add_method(method)
 
     def test_eq_comparison(self):
-        class_1 = Class_('fake_class_id1', 'dummy_class_name1')
-        class_2 = Class_('fake_class_id1', 'dummy_class_name2')
-        self.assertEqual(class_1, class_2)
+        class_1 = real('Class_')
+        class_2 = real('Class_')
+        assert_equal(class_1, class_2)
+
+    def test_not_eq_comparison(self):
+        class_1 = unique(real('Class_'))
+        class_2 = unique(real('Class_'))
+        assert_not_equal(class_1, class_2)

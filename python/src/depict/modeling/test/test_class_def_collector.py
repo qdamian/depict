@@ -17,7 +17,7 @@
 
 from depict.modeling.class_def_collector import ClassDefCollector
 from depict.model.entity.class_ import Class_
-from depict.test.template import fake
+from depict.test.template import fake, real
 
 class TestClassDefCollector():
     def setUp(self):
@@ -47,7 +47,8 @@ class TestClassDefCollector():
         self.class_def_locator.on_class(node)
 
         # Assert
-        expected_class = Class_('to/file.py:27', 'fake_class_name')
+        expected_class = real('Class_')
+        expected_class.id_ = 'to/file.py:27'
         self.model.classes.add.assert_called_once_with(expected_class)
 
     def test_it_initializes_the_classes_with_the_module_they_belong_to(self):

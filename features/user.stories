@@ -21,3 +21,9 @@ so that I can see the interactions between classes and modules along time.
 
 As a user I want to be able to see all function calls in the time-based
 representations.
+
+# actors
+
+As a user I want to know the class or module that each called function belongs
+to so that I can interpret the sequence of function calls as an interaction
+between actors.

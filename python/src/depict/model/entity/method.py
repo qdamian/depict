@@ -21,7 +21,7 @@ class Method(Function):
     '''Represent a class method'''
 
     def __init__(self, id_, name, class_):
-        super(Method, self).__init__(id_, name)
+        super(Method, self).__init__(id_, name, class_)
         self.class_ = class_
 
     def __repr__(self):

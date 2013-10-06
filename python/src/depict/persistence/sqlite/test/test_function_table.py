@@ -17,10 +17,11 @@
 
 from depict.model.entity.function import Function
 from depict.persistence.sqlite.function_table import FunctionTable
+from depict.test.template import real
+from nose.tools import assert_true
 import sqlite3
-import unittest
 
-class TestFunctionTable(unittest.TestCase):
+class TestFunctionTable():
     def test_table_creation(self):
         connection = sqlite3.connect(':memory:')
         function_table = FunctionTable(connection)
@@ -31,10 +32,11 @@ class TestFunctionTable(unittest.TestCase):
         connection = sqlite3.connect(':memory:')
         function_table = FunctionTable(connection)
         function_table.create()
-        fake_class = Function('fake_function_id', 'fake_function_name')
-        function_table.insert(fake_class)
+        fake_function = real('Function')
+        function_table.insert(fake_function)
         cursor = connection.cursor()
         cursor.execute('''SELECT id, name FROM function
-                          WHERE id = 'fake_function_id' AND
-                          name = 'fake_function_name' ''')
-        self.assertTrue(cursor.fetchone())
+                          WHERE id = '%s' AND
+                          name = '%s' ''' % (fake_function.id_,
+                                             fake_function.name))
+        assert_true(cursor.fetchone())

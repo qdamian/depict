@@ -16,13 +16,19 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.entity.function import Function
-import unittest
+from depict.test.template import fake, real, unique
+from nose.tools import assert_equal, assert_not_equal
 
-class TestFunction(unittest.TestCase):
+class TestFunction():
     def test_creation(self):
-        Function('fake_function_id', 'fake_function_name')
+        fake('Function')
 
     def test_equal_comparison(self):
-        function1 = Function('fake_id1', 'dummy_name1')
-        function2 = Function('fake_id1', 'dummy_name2')
-        self.assertEqual(function1, function2)
+        function1 = real('Function')
+        function2 = real('Function')
+        assert_equal(function1, function2)
+
+    def test_non_equal_comparison(self):
+        function1 = unique(real('Function'))
+        function2 = unique(real('Function'))
+        assert_not_equal(function1, function2)

@@ -15,13 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.model.entity.class_ import Class_
 from depict.model.entity.method import Method
 from depict.persistence.sqlite.method_table import MethodTable
+from depict.test.template import real
+from nose.tools import assert_true
 import sqlite3
-import unittest
-from depict.model.entity.class_ import Class_
 
-class TestMethodTable(unittest.TestCase):
+class TestMethodTable():
     def test_table_creation(self):
         connection = sqlite3.connect(':memory:')
         method_table = MethodTable(connection)
@@ -32,11 +33,12 @@ class TestMethodTable(unittest.TestCase):
         connection = sqlite3.connect(':memory:')
         method_table = MethodTable(connection)
         method_table.create()
-        fake_class = Class_('fake_class_id', 'fake_class_name')
-        fake_method = Method('fake_method_id', 'fake_method_name', fake_class)
+        fake_class = real('Class_')
+        fake_method = real('Method')
         method_table.insert(fake_method)
         cursor = connection.cursor()
         cursor.execute('''SELECT function_id, class_id FROM method
-                          WHERE function_id = 'fake_method_id' AND
-                          class_id = 'fake_class_id' ''')
-        self.assertTrue(cursor.fetchone())
+                          WHERE function_id = '%s' AND
+                          class_id = '%s' ''' % (fake_method.id_,
+                                                 fake_class.id_))
+        assert_true(cursor.fetchone())

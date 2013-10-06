@@ -15,14 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.model.util.tree import TreeNode
+
 # pylint:disable = invalid-name
-class Class_(object):
+class Class_(TreeNode):
     '''Represent a class'''
 
-    def __init__(self, id_, name, module=None):
+    def __init__(self, id_, name, module):
         self.id_ = id_
         self.name = name
         self.module = module
+        super(Class_, self).__init__(module)
 
     def add_method(self, method):
         pass

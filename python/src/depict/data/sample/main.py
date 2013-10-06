@@ -17,20 +17,25 @@
 
 import logging
 import sys
+import time
 
 logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 LOGGER = logging.getLogger(__name__)
 
 def say_hi():
-    LOGGER.debug('Hi!')
+    LOGGER.debug("This is depict's sample program")
 
-def say_bye():
-    LOGGER.debug('Bye!')
+class Stopwatch(object):
+    def __init__(self):
+        self.start_time = time.time()
+
+    def elapsed(self):
+        return time.time() - self.start_time
 
 def main():
-    LOGGER.debug("This is depict's sample program")
+    stopwatch = Stopwatch()
     say_hi()
-    say_bye()
+    LOGGER.debug('Elapsed time: %s sec', stopwatch.elapsed())
 
 if __name__ == '__main__':
     main()

@@ -22,6 +22,7 @@ from mock import Mock, patch, MagicMock
 import unittest
 from depict.model.entity.method import Method
 from depict.model.entity.module import Module
+from depict.test.template import real
 
 class TestSQLiteDB(unittest.TestCase):
 
@@ -72,18 +73,18 @@ class TestSQLiteDB(unittest.TestCase):
             function_table_mock = Mock()
             function_table_class_mock.return_value = function_table_mock
             sqlite_db = SQLiteDB(':memory:')
-            fake_function = Function('fake_function_id', 'fake_function_name')
-            sqlite_db.on_function(fake_function)
-            function_table_mock.insert.assert_called_with(fake_function)
+            function = real('Function')
+            sqlite_db.on_function(function)
+            function_table_mock.insert.assert_called_with(function)
 
     def test_stores_each_class_def(self):
         with patch('depict.persistence.sqlite.sqlite_db.ClassTable') as class_table_class_mock:
             class_table_mock = Mock()
             class_table_class_mock.return_value = class_table_mock
             sqlite_db = SQLiteDB(':memory:')
-            fake_class = Class_('fake_class_id', 'fake_class_name')
-            sqlite_db.on_class(fake_class)
-            class_table_mock.insert.assert_called_with(fake_class)
+            class_ = real('Class_')
+            sqlite_db.on_class(class_)
+            class_table_mock.insert.assert_called_with(class_)
 
     @patch('depict.persistence.sqlite.sqlite_db.FunctionTable', autospec=True)
     @patch('depict.persistence.sqlite.sqlite_db.MethodTable', autospec=True)
@@ -93,11 +94,11 @@ class TestSQLiteDB(unittest.TestCase):
         method_table_mock = Mock()
         method_table_class_mock.return_value = method_table_mock
         sqlite_db = SQLiteDB(':memory:')
-        fake_class = Class_('fake_class_id', 'fake_class_name')
-        fake_method = Method('fake_method_id', 'fake_method_name', fake_class)
-        sqlite_db.on_function(fake_method)
-        function_table_mock.insert.assert_called_once_with(fake_method)
-        method_table_mock.insert.assert_called_with(fake_method)
+        class_ = real('Class_')
+        method = Method('method_id', 'method_name', class_)
+        sqlite_db.on_function(method)
+        function_table_mock.insert.assert_called_once_with(method)
+        method_table_mock.insert.assert_called_with(method)
 
     def test_commits_sql_transactions(self):
         sqlite_db = SQLiteDB(':memory:')

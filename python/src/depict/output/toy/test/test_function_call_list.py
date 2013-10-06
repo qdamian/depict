@@ -21,6 +21,7 @@ from depict.collection.dynamic.frame_digest import FrameDigest
 from depict.model.entity.function_call import FunctionCall
 from depict.model.entity.function import Function
 import unittest
+from depict.test.template import real
 
 @patch('depict.output.toy.function_call_list.FunctionCallNotifier', mock=MagicMock())
 @patch('depict.output.toy.function_call_list.open', create=True)
@@ -54,9 +55,9 @@ class TestFunctionCallList(unittest.TestCase):
         open_mock.return_value = file_mock
         function_call_list = FunctionCallList('dummy_filename', '.')
         function_call_mock = Mock()
-        fake_function = Function('fake_id', 'fake_name')
+        fake_function = real('Function')
         function_mock = PropertyMock(return_value=fake_function)
         type(function_call_mock).function = function_mock
         function_call_list.on_call(function_call_mock)
-        file_mock.write.assert_called_once_with('fake_name\n')
+        file_mock.write.assert_called_once_with('%s\n' % fake_function.name)
 
