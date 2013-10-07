@@ -17,11 +17,14 @@
 
 from depict.test.template import fake, real
 from depict.txt.trace.trace_repr import TraceRepr
-from mock import patch, Mock, ANY, call
+from mock import patch, Mock, ANY
 from nose_parameterized import parameterized
+import sys
 
 class TestTraceRepr():
     def setUp(self):
+        self.original_tracer = sys.gettrace()
+
         self.model_patcher = patch('depict.txt.trace.trace_repr.Model')
         self.model_class = self.model_patcher.start()
         self.model = real('Model')
@@ -36,6 +39,7 @@ class TestTraceRepr():
     def tearDown(self):
         self.model_patcher.stop()
         self.function_call_notifier_patcher.stop()
+        self.original_tracer = sys.settrace(self.original_tracer)
 
     def test_it_provides_a_start_method_that_starts_tracing_calls(self):
         # Arranged in setUp

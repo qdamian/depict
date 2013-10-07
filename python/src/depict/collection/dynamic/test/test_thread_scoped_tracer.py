@@ -18,6 +18,7 @@
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 from nose.tools import assert_equal
 from mock import Mock
+import sys
 
 def function1():
     return 1
@@ -26,6 +27,11 @@ def function2(arg):
     return arg
 
 class TestThreadScopedTracer():
+    def setUp(self):
+        self.original_tracer = sys.gettrace()
+
+    def tearDown(self):
+        sys.settrace(self.original_tracer)
 
     def test_notifies_one_function_call(self):
         # Arrange

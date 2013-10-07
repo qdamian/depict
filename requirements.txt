@@ -6,5 +6,4 @@ formic
 pyratemp
 python-coveralls
 coverage
-nose-exclude
 behave
