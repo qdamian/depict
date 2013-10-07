@@ -17,9 +17,9 @@
 
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-from mock import Mock, patch
+from mock import Mock, patch, MagicMock, ANY
 from nose.tools import assert_equal
-from depict.test.template import fake
+from depict.test.template import fake, real
 from depict.model.entity.thread import Thread
 
 @patch('depict.modeling.function_call_notifier.ThreadScopedTracer')
@@ -28,10 +28,11 @@ class TestFunctionCallNotifier():
         self.init_args = (fake('generic_observer'),
                           fake('EntityIdGenerator'),
                           fake('DefCollectionOrchestrator'))
-        self.observer = Mock()
+        self.observer = MagicMock()
+        self.entity_id_generator = fake('EntityIdGenerator')
         self.def_collection_orchestrator = fake('DefCollectionOrchestrator')
         self.function_call_notifier = FunctionCallNotifier(self.observer,
-                                                      fake('EntityIdGenerator'),
+                                                      self.entity_id_generator,
                                                       self.def_collection_orchestrator)
 
     def test_init_creates_thread_scoped_tracer(self, tracer_class):
@@ -87,6 +88,34 @@ class TestFunctionCallNotifier():
 
         # Assert
         tracer.stop.assert_called_once_with()
+
+    def test_on_call_notifies_function_call_to_the_observer(self, tracer_class):
+        # Arrange
+        frame_digest = fake('FrameDigest', spec_set=False)
+        expected_function_call = real('FunctionCall')
+        model = self.def_collection_orchestrator.model
+        model.functions.get_by_id.return_value = expected_function_call.function
+
+        # Act
+        self.function_call_notifier.on_call(frame_digest)
+
+        # Assert
+        self.observer.on_call.assert_called_once_with(ANY)
+        actual_function_call = self.observer.on_call.call_args[0][0]
+        assert_equal(actual_function_call.function, expected_function_call.function)
+
+    def test_on_call_it_ignores_it_if_the_function_is_unknown(self, tracer_class):
+        # Arrange
+        frame_digest = fake('FrameDigest', spec_set=False)
+        expected_function_call = real('FunctionCall')
+        model = self.def_collection_orchestrator.model
+        model.functions.get_by_id.side_effect = KeyError
+
+        # Act
+        self.function_call_notifier.on_call(frame_digest)
+
+        # Assert
+        assert_equal(self.observer.on_call.call_count, 0)
 
     def test_it_processes_static_data_for_each_call(self, tracer_class):
         # Arrange

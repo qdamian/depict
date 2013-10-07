@@ -16,33 +16,31 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.model import Model
+from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-import sys
+import logging
 
 class TraceRepr(object):
 
     def __init__(self, base_path):
-        model = Model()
-        orchestrator = DefCollectionOrchestator(base_path, model)
+        self.model = Model()
+        self.logger = logging.getLogger(__name__)
+        entity_id_generator = EntityIdGenerator(base_path)
+        def_collection_orchestrator = DefCollectionOrchestator(base_path,
+                                                               self.model)
         self.function_call_notifier = FunctionCallNotifier(self,
-                                            orchestrator.entity_id_generator,
-                                            orchestrator)
+                                            entity_id_generator,
+                                            def_collection_orchestrator)
         self.stop = self.function_call_notifier.stop
 
-    # pylint:disable= no-self-use
     def on_call(self, function_call):
-        line = '| '
-        try:
-            line += function_call.function.parent.name + '.'
-        except (AttributeError, KeyError):
-            pass
+        function_name = function_call.function.name
+        actor_name = function_call.function.parent.name
+        self.output(msg=function_name, actor=actor_name)
 
-        try:
-            line += function_call.function.name + '\n'
-        except KeyError:
-            return
-        sys.stdout.write(line)
+    def output(self, msg, actor):
+        self.logger.debug('%s.%s' % (actor, msg))
 
     def start(self):
         self.function_call_notifier.start()

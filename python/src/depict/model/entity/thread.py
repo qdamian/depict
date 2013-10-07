@@ -21,7 +21,7 @@ class Thread(TreeRootNode):
     '''Represent a thread such as the MainThread'''
 
     def __init__(self, id_):
-        self.id_ = id_
+        self.name = self.id_ = id_
         super(Thread, self).__init__()
 
     def __eq__(self, other):

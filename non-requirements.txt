@@ -5,3 +5,4 @@ nose-watch
 nose-notify
 astor
 pbr
+pyhamcrest

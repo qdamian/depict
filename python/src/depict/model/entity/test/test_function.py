@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.entity.function import Function
 from depict.test.template import fake, real, unique
 from nose.tools import assert_equal, assert_not_equal
 

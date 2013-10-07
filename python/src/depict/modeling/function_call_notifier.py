@@ -48,19 +48,29 @@ class FunctionCallNotifier(object):
         self.thread_scoped_tracer.start()
 
     def on_call(self, frame_digest):
-
+        # I wonder what this is...
         if frame_digest.function_name == '<module>':
             return
-
-        function_id = self.entity_id_generator.create(frame_digest.file_name,
-                                                      frame_digest.line_number)
-        function_call_id = '%s@%s-%s' % (function_id, time.time(), uuid.uuid4())
         self._collect_defs_if_needed(frame_digest.file_name)
-        function_call = FunctionCall(function_call_id, function_id,
-                                     self.current_function,
-                                     self.def_collection_orchestrator.model)
+        function = self._identify_function(frame_digest)
+        if not function:
+            return
+        function_call_id = '%s@%s-%s' % (function.id_,
+                                         time.time(),
+                                         uuid.uuid4())
+        function_call = FunctionCall(function_call_id, function,
+                                     self.current_function)
         self.observer.on_call(function_call)
         self.current_function = function_call
+
+    def _identify_function(self, frame_digest):
+        function_id = self.entity_id_generator.create(frame_digest.file_name,
+                                                      frame_digest.line_number)
+        model = self.def_collection_orchestrator.model
+        try:
+            return model.functions.get_by_id(function_id)
+        except KeyError:
+            return None
 
     # pylint:disable = unused-argument
     def on_return(self, frame_digest):

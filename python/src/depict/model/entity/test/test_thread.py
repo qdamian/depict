@@ -21,7 +21,9 @@ from depict.model.util.tree import TreeRootNode
 
 class TestFunction():
     def test_creation(self):
-        Thread('fake_thread_id')
+        thread = Thread('fake_thread_id')
+        assert_equal(thread.id_, 'fake_thread_id')
+        assert_equal(thread.name, 'fake_thread_id')
 
     def test_equal_comparison(self):
         thread1 = Thread('fake_thread_id')

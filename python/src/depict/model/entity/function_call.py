@@ -20,15 +20,10 @@ from depict.model.util.tree import TreeNode
 class FunctionCall(TreeNode):
     '''Represent a call to a function (including methods)'''
 
-    def __init__(self, id_, function_id, thread, model):
+    def __init__(self, id_, function, parent):
         self.id_ = id_
-        self.function_id = function_id
-        self.model = model
-        super(FunctionCall, self).__init__(thread)
-
-    @property
-    def function(self):
-        return self.model.functions.get_by_id(self.function_id)
+        self.function = function
+        super(FunctionCall, self).__init__(parent)
 
     def __eq__(self, other):
         return self.id_ == other.id_

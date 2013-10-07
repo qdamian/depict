@@ -25,12 +25,14 @@ or mock objects (generated using Mock's autospeccing).
 http://www.voidspace.org.uk/python/mock/helpers.html#autospeccing
 '''
 
+from astroid.bases import NodeNG
 from copy import deepcopy
 from depict.collection.dynamic.frame_digest import FrameDigest
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 from depict.collection.static.source_code_parser import SourceCodeParser
 from depict.model.entity.class_ import Class_
 from depict.model.entity.function import Function
+from depict.model.entity.function_call import FunctionCall
 from depict.model.entity.method import Method
 from depict.model.entity.module import Module
 from depict.model.entity.thread import Thread
@@ -39,9 +41,10 @@ from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.model.util.entity_repo import EntityRepo
 from depict.modeling.class_def_collector import ClassDefCollector
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
+from depict.modeling.function_call_notifier import FunctionCallNotifier
 from depict.modeling.function_def_collector import FunctionDefCollector
+from depict.txt.trace.trace_repr import TraceRepr
 from formic.formic import FileSet
-from astroid.bases import NodeNG
 from mock import create_autospec, MagicMock
 import inspect
 import uuid
@@ -64,6 +67,9 @@ __Function = Function('function_id', 'function_name', __Module)
 __Method = Method('method_id', 'method_name', __Class_)
 __ClassDefCollector = ClassDefCollector(__SourceCodeParser, __EntityIdGenerator, __Model)
 __FunctionDefCollector = FunctionDefCollector(__SourceCodeParser, __EntityIdGenerator, __Model)
+__TraceRepr = TraceRepr(__base_path)
+__FunctionCallNotifier = FunctionCallNotifier(__generic_observer, __EntityIdGenerator, __DefCollectionOrchestrator)
+__FunctionCall = FunctionCall('function_call_id', __Function, __Thread)
 
 def fake(class_name, spec_set=True):
     return create_autospec(spec=globals()['__' + class_name], spec_set=spec_set)
