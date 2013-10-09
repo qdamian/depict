@@ -39,6 +39,7 @@ def main(argv):
     prog = ProgramEnvEmulator(argv)
     trace_repr = TraceRepr('.')
     trace_repr.start()
+    sys.argv = sys.argv[1:]
     exec prog.code in prog.globals, prog.globals
     trace_repr.stop()
     return ''

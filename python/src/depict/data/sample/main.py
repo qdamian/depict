@@ -18,12 +18,15 @@
 import logging
 import sys
 import time
+import argparse
+
+DESCRIPTION = "This is depict's sample program"
 
 logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 LOGGER = logging.getLogger(__name__)
 
 def say_hi():
-    LOGGER.debug("This is depict's sample program")
+    LOGGER.debug(DESCRIPTION)
 
 class Stopwatch(object):
     def __init__(self):
@@ -34,8 +37,18 @@ class Stopwatch(object):
 
 def main():
     stopwatch = Stopwatch()
+    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('--timeout', type=float,
+                     help='Max execution time (sec) that returns success')
+    args = parser.parse_args()
+
     say_hi()
     LOGGER.debug('Elapsed time: %s sec', stopwatch.elapsed())
+
+    if args.timeout:
+        if stopwatch.elapsed() > float(args.timeout):
+            exit(1)
+    exit(0)
 
 if __name__ == '__main__':
     main()

@@ -23,7 +23,7 @@ import os
 
 @patch('sys.stderr', autospec=True)
 @patch('argparse.ArgumentParser.exit', autospec=True)
-@patch('depict.txt.trace.__main__.ProgramEnvEmulator')
+@patch('depict.txt.trace.__main__.ProgramEnvEmulator', autospec=True)
 @patch('depict.txt.trace.__main__.TraceRepr')
 class TestMain():
 
@@ -41,3 +41,10 @@ class TestMain():
         prog_env_emu_mock.globals = { 'TEST_EXCEPTION': ZeroDivisionError }
         prog_env_emu_class_mock.return_value = prog_env_emu_mock
         assert_raises(ZeroDivisionError, main, ['fake call to module', 'my_program.py'])
+
+    def test_can_be_called_with_any_options_that_are_passed_to_the_called_program(self, _1, prog_env_emu_class_mock, _3, _4):
+        prog_env_emu_mock = Mock()
+        prog_env_emu_mock.code = 'pass'
+        prog_env_emu_mock.globals = {}
+        prog_env_emu_class_mock.return_value = prog_env_emu_mock
+        main(['fake call to module', 'my_program.py', '--program-option1', '--program-option2'])
