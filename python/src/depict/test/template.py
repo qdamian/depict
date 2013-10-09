@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
+from depict.modeling.function_call_collector import FunctionCallCollector
 
 '''
 This module creates instances of some classes (from depict and other libraries)
@@ -50,7 +51,6 @@ import inspect
 import uuid
 
 __base_path = '.'
-__generic_observer = MagicMock()
 __SourceCodeParser = SourceCodeParser(__base_path)
 __EntityIdGenerator = EntityIdGenerator(__base_path)
 __Model = Model()
@@ -59,7 +59,7 @@ __NodeNG = NodeNG()
 __DefCollectionOrchestrator = DefCollectionOrchestator(__base_path, __Model)
 __Thread = Thread('thread_id')
 __EntityRepo = EntityRepo()
-__ThreadScopedTracer = ThreadScopedTracer(__generic_observer)
+__ThreadScopedTracer = ThreadScopedTracer(MagicMock())
 __FrameDigest = FrameDigest(inspect.currentframe())
 __Class_ = Class_('class_id', 'class_name', __Module)
 __FileSet = FileSet(directory=__base_path, include='*.py')
@@ -68,8 +68,9 @@ __Method = Method('method_id', 'method_name', __Class_)
 __ClassDefCollector = ClassDefCollector(__SourceCodeParser, __EntityIdGenerator, __Model)
 __FunctionDefCollector = FunctionDefCollector(__SourceCodeParser, __EntityIdGenerator, __Model)
 __TraceRepr = TraceRepr(__base_path)
-__FunctionCallNotifier = FunctionCallNotifier(__generic_observer, __EntityIdGenerator, __DefCollectionOrchestrator)
+__FunctionCallNotifier = FunctionCallNotifier(MagicMock(), __EntityIdGenerator, __DefCollectionOrchestrator)
 __FunctionCall = FunctionCall('function_call_id', __Function, __Thread)
+__FunctionCallCollector = FunctionCallCollector(__EntityIdGenerator, __Model)
 
 def fake(class_name, spec_set=True):
     return create_autospec(spec=globals()['__' + class_name], spec_set=spec_set)

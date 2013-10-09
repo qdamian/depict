@@ -16,33 +16,26 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
-from depict.model.entity.function_call import FunctionCall
 from depict.modeling.class_def_collector import ClassDefCollector
+from depict.modeling.function_call_collector import FunctionCallCollector
 from depict.modeling.function_def_collector import FunctionDefCollector
 from depict.modeling.module_def_collector import ModuleDefCollector
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
-import threading
-from depict.model.entity.thread import Thread
-import time
-import uuid
-from depict.model.util.entity_repo import EntityRepo
 
 class FunctionCallNotifier(object):
     def __init__(self, observer, entity_id_generator,
                  def_collection_orchestrator):
         self.observer = observer
-        self.entity_id_generator = entity_id_generator
         self.def_collection_orchestrator = def_collection_orchestrator
 
-        self._add_dependencies()
+        self.function_call_collector = FunctionCallCollector(
+                                            entity_id_generator,
+                                            def_collection_orchestrator.model)
+
+        self._setup_static_data_collection()
 
         self.thread_scoped_tracer = ThreadScopedTracer(self)
         self.stop = self.thread_scoped_tracer.stop
-
-        current_thread = Thread(threading.current_thread().name)
-        thread_repo = EntityRepo()
-        thread_repo.add(current_thread)
-        self.current_function = current_thread
 
     def start(self):
         self.thread_scoped_tracer.start()
@@ -51,37 +44,17 @@ class FunctionCallNotifier(object):
         # I wonder what this is...
         if frame_digest.function_name == '<module>':
             return
-        self._collect_defs_if_needed(frame_digest.file_name)
-        function = self._identify_function(frame_digest)
-        if not function:
-            return
-        function_call_id = '%s@%s-%s' % (function.id_,
-                                         time.time(),
-                                         uuid.uuid4())
-        function_call = FunctionCall(function_call_id, function,
-                                     self.current_function)
+
+        self._collect_defs_from(frame_digest.file_name)
+        function_call = self.function_call_collector.on_call(frame_digest)
         self.observer.on_call(function_call)
-        self.current_function = function_call
 
-    def _identify_function(self, frame_digest):
-        function_id = self.entity_id_generator.create(frame_digest.file_name,
-                                                      frame_digest.line_number)
-        model = self.def_collection_orchestrator.model
-        try:
-            return model.functions.get_by_id(function_id)
-        except KeyError:
-            return None
-
-    # pylint:disable = unused-argument
-    def on_return(self, frame_digest):
-        self.current_function = self.current_function.parent
-
-    def _add_dependencies(self):
+    def _setup_static_data_collection(self):
         self.def_collection_orchestrator.include(ModuleDefCollector)
         self.def_collection_orchestrator.include(ClassDefCollector)
         self.def_collection_orchestrator.include(FunctionDefCollector)
 
-    def _collect_defs_if_needed(self, file_name):
+    def _collect_defs_from(self, file_name):
         try:
             self.def_collection_orchestrator.process(file_name)
         except AlreadyProcessed:

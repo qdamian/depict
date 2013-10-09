@@ -17,107 +17,78 @@
 
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-from mock import Mock, patch, MagicMock, ANY
-from nose.tools import assert_equal
 from depict.test.template import fake, real
-from depict.model.entity.thread import Thread
+from mock import Mock, patch, ANY
+from nose.tools import assert_equal
 
-@patch('depict.modeling.function_call_notifier.ThreadScopedTracer')
 class TestFunctionCallNotifier():
     def setUp(self):
-        self.init_args = (fake('generic_observer'),
-                          fake('EntityIdGenerator'),
-                          fake('DefCollectionOrchestrator'))
-        self.observer = MagicMock()
-        self.entity_id_generator = fake('EntityIdGenerator')
-        self.def_collection_orchestrator = fake('DefCollectionOrchestrator')
-        self.function_call_notifier = FunctionCallNotifier(self.observer,
-                                                      self.entity_id_generator,
-                                                      self.def_collection_orchestrator)
+        self.thread_scoped_tracer_patcher = patch('depict.modeling.function_call_notifier.ThreadScopedTracer', autospec=True)
+        self.thread_scoped_tracer = fake('ThreadScopedTracer')
+        self.thread_scoped_tracer_class = self.thread_scoped_tracer_patcher.start()
+        self.thread_scoped_tracer_class.return_value = self.thread_scoped_tracer
 
-    def test_init_creates_thread_scoped_tracer(self, tracer_class):
+        self.function_call_collector_patcher = patch('depict.modeling.function_call_notifier.FunctionCallCollector', autospec=True)
+        self.function_call_collector = fake('FunctionCallCollector')
+        self.function_call_collector_class = self.function_call_collector_patcher.start()
+        self.function_call_collector_class.return_value = self.function_call_collector
+
+        self.observer = Mock()
+        self.def_collection_orchestrator = fake('DefCollectionOrchestrator')
+        self.init_args = (self.observer,
+                          fake('EntityIdGenerator'),
+                          self.def_collection_orchestrator)
+
+    def tearDown(self):
+        self.thread_scoped_tracer_patcher.stop()
+        self.function_call_collector_patcher.stop()
+
+    def test_init_creates_thread_scoped_tracer(self):
         # Arrange nothing
         # Act
         function_call_notifier = FunctionCallNotifier(*self.init_args)
 
         # Assert
-        tracer_class.assert_called_once_with(function_call_notifier)
+        self.thread_scoped_tracer_class.assert_called_once_with(function_call_notifier)
+        self.function_call_collector_class.assert_called_once_with(ANY, ANY)
 
-    @patch('depict.modeling.function_call_notifier.threading', autospec=True)
-    @patch('depict.modeling.function_call_notifier.EntityRepo', autospec=True)
-    def test_init_creates_a_thread_entity_for_the_current_thread(self,
-                                                                 entity_repo_class,
-                                                                 threading,
-                                                                 tracer_class):
-        # Arrange
-        thread = Mock()
-        thread.name = 'FakeMainThread'
-        threading.current_thread = Mock(return_value=thread)
-
-        entity_repo = fake('EntityRepo')
-        entity_repo_class.return_value = entity_repo
-
-        # Act
-        FunctionCallNotifier(*self.init_args)
-
-        # Assert
-        expected_thread = Thread(thread.name)
-        entity_repo.add.assert_called_with(expected_thread)
-
-    def test_start_creates_thread_scoped_tracer(self, tracer_class):
-        # Arrange
-        tracer = fake('ThreadScopedTracer')
-        tracer_class.return_value = tracer
-
-        # Act
+    def test_start_creates_thread_scoped_tracer(self):
+        # Arrange nothing
         function_call_notifier = FunctionCallNotifier(*self.init_args)
+
+        # Act
         function_call_notifier.start()
 
         # Assert
-        tracer.start.assert_called_once_with()
+        self.thread_scoped_tracer.start.assert_called_once_with()
 
-    def test_stop_stops_thread_scoped_tracer(self, tracer_class):
+    def test_stop_stops_thread_scoped_tracer(self):
         # Arrange
-        tracer = fake('ThreadScopedTracer')
-        tracer_class.return_value = tracer
-
-        # Act
         function_call_notifier = FunctionCallNotifier(*self.init_args)
         function_call_notifier.start()
+
+        # Act
         function_call_notifier.stop()
 
         # Assert
-        tracer.stop.assert_called_once_with()
+        self.thread_scoped_tracer.stop.assert_called_once_with()
 
-    def test_on_call_notifies_function_call_to_the_observer(self, tracer_class):
+    def test_on_call_notifies_function_call_to_the_observer(self):
         # Arrange
         frame_digest = fake('FrameDigest', spec_set=False)
         expected_function_call = real('FunctionCall')
-        model = self.def_collection_orchestrator.model
-        model.functions.get_by_id.return_value = expected_function_call.function
+        self.function_call_collector.on_call.return_value = expected_function_call
 
         # Act
-        self.function_call_notifier.on_call(frame_digest)
+        function_call_notifier = FunctionCallNotifier(*self.init_args)
+        function_call_notifier.on_call(frame_digest)
 
         # Assert
         self.observer.on_call.assert_called_once_with(ANY)
         actual_function_call = self.observer.on_call.call_args[0][0]
         assert_equal(actual_function_call.function, expected_function_call.function)
 
-    def test_on_call_it_ignores_it_if_the_function_is_unknown(self, tracer_class):
-        # Arrange
-        frame_digest = fake('FrameDigest', spec_set=False)
-        expected_function_call = real('FunctionCall')
-        model = self.def_collection_orchestrator.model
-        model.functions.get_by_id.side_effect = KeyError
-
-        # Act
-        self.function_call_notifier.on_call(frame_digest)
-
-        # Assert
-        assert_equal(self.observer.on_call.call_count, 0)
-
-    def test_it_processes_static_data_for_each_call(self, tracer_class):
+    def test_it_processes_static_data_for_each_call(self):
         # Arrange
         frame_digest = fake('FrameDigest')
         frame_digest.function_name = 'fake_function_name'
@@ -125,42 +96,18 @@ class TestFunctionCallNotifier():
         frame_digest.line_number = 1
 
         # Act
-        self.function_call_notifier.on_call(frame_digest)
+        function_call_notifier = FunctionCallNotifier(*self.init_args)
+        function_call_notifier.on_call(frame_digest)
 
         # Assert
         self.def_collection_orchestrator.process.assert_called_once_with('fake_file_name')
 
-    def test_it_ignores_already_processed_exception_for_static_data(self, tracer_class):
+    def test_it_ignores_already_processed_exception_for_static_data(self):
         # Arrange
         self.def_collection_orchestrator.process.side_effect = AlreadyProcessed
 
         # Act
-        self.function_call_notifier.on_call(fake('FrameDigest'))
+        function_call_notifier = FunctionCallNotifier(*self.init_args)
+        function_call_notifier.on_call(fake('FrameDigest'))
 
         # Asserting no exception is raised
-
-    def test_it_relates_nested_function_calls(self, tracer_class):
-        # Act
-        self.function_call_notifier.on_call(fake('FrameDigest'))
-        parent_function_call = self.observer.on_call.call_args[0][0]
-        self.function_call_notifier.on_call(fake('FrameDigest'))
-        child_function_call = self.observer.on_call.call_args[0][0]
-
-        # Assert
-        assert_equal(child_function_call.parent, parent_function_call)
-
-    def test_it_considers_returns_when_relating_nested_function_calls(self, tracer_class):
-        # Arrange nothing
-
-        # Act
-        self.function_call_notifier.on_call(fake('FrameDigest'))
-
-        self.function_call_notifier.on_call(fake('FrameDigest'))
-        child_function_call1 = self.observer.on_call.call_args[0][0]
-        self.function_call_notifier.on_return(Mock())
-
-        self.function_call_notifier.on_call(fake('FrameDigest'))
-        child_function_call2 = self.observer.on_call.call_args[0][0]
-
-        # Assert
-        assert_equal(child_function_call1.parent, child_function_call2.parent)

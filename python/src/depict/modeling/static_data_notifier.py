@@ -27,7 +27,7 @@ class StaticDataNotifier(object):
         self.file_set = file_set
         self.model = model
         self.def_collection_orchestrator = DefCollectionOrchestator(
-                                                file_set.directory, self.model)
+                                                 file_set.directory, self.model)
 
     def _best_effort_notify(self, function_name, value=None):
         try:

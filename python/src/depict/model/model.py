@@ -22,3 +22,5 @@ class Model(object):
         self.modules = EntityRepo()
         self.classes = EntityRepo()
         self.functions = EntityRepo()
+        self.threads = EntityRepo()
+        self.function_calls = EntityRepo()

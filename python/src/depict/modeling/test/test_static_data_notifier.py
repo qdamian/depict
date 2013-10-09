@@ -31,7 +31,7 @@ class TestStaticDataNotifier():
         self.def_collection_orchestrator_class.return_value = self.orchestrator_mock
 
         self.file_set = fake('FileSet')
-        self.observer = real('generic_observer')
+        self.observer = Mock()
         self.model = fake('Model')
         self.static_data_notifier = StaticDataNotifier(self.file_set,
                                                        self.observer,
