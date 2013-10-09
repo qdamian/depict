@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.test.template import real, unique
-from nose.tools import assert_equal, assert_not_equal
+from nose.tools import *
 
 class TestMethod():
     def test_creation(self):

@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.cli.representations_recruiter import RepresentationsRecruiter
-from nose.tools import assert_equal
+from nose.tools import *
 from mock import patch, MagicMock, Mock, ANY, PropertyMock
 from depict.model.entity.module import Module
 from depict.model.model import Model

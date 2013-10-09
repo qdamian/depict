@@ -18,7 +18,7 @@
 from depict.model.entity.module import Module
 from depict.persistence.sqlite.module_table import ModuleTable
 import sqlite3
-from nose.tools import assert_true
+from nose.tools import *
 
 class TestModuleTable(object):
     def setUp(self):
@@ -39,7 +39,7 @@ class TestModuleTable(object):
         cursor.execute('''SELECT id, name FROM module
                           WHERE id = 'fake_module_id' AND
                           name = 'fake_module_name' ''')
-        assert_true(cursor.fetchone())
+        assert_is_not_none(cursor.fetchone())
 
     def test_inserts_module_dependencies(self):
         fake_module = Module('fake_module_id', 'fake_module_name')
@@ -50,7 +50,7 @@ class TestModuleTable(object):
         cursor.execute('''SELECT importer_id, imported_id FROM module_dependency
                           WHERE importer_id = 'fake_module_id' AND
                           imported_id = 'fake_dependency_id' ''')
-        assert_true(cursor.fetchone())
+        assert_is_not_none(cursor.fetchone())
 
     def test_ignores_integry_error_of_repeated_dependencies(self):
         fake_module = Module('fake_module_id', 'fake_module_name')
@@ -62,4 +62,4 @@ class TestModuleTable(object):
         cursor.execute('''SELECT importer_id, imported_id FROM module_dependency
                           WHERE importer_id = 'fake_module_id' AND
                           imported_id = 'fake_dependency_id' ''')
-        assert_true(cursor.fetchone())
+        assert_is_not_none(cursor.fetchone())

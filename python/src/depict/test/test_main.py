@@ -17,7 +17,7 @@
 
 from depict.__main__ import main
 from mock import patch
-from nose.tools import assert_true
+from nose.tools import *
 import depict
 import os
 
@@ -27,16 +27,16 @@ class TestMain():
 
     def test_returns_usage_when_no_options_are_passed(self, _1, _2):
         msg = main(['dummy_prog', ''])
-        assert_true('usage' in msg)
+        assert_in('usage', msg)
 
     def test_returns_usage_when_user_asks_help(self, _, _1):
         msg = main(['dummy_prog', '--help'])
-        assert_true('usage' in msg)
+        assert_in('usage', msg)
  
     @patch('depict.__main__.RepresentationsRecruiter')
     def test_returns_list_of_representations_when_asked_to(self, repr_recruiter_mock, _1, _2):
         msg = main([depict.__main__.__file__, '--list'])
-        assert_true('Available representations' in msg)
+        assert_in('Available representations', msg)
 
     @patch('depict.__main__.copytree')
     @patch('depict.__main__.sys')

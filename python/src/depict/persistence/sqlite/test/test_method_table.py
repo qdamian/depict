@@ -19,7 +19,7 @@ from depict.model.entity.class_ import Class_
 from depict.model.entity.method import Method
 from depict.persistence.sqlite.method_table import MethodTable
 from depict.test.template import real
-from nose.tools import assert_true
+from nose.tools import *
 import sqlite3
 
 class TestMethodTable():
@@ -41,4 +41,4 @@ class TestMethodTable():
                           WHERE function_id = '%s' AND
                           class_id = '%s' ''' % (fake_method.id_,
                                                  fake_class.id_))
-        assert_true(cursor.fetchone())
+        assert_is_not_none(cursor.fetchone())

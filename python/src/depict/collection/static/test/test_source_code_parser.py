@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from mock import patch, Mock, ANY
-from nose.tools import assert_true, assert_false
+from nose.tools import *
 from depict.collection.static.source_code_parser import SourceCodeParser
 
 class TestSourceCodeParser():

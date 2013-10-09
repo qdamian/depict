@@ -17,7 +17,7 @@
 
 from depict.model.entity.method import Method
 from depict.test.template import real, unique
-from nose.tools import assert_equal, assert_not_equal
+from nose.tools import *
 
 class TestClass():
     def test_creation(self):

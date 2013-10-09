@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
-from nose.tools import assert_equal
+from nose.tools import *
 from mock import Mock
 import sys
 

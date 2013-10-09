@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.entity.thread import Thread
-from nose.tools import assert_equal, assert_true
+from nose.tools import *
 from depict.model.util.tree import TreeRootNode
 
 class TestFunction():
@@ -29,6 +29,3 @@ class TestFunction():
         thread1 = Thread('fake_thread_id')
         thread2 = Thread('fake_thread_id')
         assert_equal(thread1, thread2)
-
-    def test_is_a_tree_root_node(self):
-        assert_true(isinstance(Thread(''), TreeRootNode))

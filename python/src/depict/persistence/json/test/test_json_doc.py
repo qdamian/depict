@@ -18,7 +18,7 @@
 from depict.model.entity.module import Module
 from depict.persistence.json.json_doc import JsonDoc
 from mock import patch, mock_open
-from nose.tools import assert_equal
+from nose.tools import *
 import json
 import unittest
 from depict.model.util.entity_repo import EntityRepo

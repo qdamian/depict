@@ -17,7 +17,7 @@
 
 from depict.txt.trace.__main__ import main
 from mock import patch, mock_open, Mock
-from nose.tools import assert_true, assert_raises
+from nose.tools import *
 import depict
 import os
 
@@ -29,11 +29,11 @@ class TestMain():
 
     def test_returns_usage_when_no_options_are_passed(self, _1, _2, _3, _4):
         msg = main(['fake call to module'])
-        assert_true('usage' in msg)
+        assert_in('usage', msg)
 
     def test_returns_usage_when_user_asks_help(self, _1, _2, _3, _4):
         msg = main(['fake call to module', '--help'])
-        assert_true('usage' in msg)
+        assert_in('usage', msg)
 
     def test_runs_program_when_passed_as_positional_argument(self, _1, prog_env_emu_class_mock, _3, _4):
         prog_env_emu_mock = Mock()

@@ -17,7 +17,7 @@
 
 from depict.model.entity.module import Module
 import unittest
-from nose.tools import assert_equal
+from nose.tools import *
 
 class TestModule(unittest.TestCase):
     def test_creation(self):

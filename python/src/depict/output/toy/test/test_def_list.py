@@ -20,7 +20,7 @@ from depict.model.entity.class_ import Class_
 from depict.output.toy.def_list import DefList
 from depict.test.template import real
 from mock import Mock, MagicMock, call, ANY, patch, mock_open, PropertyMock
-from nose.tools import assert_true
+from nose.tools import *
 
 @patch('depict.output.toy.def_list.open', create=True)
 class TestDefList():
@@ -51,7 +51,7 @@ class TestDefList():
         fake_function = real('Function')
         def_list.on_function(fake_function)
         expected_call = call('%s\n' % fake_function.name)
-        assert_true(expected_call in file_mock.write.mock_calls)
+        assert_in(expected_call, file_mock.write.mock_calls)
 
     def test_stores_class_name_for_each_class(self, open_mock):
         file_mock = Mock()
@@ -60,4 +60,4 @@ class TestDefList():
         fake_class = real('Class_')
         def_list.on_class(fake_class)
         expected_call = call('%s\n' % fake_class.name)
-        assert_true(expected_call in file_mock.write.mock_calls)
+        assert_in(expected_call, file_mock.write.mock_calls)

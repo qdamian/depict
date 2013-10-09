@@ -18,7 +18,7 @@
 from depict.model.util.entity_repo import EntityRepo
 from mock import Mock
 import unittest
-from nose.tools import assert_raises
+from nose.tools import *
 
 class TestEntityRepo(unittest.TestCase):
     def test_add_one_element(self):

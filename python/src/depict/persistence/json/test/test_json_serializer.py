@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.persistence.json.json_serializer import JsonSerializer
-from nose.tools import assert_equal, assert_true
+from nose.tools import *
 import json
 from mock import patch, ANY
 
@@ -55,7 +55,7 @@ class TestJsonSerializer(object):
         actual_json = JsonSerializer.serialize(obj2, 'id_')
 
         actual_data = json.loads(actual_json)
-        assert_true('some_reference' in actual_data)
+        assert_in('some_reference', actual_data)
         reference = actual_data['some_reference']
         assert_equal(len(reference), 2)
         assert_equal(reference['type'], 'SimpleObject')

@@ -18,7 +18,7 @@
 from depict.model.entity.function import Function
 from depict.persistence.sqlite.function_table import FunctionTable
 from depict.test.template import real
-from nose.tools import assert_true
+from nose.tools import *
 import sqlite3
 
 class TestFunctionTable():
@@ -39,4 +39,4 @@ class TestFunctionTable():
                           WHERE id = '%s' AND
                           name = '%s' ''' % (fake_function.id_,
                                              fake_function.name))
-        assert_true(cursor.fetchone())
+        assert_is_not_none(cursor.fetchone())

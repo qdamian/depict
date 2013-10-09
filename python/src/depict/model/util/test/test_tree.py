@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.model.util.tree import TreeRootNode, TreeNode
-from nose.tools import assert_equal, assert_raises
+from nose.tools import *
 
 class TestTreeNode():
     def test_the_root_node_has_no_parent(self):

@@ -17,9 +17,9 @@
 
 from depict.model.entity.thread import Thread
 from depict.modeling.function_call_collector import FunctionCallCollector
-from mock import Mock, patch
 from depict.test.template import fake
-from nose.tools import assert_equal, assert_is_none
+from mock import Mock, patch
+from nose.tools import *
 
 @patch('depict.modeling.function_call_collector.threading', autospec=True)
 class TestFunctionCallCollector:

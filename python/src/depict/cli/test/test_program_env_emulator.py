@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.cli.program_env_emulator import ProgramEnvEmulator
-from nose.tools import assert_equal
+from nose.tools import *
 from mock import mock_open, patch, Mock
 
 @patch('__builtin__.open', new=mock_open(None, 'test_var = "test_value"'))

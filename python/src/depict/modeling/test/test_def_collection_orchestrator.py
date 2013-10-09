@@ -18,7 +18,7 @@
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.def_collection_orchestrator import AlreadyProcessed
 from mock import Mock, patch, ANY
-from nose.tools import assert_raises
+from nose.tools import *
 from depict.test.template import fake
 
 @patch('depict.modeling.def_collection_orchestrator.EntityIdGenerator', autospec=True)

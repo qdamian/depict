@@ -18,7 +18,7 @@
 from depict.collection.dynamic.frame_digest import FrameDigest
 from mock import Mock, MagicMock, patch
 from nose_parameterized import parameterized
-from nose.tools import assert_equal, assert_true
+from nose.tools import *
 import inspect
 
 class TestFrameDigest():
@@ -90,7 +90,7 @@ class TestFrameDigest():
         actual_lineno = frame_digest.line_number
 
         # Assert
-        assert_true('test_frame_digest' in actual_module_name)
+        assert_in('test_frame_digest', actual_module_name)
         assert_equal(actual_function_name, 'test_works_on_a_real_frame_object')
-        assert_true('test_frame_digest.py' in actual_file_name)
+        assert_in('test_frame_digest.py', actual_file_name)
         assert_true(actual_lineno)
