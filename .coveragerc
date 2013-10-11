@@ -1,7 +1,7 @@
 [run]
 branch = True
-include = python/src/depict/*
-omit = python/src/depict/collection/dynamic/*
+include = python/depict/*
+omit = python/depict/collection/dynamic/*
 
 [paths]
-source = python/src/depict/*
+source = python/depict/*

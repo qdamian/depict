@@ -1,9 +1,12 @@
+formic
+
+pylint
+
 mock
 nose
 nose-parameterized
-pylint
-formic
-pyratemp
+
+behave
+
 python-coveralls
 coverage
-behave
