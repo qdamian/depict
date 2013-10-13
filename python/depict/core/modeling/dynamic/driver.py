@@ -18,26 +18,27 @@
 from depict.core.collection.dynamic.project_modules_filter import \
                                                          ProjectModulesFilter
 from depict.core.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
-from depict.core.modeling.class_def_collector import ClassDefCollector
-from depict.core.modeling.function_call_collector import FunctionCallCollector
-from depict.core.modeling.function_def_collector import FunctionDefCollector
-from depict.core.modeling.module_def_collector import ModuleDefCollector
-from depict.core.modeling.def_collection_orchestrator import AlreadyProcessed
+from depict.core.modeling.dynamic.function_call import FunctionCall \
+                                                            as FunctionCallModeler
+from depict.core.modeling.static.function import Function as FunctionModeler
+from depict.core.modeling.static.module import Module as ModuleModeler
+from depict.core.modeling.static.class_ import Class_ as ClassModeler
+from depict.core.modeling.orchestrator import AlreadyProcessed
 
-class FunctionCallNotifier(object):
-    def __init__(self, observer, entity_id_generator,
-                 def_collection_orchestrator):
+
+class Driver(object):
+    def __init__(self, observer, entity_id_generator, orchestrator):
         self.observer = observer
-        self.def_collection_orchestrator = def_collection_orchestrator
+        self.orchestrator = orchestrator
 
-        self.function_call_collector = FunctionCallCollector(
-                                            entity_id_generator,
-                                            def_collection_orchestrator.model)
+        self.function_call_modeler = FunctionCallModeler(entity_id_generator,
+                                                         orchestrator.model)
 
-        self._setup_static_data_collection()
+        self._setup_static_data_modeling()
 
         project_modules_filter = ProjectModulesFilter(
-                                        entity_id_generator.base_path, self)
+            entity_id_generator.base_path, self)
+
         self.thread_scoped_tracer = ThreadScopedTracer(project_modules_filter)
         self.stop = self.thread_scoped_tracer.stop
 
@@ -49,17 +50,17 @@ class FunctionCallNotifier(object):
         if frame_digest.function_name == '<module>':
             return
 
-        self._collect_defs_from(frame_digest.file_name)
-        function_call = self.function_call_collector.on_call(frame_digest)
+        self._model_entities_from(frame_digest.file_name)
+        function_call = self.function_call_modeler.on_call(frame_digest)
         self.observer.on_call(function_call)
 
-    def _setup_static_data_collection(self):
-        self.def_collection_orchestrator.include(ModuleDefCollector)
-        self.def_collection_orchestrator.include(ClassDefCollector)
-        self.def_collection_orchestrator.include(FunctionDefCollector)
+    def _setup_static_data_modeling(self):
+        self.orchestrator.include(ModuleModeler)
+        self.orchestrator.include(ClassModeler)
+        self.orchestrator.include(FunctionModeler)
 
-    def _collect_defs_from(self, file_name):
+    def _model_entities_from(self, file_name):
         try:
-            self.def_collection_orchestrator.process(file_name)
+            self.orchestrator.process(file_name)
         except AlreadyProcessed:
             pass

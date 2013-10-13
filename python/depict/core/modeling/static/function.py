@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.function import Function
+from depict.core.model.entity.function import Function as FunctionEntity
 from depict.core.model.entity.method import Method
 import astroid
 
-class FunctionDefCollector(object):
+class Function(object):
     '''
     Create an entity in the model for each function definition, converting
     nodes from the Astroid representation to depict's representation.
@@ -50,4 +50,4 @@ class FunctionDefCollector(object):
         id_ = self.entity_id_gen.create(node.parent.file, node.lineno)
         module_id = self.entity_id_gen.create(node.parent.file)
         module = self.model.modules.get_by_id(module_id)
-        return Function(id_, node.name, module)
+        return FunctionEntity(id_, node.name, module)

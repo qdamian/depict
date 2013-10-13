@@ -16,26 +16,26 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.core.model.entity.function import Function
+from depict.core.modeling.static.function import Function as FunctionModeler
 from depict.core.model.entity.method import Method
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
-from depict.core.modeling.function_def_collector import FunctionDefCollector
 from depict.test.object_factory import fake, real
 from mock import Mock, MagicMock
 import astroid
 
-class TestFunctionDefCollector():
+class TestFunction():
     def setUp(self):
         self.source_code_parser = fake('SourceCodeParser')
         self.entity_id_generator = fake('EntityIdGenerator')
         self.model = fake('Model')
-        self.function_def_collector = FunctionDefCollector(self.source_code_parser,
-                                                           self.entity_id_generator,
-                                                           self.model)
+        self.function_modeler = FunctionModeler(self.source_code_parser,
+                                                self.entity_id_generator,
+                                                self.model)
 
     def test_it_registers_itself_with_source_code_parser(self):
         # Arranged and acted in setUp
         # Assert
-        self.source_code_parser.register.assert_called_once_with(self.function_def_collector)
+        self.source_code_parser.register.assert_called_once_with(self.function_modeler)
 
     def test_one_function_is_added_to_function_repo(self):
         # Arrange
@@ -43,16 +43,14 @@ class TestFunctionDefCollector():
         module.id_ = 'fake_file_name'
         self.model.modules.add(module)
 
-        function_def_collector = FunctionDefCollector(self.source_code_parser,
-                                                      EntityIdGenerator('.'),
-                                                      self.model)
+        function_modeler = FunctionModeler(self.source_code_parser, EntityIdGenerator('.'), self.model)
         node = MagicMock()
         node.parent = Mock(spec=astroid.scoped_nodes.Module)
         node.parent.file = 'fake_file_name'
         node.lineno = 44
 
         # Act
-        function_def_collector.on_function(node)
+        function_modeler.on_function(node)
 
         # Assert
         expected_function = Function('fake_file_name:44',
@@ -66,9 +64,9 @@ class TestFunctionDefCollector():
         class_mock.id_ = 'fake_file_name:33'
         self.model.classes.add(class_mock)
 
-        function_def_collector = FunctionDefCollector(self.source_code_parser,
-                                                      EntityIdGenerator('.'),
-                                                      self.model)
+        function_modeler = FunctionModeler(self.source_code_parser,
+                                                 EntityIdGenerator('.'),
+                                                 self.model)
         node = MagicMock()
         node.parent = Mock(spec=astroid.scoped_nodes.Class)
         node.parent.parent.file = 'fake_file_name'
@@ -77,7 +75,7 @@ class TestFunctionDefCollector():
         node.lineno = 44
 
         # Act
-        function_def_collector.on_function(node)
+        function_modeler.on_function(node)
 
         # Assert
         expected_function = Method('fake_file_name:44',

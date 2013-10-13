@@ -30,10 +30,10 @@ class TestTraceRepr():
         self.model = real('ObservableModel')
         self.model_class.return_value = self.model
         
-        self.function_call_notifier_patcher = patch('depict.txt.trace.trace_repr.FunctionCallNotifier')
-        self.function_call_notifier = fake('FunctionCallNotifier')
+        self.function_call_notifier_patcher = patch('depict.txt.trace.trace_repr.DynamicModelingDriver')
+        self.dynamic_modeler_driver = fake('DynamicModelingDriver')
         function_call_notifier_class = self.function_call_notifier_patcher.start()
-        function_call_notifier_class.return_value = self.function_call_notifier
+        function_call_notifier_class.return_value = self.dynamic_modeler_driver
         self.trace_repr = TraceRepr('.')
 
     def tearDown(self):
@@ -47,7 +47,7 @@ class TestTraceRepr():
         self.trace_repr.start()
 
         # Assert
-        self.function_call_notifier.start.assert_called_once_with()
+        self.dynamic_modeler_driver.start.assert_called_once_with()
 
     @parameterized.expand([('foo',), ('bar',)])
     def test_it_outputs_the_name_of_the_called_functions(self, function_name):
@@ -81,4 +81,4 @@ class TestTraceRepr():
         self.trace_repr.stop()
 
         # Assert
-        self.function_call_notifier.stop.assert_called_once_with()
+        self.dynamic_modeler_driver.stop.assert_called_once_with()

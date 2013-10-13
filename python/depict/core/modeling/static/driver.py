@@ -16,18 +16,17 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.core.collection.static.source_code_parser import SourceCodeParser
-from depict.core.modeling.class_def_collector import ClassDefCollector
-from depict.core.modeling.def_collection_orchestrator import DefCollectionOrchestator
-from depict.core.modeling.function_def_collector import FunctionDefCollector
-from depict.core.modeling.module_def_collector import ModuleDefCollector
+from depict.core.modeling.static.class_ import Class_
+from depict.core.modeling.orchestrator import Orchestrator
+from depict.core.modeling.static.function import Function
+from depict.core.modeling.static.module import Module
 
-class StaticDataNotifier(object):
+class Driver(object):
     def __init__(self, file_set, observer, model):
         self.observer = observer
         self.file_set = file_set
         self.model = model
-        self.def_collection_orchestrator = DefCollectionOrchestator(
-                                                 file_set.directory, self.model)
+        self.orchestrator = Orchestrator(file_set.directory, self.model)
 
     def _best_effort_notify(self, function_name, value=None):
         try:
@@ -40,18 +39,13 @@ class StaticDataNotifier(object):
             pass
 
     def run(self):
-        self.def_collection_orchestrator.include(ModuleDefCollector)
-        self.def_collection_orchestrator.include(ClassDefCollector)
-        self.def_collection_orchestrator.include(FunctionDefCollector)
-
-        source_code_parser = SourceCodeParser(self.file_set.directory)
-
-        entity_id_gen = self.def_collection_orchestrator.entity_id_generator
-        ModuleDefCollector(source_code_parser, entity_id_gen, self.model)
+        self.orchestrator.include(Module)
+        self.orchestrator.include(Class_)
+        self.orchestrator.include(Function)
 
         file_list = [f for f in self.file_set]
 
-        self.def_collection_orchestrator.process(file_list)
+        self.orchestrator.process(file_list)
 
         for (func_name, repo) in [('on_module', self.model.modules),
                                   ('on_class', self.model.classes),

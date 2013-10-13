@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.modeling.static_data_notifier import StaticDataNotifier
+from depict.core.modeling.static.driver import Driver \
+                                        as StaticDataModelingDriver
 from formic.formic import FileSet
 import importlib
 from depict.core.model.model import Model
@@ -26,7 +27,7 @@ def get_repr_description(mod_name):
 
 def get_repr_module_names(file_set):
     model = Model()
-    StaticDataNotifier(file_set, None, model).run()
+    StaticDataModelingDriver(file_set, None, model).run()
     return [mod.name for mod in model.modules.get_all()]
 
 class RepresentationsRecruiter(object):

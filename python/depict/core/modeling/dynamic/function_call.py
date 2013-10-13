@@ -15,13 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.function_call import FunctionCall
+from depict.core.model.entity.function_call import FunctionCall \
+                                            as FunctionCallEntity
 from depict.core.model.entity.thread import Thread
 import threading
 import time
 import uuid
 
-class FunctionCallCollector(object):
+class FunctionCall(object):
 
     def __init__(self, entity_id_generator, model):
         self.entity_id_generator = entity_id_generator
@@ -38,8 +39,9 @@ class FunctionCallCollector(object):
         function_call_id = '%s@%s-%s' % (function.id_,
                                          time.time(),
                                          uuid.uuid4())
-        function_call = FunctionCall(function_call_id, function,
-                                     self.current_function)
+        function_call = FunctionCallEntity(function_call_id,
+                                           function,
+                                           self.current_function)
         self.current_function = function_call
         self.model.function_calls.add(function_call)
         return function_call

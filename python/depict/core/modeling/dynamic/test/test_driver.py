@@ -15,60 +15,59 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.modeling.def_collection_orchestrator import AlreadyProcessed
-from depict.core.modeling.function_call_notifier import FunctionCallNotifier
+from depict.core.modeling.orchestrator import AlreadyProcessed
+from depict.core.modeling.dynamic.driver import Driver
 from depict.test.object_factory import fake, real
 from mock import Mock, patch, ANY
 from nose.tools import *
 
-class TestFunctionCallNotifier():
+class TestDriver():
     def setUp(self):
-        self.thread_scoped_tracer_patcher = patch('depict.core.modeling.function_call_notifier.ThreadScopedTracer', autospec=True)
+        self.thread_scoped_tracer_patcher = patch('depict.core.modeling.dynamic.driver.ThreadScopedTracer', autospec=True)
         self.thread_scoped_tracer = fake('ThreadScopedTracer')
         self.thread_scoped_tracer_class = self.thread_scoped_tracer_patcher.start()
         self.thread_scoped_tracer_class.return_value = self.thread_scoped_tracer
 
-        self.function_call_collector_patcher = patch('depict.core.modeling.function_call_notifier.FunctionCallCollector', autospec=True)
-        self.function_call_collector = fake('FunctionCallCollector')
-        self.function_call_collector_class = self.function_call_collector_patcher.start()
-        self.function_call_collector_class.return_value = self.function_call_collector
+        self.function_call_patcher = patch('depict.core.modeling.dynamic.driver.FunctionCallModeler', autospec=True)
+        self.function_call_modeler = fake('FunctionCallModeler')
+        self.function_call_class = self.function_call_patcher.start()
+        self.function_call_class.return_value = self.function_call_modeler
 
         self.observer = Mock()
-        self.def_collection_orchestrator = fake('DefCollectionOrchestrator')
+        self.orchestrator = fake('Orchestrator')
         self.init_args = (self.observer,
                           fake('EntityIdGenerator'),
-                          self.def_collection_orchestrator)
+                          self.orchestrator)
 
     def tearDown(self):
         self.thread_scoped_tracer_patcher.stop()
-        self.function_call_collector_patcher.stop()
+        self.function_call_patcher.stop()
 
     def test_init_creates_thread_scoped_tracer(self):
         # Arrange nothing
         # Act
-        function_call_notifier = FunctionCallNotifier(*self.init_args)
+        Driver(*self.init_args)
 
         # Assert
         self.thread_scoped_tracer_class.assert_called_once_with(ANY)
-        self.function_call_collector_class.assert_called_once_with(ANY, ANY)
 
     def test_start_creates_thread_scoped_tracer(self):
         # Arrange nothing
-        function_call_notifier = FunctionCallNotifier(*self.init_args)
+        driver = Driver(*self.init_args)
 
         # Act
-        function_call_notifier.start()
+        driver.start()
 
         # Assert
         self.thread_scoped_tracer.start.assert_called_once_with()
 
     def test_stop_stops_thread_scoped_tracer(self):
         # Arrange
-        function_call_notifier = FunctionCallNotifier(*self.init_args)
-        function_call_notifier.start()
+        driver = Driver(*self.init_args)
+        driver.start()
 
         # Act
-        function_call_notifier.stop()
+        driver.stop()
 
         # Assert
         self.thread_scoped_tracer.stop.assert_called_once_with()
@@ -77,11 +76,11 @@ class TestFunctionCallNotifier():
         # Arrange
         frame_digest = fake('FrameDigest', spec_set=False)
         expected_function_call = real('FunctionCall')
-        self.function_call_collector.on_call.return_value = expected_function_call
+        self.function_call_modeler.on_call.return_value = expected_function_call
 
         # Act
-        function_call_notifier = FunctionCallNotifier(*self.init_args)
-        function_call_notifier.on_call(frame_digest)
+        driver = Driver(*self.init_args)
+        driver.on_call(frame_digest)
 
         # Assert
         self.observer.on_call.assert_called_once_with(ANY)
@@ -96,18 +95,18 @@ class TestFunctionCallNotifier():
         frame_digest.line_number = 1
 
         # Act
-        function_call_notifier = FunctionCallNotifier(*self.init_args)
-        function_call_notifier.on_call(frame_digest)
+        driver = Driver(*self.init_args)
+        driver.on_call(frame_digest)
 
         # Assert
-        self.def_collection_orchestrator.process.assert_called_once_with('fake_file_name')
+        self.orchestrator.process.assert_called_once_with('fake_file_name')
 
     def test_it_ignores_already_processed_exception_for_static_data(self):
         # Arrange
-        self.def_collection_orchestrator.process.side_effect = AlreadyProcessed
+        self.orchestrator.process.side_effect = AlreadyProcessed
 
         # Act
-        function_call_notifier = FunctionCallNotifier(*self.init_args)
-        function_call_notifier.on_call(fake('FrameDigest'))
+        driver = Driver(*self.init_args)
+        driver.on_call(fake('FrameDigest'))
 
         # Asserting no exception is raised

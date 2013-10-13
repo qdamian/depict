@@ -15,9 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.module import Module
+from depict.core.model.entity.module import Module as ModuleEntity
 
-class ModuleDefCollector(object):
+class Module(object):
     def __init__(self, source_code_parser, entity_id_generator, model):
         self.source_code_parser = source_code_parser
         self.entity_id_generator = entity_id_generator
@@ -26,7 +26,7 @@ class ModuleDefCollector(object):
 
     def on_module(self, node):
         module_id = self.entity_id_generator.create(node.file)
-        self.model.modules.add(Module(module_id, node.name))
+        self.model.modules.add(ModuleEntity(module_id, node.name))
 
     def on_import(self, parent_node, node):
         for module_name in node.names:

@@ -21,24 +21,24 @@ from depict.core.collection.static.source_code_parser import SourceCodeParser
 class AlreadyProcessed(Exception):
     pass
 
-class DefCollectionOrchestator(object):
+class Orchestrator(object):
     def __init__(self, base_path, model):
-        self.collectors = []
-        self.entity_id_generator = EntityIdGenerator(base_path)
+        self.modelers = []
         self.model = model
+        self.entity_id_generator = EntityIdGenerator(base_path)
         self.source_code_parser = SourceCodeParser(base_path)
 
-    def include(self, collector):
-        self.collectors.append(collector)
+    def include(self, modeler):
+        self.modelers.append(modeler)
 
     def process(self, file_paths):
         assert file_paths
         if not self.source_code_parser.add_files(file_paths):
             raise AlreadyProcessed(file_paths)
 
-        for collector in self.collectors:
-            collector(self.source_code_parser,
-                      self.entity_id_generator,
-                      self.model)
+        for modeler in self.modelers:
+            modeler(self.source_code_parser,
+                    self.entity_id_generator,
+                    self.model)
 
         self.source_code_parser.parse()

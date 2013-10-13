@@ -14,7 +14,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
-from depict.core.modeling.function_call_collector import FunctionCallCollector
+
+from depict.core.model.entity.function_call import FunctionCall
+from depict.core.collection.static.source_code_parser import SourceCodeParser
 from depict.core.output.model_publisher import ModelPublisher
 from depict.core.output.observable_model import ObservableModel
 
@@ -32,20 +34,20 @@ from astroid.bases import NodeNG
 from copy import deepcopy
 from depict.core.collection.dynamic.frame_digest import FrameDigest
 from depict.core.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
-from depict.core.collection.static.source_code_parser import SourceCodeParser
 from depict.core.model.entity.class_ import Class_
 from depict.core.model.entity.function import Function
-from depict.core.model.entity.function_call import FunctionCall
 from depict.core.model.entity.method import Method
 from depict.core.model.entity.module import Module
 from depict.core.model.entity.thread import Thread
 from depict.core.model.model import Model
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
 from depict.core.model.util.entity_repo import EntityRepo
-from depict.core.modeling.class_def_collector import ClassDefCollector
-from depict.core.modeling.def_collection_orchestrator import DefCollectionOrchestator
-from depict.core.modeling.function_call_notifier import FunctionCallNotifier
-from depict.core.modeling.function_def_collector import FunctionDefCollector
+from depict.core.modeling.orchestrator import Orchestrator
+from depict.core.modeling.static.driver import Driver as StaticModelingDriver
+from depict.core.modeling.dynamic.driver import Driver as DynamicModelingDriver
+from depict.core.modeling.static.class_ import Class_ as ClassModeler
+from depict.core.modeling.static.function import Function as FunctionModeler
+from depict.core.modeling.dynamic.function_call import FunctionCall as FunctionCallModeler
 from depict.txt.trace.trace_repr import TraceRepr
 from formic.formic import FileSet
 from mock import create_autospec, MagicMock
@@ -68,7 +70,7 @@ __EntityIdGenerator = EntityIdGenerator(__base_path)
 __Model = Model()
 __Module = Module('module_id', 'module_name')
 __NodeNG = NodeNG()
-__DefCollectionOrchestrator = DefCollectionOrchestator(__base_path, __Model)
+__Orchestrator = Orchestrator(__base_path, __Model)
 __Thread = Thread('thread_id')
 __EntityRepo = EntityRepo()
 __ThreadScopedTracer = ThreadScopedTracer(MagicMock())
@@ -77,11 +79,12 @@ __Class_ = Class_('class_id', 'class_name', __Module)
 __FileSet = FileSet(directory=__base_path, include='*.py')
 __Function = Function('function_id', 'function_name', __Module)
 __Method = Method('method_id', 'method_name', __Class_)
-__ClassDefCollector = ClassDefCollector(__SourceCodeParser, __EntityIdGenerator, __Model)
-__FunctionDefCollector = FunctionDefCollector(__SourceCodeParser, __EntityIdGenerator, __Model)
+__ClassModeler = ClassModeler(__SourceCodeParser, __EntityIdGenerator, __Model)
+__FunctionModeler = FunctionModeler(__SourceCodeParser, __EntityIdGenerator, __Model)
 __TraceRepr = TraceRepr(__base_path)
-__FunctionCallNotifier = FunctionCallNotifier(MagicMock(), __EntityIdGenerator, __DefCollectionOrchestrator)
+__StaticModelingDriver = StaticModelingDriver(__FileSet, MagicMock(), __Model)
+__DynamicModelingDriver = DynamicModelingDriver(MagicMock(), __EntityIdGenerator, __Orchestrator)
 __FunctionCall = FunctionCall('function_call_id', __Function, __Thread)
-__FunctionCallCollector = FunctionCallCollector(__EntityIdGenerator, __Model)
+__FunctionCallModeler = FunctionCallModeler(__EntityIdGenerator, __Model)
 __ModelPublisher = ModelPublisher()
 __ObservableModel = ObservableModel(__ModelPublisher)

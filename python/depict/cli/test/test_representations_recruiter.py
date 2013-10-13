@@ -15,13 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.cli.representations_recruiter import RepresentationsRecruiter
-from nose.tools import *
-from mock import patch, MagicMock, Mock, ANY, PropertyMock
-from depict.core.model.entity.module import Module
-from depict.core.model.model import Model
 
-@patch('depict.cli.representations_recruiter.StaticDataNotifier')
+from nose.tools import *
+from mock import patch, MagicMock, Mock, ANY
+
+from depict.core.model.model import Model
+from depict.cli.representations_recruiter import RepresentationsRecruiter
+from depict.core.model.entity.module import Module
+
+
+@patch('depict.cli.representations_recruiter.StaticDataModelingDriver')
 class TestRepresentationsRecruiter(object):
     def setUp(self):
         self.static_data_mock = Mock()

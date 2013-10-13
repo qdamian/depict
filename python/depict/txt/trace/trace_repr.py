@@ -18,10 +18,11 @@
 import logging
 
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
-from depict.core.modeling.def_collection_orchestrator import DefCollectionOrchestator
-from depict.core.modeling.function_call_notifier import FunctionCallNotifier
+from depict.core.modeling.dynamic.driver import Driver \
+                                                as DynamicModelingDriver
 from depict.core.output.model_publisher import ModelPublisher
 from depict.core.output.observable_model import ObservableModel
+from depict.core.modeling.orchestrator import Orchestrator
 
 
 class TraceRepr(object):
@@ -31,11 +32,10 @@ class TraceRepr(object):
         self.model = ObservableModel(publisher)
         self.logger = logging.getLogger(__name__)
         entity_id_generator = EntityIdGenerator(base_path)
-        def_collection_orchestrator = DefCollectionOrchestator(base_path,
-                                                               self.model)
-        self.function_call_notifier = FunctionCallNotifier(self,
-                                            entity_id_generator,
-                                            def_collection_orchestrator)
+        modeling_orchestrator = Orchestrator(base_path, self.model)
+        self.function_call_notifier = DynamicModelingDriver(self,
+                                                     entity_id_generator,
+                                                     modeling_orchestrator)
         self.stop = self.function_call_notifier.stop
 
     def on_call(self, function_call):

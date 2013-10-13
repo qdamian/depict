@@ -15,25 +15,24 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.modeling.class_def_collector import ClassDefCollector
+from depict.core.modeling.static.class_ import Class_ as ClassModeler
 from depict.core.model.entity.class_ import Class_
 from depict.test.object_factory import fake, real
 
-class TestClassDefCollector():
+class TestClass():
     def setUp(self):
         self.source_code_parser = fake('SourceCodeParser')
         self.entity_id_generator = fake('EntityIdGenerator')
         self.model = fake('Model')
-        self.class_def_locator = ClassDefCollector(self.source_code_parser,
-                                                   self.entity_id_generator,
-                                                   self.model)
+        self.class_modeler = ClassModeler(self.source_code_parser,
+                                          self.entity_id_generator,
+                                          self.model)
 
     def test_it_registers_itself_with_the_source_code_parser_on_creation(self):
         # Arranged and acted on setUp
 
         # Assert
-        self.source_code_parser.register.assert_called_once_with(
-                                                        self.class_def_locator)
+        self.source_code_parser.register.assert_called_once_with(self.class_modeler)
 
     def test_it_adds_one_class_to_repo(self):
         # Arrange
@@ -44,7 +43,7 @@ class TestClassDefCollector():
         self.entity_id_generator.create.return_value = 'to/file.py:27'
 
         # Act
-        self.class_def_locator.on_class(node)
+        self.class_modeler.on_class(node)
 
         # Assert
         expected_class = real('Class_')
@@ -62,7 +61,7 @@ class TestClassDefCollector():
         node.name = 'fake_class_name'
 
         # Act
-        self.class_def_locator.on_class(node)
+        self.class_modeler.on_class(node)
 
         # Assert
         expected_class = Class_('path/to/file.py:27', 'fake_class_name', module)

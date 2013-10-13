@@ -15,9 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.class_ import Class_
+from depict.core.model.entity.class_ import Class_ as ClassEntity
 
-class ClassDefCollector(object):
+class Class_(object):
     def __init__(self, source_code_parser, entity_id_gen, model):
         self.entity_id_gen = entity_id_gen
         self.model = model
@@ -28,5 +28,5 @@ class ClassDefCollector(object):
         module = self.model.modules.get_by_id(module_id)
         id_ = self.entity_id_gen.create(node.parent.file,
                                node.lineno)
-        class_ = Class_(id_, node.name, module)
+        class_ = ClassEntity(id_, node.name, module)
         self.model.classes.add(class_)

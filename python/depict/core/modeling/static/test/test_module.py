@@ -15,25 +15,26 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.modeling.module_def_collector import ModuleDefCollector
 from mock import Mock, call
-import unittest
+
+from depict.core.modeling.static.module import Module as ModuleModeler
 from depict.core.model.entity.module import Module
 from depict.test.object_factory import fake, real
 
-class TestModuleDefCollector(unittest.TestCase):
+
+class TestModule():
     def setUp(self):
         self.source_code_parser = fake('SourceCodeParser')
         self.entity_id_generator = fake('EntityIdGenerator')
         self.model = fake('Model')
-        self.module_def_collector = ModuleDefCollector(self.source_code_parser,
-                                                       self.entity_id_generator,
-                                                       self.model)
+        self.module_modeler = ModuleModeler(self.source_code_parser,
+                                            self.entity_id_generator,
+                                            self.model)
 
     def test_registers_itself_in_source_code_parser(self):
         # Arranged and acted on setUp
         # Assert
-        self.source_code_parser.register.assert_called_once_with(self.module_def_collector)
+        self.source_code_parser.register.assert_called_once_with(self.module_modeler)
 
     def test_adds_one_module_to_the_model(self):
         # Arrange
@@ -43,19 +44,19 @@ class TestModuleDefCollector(unittest.TestCase):
         self.entity_id_generator.create.return_value = 'to/file.py'
 
         # Act
-        self.module_def_collector.on_module(fake_node)
+        self.module_modeler.on_module(fake_node)
 
         # Assert
         expected_module = Module('to/file.py', 'path.to.file')
         self.entity_id_generator.create.assert_called_once_with('path/to/file.py')
         self.model.modules.add.assert_called_once_with(expected_module)
 
-class TestDependencyCollection():
+class TestDependencyModeling():
     def setUp(self):
         self.model = fake('Model')
-        self.module_def_collector = ModuleDefCollector(fake('SourceCodeParser'),
-                                                       fake('EntityIdGenerator'),
-                                                       self.model)
+        self.module_modeler = ModuleModeler(fake('SourceCodeParser'),
+                                            fake('EntityIdGenerator'),
+                                            self.model)
 
         self.fake_importer = real('Module')
         self.fake_importer.name = 'importer'
@@ -72,10 +73,10 @@ class TestDependencyCollection():
         # Arrange: emulate 'import some.module, some.other.module'
         fake_import_node = fake('NodeNG', spec_set=False)
         fake_import_node.names = [('some.module', None),
-                             ('some.other.module', None)]
+                                  ('some.other.module', None)]
 
         # Act
-        self.module_def_collector.on_import(self.fake_importer, fake_import_node)
+        self.module_modeler.on_import(self.fake_importer, fake_import_node)
 
         # Assert
         self.importer_module.depends_on.assert_has_calls([call(self.dependency1), call(self.dependency2)])
@@ -86,7 +87,7 @@ class TestDependencyCollection():
         fake_from_node.modname = 'some.module'
 
         # Act
-        self.module_def_collector.on_from(self.fake_importer, fake_from_node)
+        self.module_modeler.on_from(self.fake_importer, fake_from_node)
 
         # Assert
         self.importer_module.depends_on.assert_called_once_with(self.dependency1)
