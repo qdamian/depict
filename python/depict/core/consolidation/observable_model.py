@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from mock import Mock
-
-from depict.core.output.observable_model import ObservableModel
+from depict.core.consolidation.observable_entity_repo import ObservableEntityRepo
 
 
-class TestObservableModel:
-    def test_creation(self):
-        ObservableModel(Mock())
+class ObservableModel(object):
+    def __init__(self, observer):
+        self.modules = ObservableEntityRepo(observer)
+        self.classes = ObservableEntityRepo(observer)
+        self.functions = ObservableEntityRepo(observer)
+        self.threads = ObservableEntityRepo(observer)
+        self.function_calls = ObservableEntityRepo(observer)

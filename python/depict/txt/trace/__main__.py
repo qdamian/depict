@@ -19,7 +19,7 @@ import argparse
 import sys
 
 from depict.cli.program_env_emulator import ProgramEnvEmulator
-from depict.txt.trace import TraceRepr
+from depict.txt.trace import Trace
 
 
 # pylint:disable = exec-used
@@ -39,7 +39,7 @@ def main(argv):
         return parser.format_help()
 
     prog = ProgramEnvEmulator(argv)
-    trace_repr = TraceRepr('.')
+    trace_repr = Trace('.')
     trace_repr.start()
     sys.argv = sys.argv[1:]
     exec prog.code in prog.globals, prog.globals

@@ -15,14 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging
+from mock import Mock
 
-LOGGER = logging.getLogger(__name__)
+from depict.core.consolidation.observable_model import ObservableModel
 
-class ModelPublisher(object):
-    def __init__(self):
-        self.counter = 0
 
-    # pylint:disable = no-self-use
-    def on_entity(self, entity):
-        LOGGER.info(entity)
+class TestObservableModel:
+    def test_creation(self):
+        ObservableModel(Mock())

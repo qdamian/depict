@@ -18,7 +18,7 @@
 import json
 from nose.tools import *
 from mock import patch, ANY
-from depict.core.output.json.json_serializer import JsonSerializer
+from depict.core.consolidation.json.json_serializer import JsonSerializer
 
 
 class SimpleObject(object):
@@ -76,6 +76,6 @@ class TestJsonSerializer(object):
 
     def test_serialize_formats_output(self):
         obj = SimpleObject('fake_id', 'fake_name')
-        with patch('depict.core.output.json.json_serializer.dumps') as dumps_mock:
+        with patch('depict.core.consolidation.json.json_serializer.dumps') as dumps_mock:
             actual_json = JsonSerializer.serialize(obj, 'key')
             dumps_mock.assert_called_once_with(ANY, cls=ANY, indent=4, separators=(',',':'))

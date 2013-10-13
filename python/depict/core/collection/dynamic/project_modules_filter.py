@@ -19,6 +19,10 @@ import os
 
 
 class ProjectModulesFilter(object):
+    '''
+    Decorate a ThreadScopedTracer proxying function calls to functions from
+    the project's modules and discarding functions calls to external libraries.
+    '''
     def __init__(self, base_path, observer):
         self.base_path = base_path
         self.observer = observer

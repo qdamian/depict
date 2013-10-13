@@ -31,9 +31,7 @@ class TestDriver():
         self.file_set = fake('FileSet')
         self.observer = Mock()
         self.model = fake('Model')
-        self.static_driver = StaticDriver(self.file_set,
-                                           self.observer,
-                                           self.model)
+        self.static_driver = StaticDriver(self.file_set, self.model)
 
     def tearDown(self):
         self.patcher.stop()
@@ -47,51 +45,3 @@ class TestDriver():
 
         # Assert
         self.orchestrator_mock.process.assert_called_once_with(['a.py', 'path/to/b.py'])
-
-    def test_it_notifies_modeled_modules(self):
-        # Arrange
-        module = real('Module')
-        self.model.modules.get_all.return_value = [module]
-
-        # Act
-        self.static_driver.run()
-
-        # Assert
-        self.observer.on_module.assert_has_calls([call(module)])
-
-    def test_it_notifies_modeled_classes(self):
-        # Arrange
-        class_1 = unique(real('Class_'))
-        class_2 = unique(real('Class_'))
-        self.model.classes.get_all.return_value = [class_1, class_2]
-
-        # Act
-        self.static_driver.run()
-
-        # Assert
-        expected_calls = [call(class_1), call(class_2)]
-        self.observer.on_class.assert_has_calls(expected_calls)
-
-    def test_it_notifies_modeled_functions(self):
-        # Arrange
-        function = fake('Function')
-        method = fake('Method')
-        self.model.functions.get_all.return_value = [function, method]
-
-        # Act
-        self.static_driver.run()
-
-        # Assert
-        expected_calls = [call(function), call(method)]
-        self.observer.on_function.assert_has_calls(expected_calls)
-
-    def test_ignores_error_if_observer_does_not_expect_a_notification(self):
-        # Arrange
-        fake_function = real('Function')
-        self.model.functions.get_all.return_value = [fake_function]
-        self.observer.on_function.side_effect = AttributeError
-
-        # Act
-        self.static_driver.run()
-
-        # Assert that no exceptions are raised

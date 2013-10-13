@@ -24,7 +24,7 @@ from depict.txt.trace.__main__ import main
 @patch('sys.stderr', autospec=True)
 @patch('argparse.ArgumentParser.exit', autospec=True)
 @patch('depict.txt.trace.__main__.ProgramEnvEmulator', autospec=True)
-@patch('depict.txt.trace.__main__.TraceRepr')
+@patch('depict.txt.trace.__main__.Trace')
 class TestMain():
 
     def test_returns_usage_when_no_options_are_passed(self, _1, _2, _3, _4):

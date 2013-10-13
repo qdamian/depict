@@ -17,8 +17,8 @@
 
 from depict.core.model.entity.function_call import FunctionCall
 from depict.core.collection.static.source_code_parser import SourceCodeParser
-from depict.core.output.model_publisher import ModelPublisher
-from depict.core.output.observable_model import ObservableModel
+from depict.core.consolidation.data_source import DataSource
+from depict.core.consolidation.observable_model import ObservableModel
 
 '''
 This module creates instances of some classes (from depict and other libraries)
@@ -48,7 +48,7 @@ from depict.core.modeling.dynamic.driver import Driver as DynamicModelingDriver
 from depict.core.modeling.static.class_ import Class_ as ClassModeler
 from depict.core.modeling.static.function import Function as FunctionModeler
 from depict.core.modeling.dynamic.function_call import FunctionCall as FunctionCallModeler
-from depict.txt.trace.trace_repr import TraceRepr
+from depict.txt.trace.trace import Trace
 from formic.formic import FileSet
 from mock import create_autospec, MagicMock
 import inspect
@@ -81,10 +81,10 @@ __Function = Function('function_id', 'function_name', __Module)
 __Method = Method('method_id', 'method_name', __Class_)
 __ClassModeler = ClassModeler(__SourceCodeParser, __EntityIdGenerator, __Model)
 __FunctionModeler = FunctionModeler(__SourceCodeParser, __EntityIdGenerator, __Model)
-__TraceRepr = TraceRepr(__base_path)
-__StaticModelingDriver = StaticModelingDriver(__FileSet, MagicMock(), __Model)
+__Trace = Trace(__base_path)
+__StaticModelingDriver = StaticModelingDriver(__FileSet, __Model)
 __DynamicModelingDriver = DynamicModelingDriver(MagicMock(), __EntityIdGenerator, __Orchestrator)
 __FunctionCall = FunctionCall('function_call_id', __Function, __Thread)
 __FunctionCallModeler = FunctionCallModeler(__EntityIdGenerator, __Model)
-__ModelPublisher = ModelPublisher()
+__ModelPublisher = DataSource()
 __ObservableModel = ObservableModel(__ModelPublisher)

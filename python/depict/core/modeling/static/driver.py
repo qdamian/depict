@@ -21,35 +21,18 @@ from depict.core.modeling.static.function import Function
 from depict.core.modeling.static.module import Module
 
 class Driver(object):
-    def __init__(self, file_set, observer, model):
-        self.observer = observer
+    def __init__(self, file_set, model):
         self.file_set = file_set
         self.model = model
-        self.orchestrator = Orchestrator(file_set.directory, self.model)
-
-    def _best_effort_notify(self, function_name, value=None):
-        try:
-            notification_function = getattr(self.observer, function_name)
-            if value:
-                notification_function(value)
-            else:
-                notification_function()
-        except AttributeError:
-            pass
 
     def run(self):
-        self.orchestrator.include(Module)
-        self.orchestrator.include(Class_)
-        self.orchestrator.include(Function)
+        orchestrator = Orchestrator(self.file_set.directory, self.model)
+        orchestrator.include(Module)
+        orchestrator.include(Class_)
+        orchestrator.include(Function)
 
         file_list = [f for f in self.file_set]
 
-        self.orchestrator.process(file_list)
-
-        for (func_name, repo) in [('on_module', self.model.modules),
-                                  ('on_class', self.model.classes),
-                                  ('on_function', self.model.functions)]:
-            for value in repo.get_all():
-                self._best_effort_notify(func_name, value)
+        orchestrator.process(file_list)
 
         return self.model

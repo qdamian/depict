@@ -20,16 +20,18 @@ import logging
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
 from depict.core.modeling.dynamic.driver import Driver \
                                                 as DynamicModelingDriver
-from depict.core.output.model_publisher import ModelPublisher
-from depict.core.output.observable_model import ObservableModel
+from depict.core.consolidation.data_source import DataSource
+from depict.core.consolidation.observable_model import ObservableModel
 from depict.core.modeling.orchestrator import Orchestrator
 
 
-class TraceRepr(object):
-
+class Trace(object):
+    '''
+    Trace representation.
+    '''
     def __init__(self, base_path):
-        publisher = ModelPublisher()
-        self.model = ObservableModel(publisher)
+        data_source = DataSource()
+        self.model = ObservableModel(data_source)
         self.logger = logging.getLogger(__name__)
         entity_id_generator = EntityIdGenerator(base_path)
         modeling_orchestrator = Orchestrator(base_path, self.model)

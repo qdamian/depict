@@ -21,23 +21,23 @@ from mock import patch, Mock, ANY
 from nose_parameterized import parameterized
 
 from depict.test.object_factory import fake, real
-from depict.txt.trace.trace_repr import TraceRepr
+from depict.txt.trace.trace import Trace
 
 
-class TestTraceRepr():
+class TestTrace():
     def setUp(self):
         self.original_tracer = sys.gettrace()
 
-        self.model_patcher = patch('depict.txt.trace.trace_repr.ObservableModel')
+        self.model_patcher = patch('depict.txt.trace.trace.ObservableModel')
         self.model_class = self.model_patcher.start()
         self.model = real('ObservableModel')
         self.model_class.return_value = self.model
         
-        self.function_call_notifier_patcher = patch('depict.txt.trace.trace_repr.DynamicModelingDriver')
+        self.function_call_notifier_patcher = patch('depict.txt.trace.trace.DynamicModelingDriver')
         self.dynamic_modeler_driver = fake('DynamicModelingDriver')
         function_call_notifier_class = self.function_call_notifier_patcher.start()
         function_call_notifier_class.return_value = self.dynamic_modeler_driver
-        self.trace_repr = TraceRepr('.')
+        self.trace = Trace('.')
 
     def tearDown(self):
         self.model_patcher.stop()
@@ -47,7 +47,7 @@ class TestTraceRepr():
     def test_it_provides_a_start_method_that_starts_tracing_calls(self):
         # Arranged in setUp
         # Act
-        self.trace_repr.start()
+        self.trace.start()
 
         # Assert
         self.dynamic_modeler_driver.start.assert_called_once_with()
@@ -57,31 +57,31 @@ class TestTraceRepr():
         # Arrange
         function_call = fake('FunctionCall')
         function_call.function.name = function_name
-        self.trace_repr.output = Mock()
+        self.trace.output = Mock()
 
         # Act
-        self.trace_repr.on_call(function_call)
+        self.trace.on_call(function_call)
 
         # Assert
-        self.trace_repr.output.assert_called_once_with(msg=function_name, actor=ANY)
+        self.trace.output.assert_called_once_with(msg=function_name, actor=ANY)
 
     @parameterized.expand([('Foo',), ('foo.bar',)])
     def test_it_outputs_the_name_of_actors(self, method_or_module_name):
         # Arrange
         function_call = fake('FunctionCall')
         function_call.function.parent.name = method_or_module_name
-        self.trace_repr.output = Mock()
+        self.trace.output = Mock()
 
         # Act
-        self.trace_repr.on_call(function_call)
+        self.trace.on_call(function_call)
 
         # Assert
-        self.trace_repr.output.assert_called_once_with(msg=ANY, actor=method_or_module_name)
+        self.trace.output.assert_called_once_with(msg=ANY, actor=method_or_module_name)
 
     def test_it_provides_a_stop_method_that_starts_tracing_calls(self):
         # Arranged in setUp
         # Act
-        self.trace_repr.stop()
+        self.trace.stop()
 
         # Assert
         self.dynamic_modeler_driver.stop.assert_called_once_with()

@@ -15,17 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from mock import patch
+import logging
 
-from depict.core.output.model_publisher import ModelPublisher
-from depict.test.object_factory import real
+LOGGER = logging.getLogger(__name__)
 
+class DataSource(object):
+    def __init__(self):
+        self.counter = 0
 
-class TestModelPublisher():
-
-    @patch('depict.core.output.model_publisher.LOGGER')
-    def test_it_logs_each_entity(self, logger):
-        model_publisher = ModelPublisher()
-        entity = real('Function')
-        model_publisher.on_entity(entity)
-        logger.info.assert_called_once_with(entity)
+    # pylint:disable = no-self-use
+    def on_entity(self, entity):
+        LOGGER.info(entity)

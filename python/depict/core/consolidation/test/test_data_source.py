@@ -15,13 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.output.observable_entity_repo import ObservableEntityRepo
+from mock import patch
+
+from depict.core.consolidation.data_source import DataSource
+from depict.test.object_factory import real
 
 
-class ObservableModel(object):
-    def __init__(self, observer):
-        self.modules = ObservableEntityRepo(observer)
-        self.classes = ObservableEntityRepo(observer)
-        self.functions = ObservableEntityRepo(observer)
-        self.threads = ObservableEntityRepo(observer)
-        self.function_calls = ObservableEntityRepo(observer)
+class TestDataSource():
+
+    @patch('depict.core.consolidation.data_source.LOGGER')
+    def test_it_logs_each_entity(self, logger):
+        model_publisher = DataSource()
+        entity = real('Function')
+        model_publisher.on_entity(entity)
+        logger.info.assert_called_once_with(entity)
