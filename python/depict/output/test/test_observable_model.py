@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-class Two:
-    def __init__(self):
-        self.val = 2
+from depict.output.observable_model import ObservableModel
+from mock import Mock
 
-    @property
-    def value(self):
-        return self.val
+
+class TestObservableModel:
+    def test_creation(self):
+        ObservableModel(Mock())

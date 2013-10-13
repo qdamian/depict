@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 from depict.modeling.function_call_collector import FunctionCallCollector
+from depict.output.model_publisher import ModelPublisher
+from depict.output.observable_model import ObservableModel
 
 '''
 This module creates instances of some classes (from depict and other libraries)
@@ -71,6 +73,8 @@ __TraceRepr = TraceRepr(__base_path)
 __FunctionCallNotifier = FunctionCallNotifier(MagicMock(), __EntityIdGenerator, __DefCollectionOrchestrator)
 __FunctionCall = FunctionCall('function_call_id', __Function, __Thread)
 __FunctionCallCollector = FunctionCallCollector(__EntityIdGenerator, __Model)
+__ModelPublisher = ModelPublisher()
+__ObservableModel = ObservableModel(__ModelPublisher)
 
 def fake(class_name, spec_set=True):
     return create_autospec(spec=globals()['__' + class_name], spec_set=spec_set)

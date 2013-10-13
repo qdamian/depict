@@ -15,14 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
-from depict.output.json import Json
-from formic.formic import FileSet
+from depict.output.observable_entity_repo import ObservableEntityRepo
 
-if __name__ == '__main__':
-    base_path = '/usr/local/lib/python2.7/dist-packages/pyasteroids'
-    file_set = FileSet(directory=base_path, include='*.py')
 
-    json = Json(file_set, 'pyasteroids.json')
-
-    json.run()
+class ObservableModel(object):
+    def __init__(self, observer):
+        self.modules = ObservableEntityRepo(observer)
+        self.classes = ObservableEntityRepo(observer)
+        self.functions = ObservableEntityRepo(observer)
+        self.threads = ObservableEntityRepo(observer)
+        self.function_calls = ObservableEntityRepo(observer)

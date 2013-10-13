@@ -37,11 +37,3 @@ class TestMain():
     def test_returns_list_of_representations_when_asked_to(self, repr_recruiter_mock, _1, _2):
         msg = main([depict.__main__.__file__, '--list'])
         assert_in('Available representations', msg)
-
-    @patch('depict.__main__.copytree')
-    @patch('depict.__main__.sys')
-    def test_dumps_a_sample_program_when_asked_to(self, sys_mock, copytree_mock, _1, _2):
-        sys_mock.argv = ['depict/__main__.py']
-        main([depict.__main__.__file__, '--sample', 'mydir'])
-        expected_src_path = os.path.abspath('depict/data/sample')
-        copytree_mock.assert_called_once_with(expected_src_path, 'mydir')

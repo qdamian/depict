@@ -15,31 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.output.toy.function_call_list import FunctionCallList
-from depict.output.toy.def_list import DefList
-from formic.formic import FileSet
+from depict.model.util.entity_repo import EntityRepo
 
-def say_hi():
-    print 'hello world'
+class ObservableEntityRepo(EntityRepo):
+    def __init__(self, observer):
+        self.observer = observer
+        super(ObservableEntityRepo, self).__init__()
 
-def main():
-    p = Person()
-    p.say_hi()
-    p.say_bye()
-
-class Person():
-    def say_hi(self):
-        print 'Hello, world'
-
-    def say_bye(self):
-        print 'Bye'
-
-if __name__ == '__main__':
-    file_set = FileSet(directory='.', include=[__file__])
-    def_list = DefList(file_set, 'hello_world.def_list.out')
-    def_list.run()
-
-    function_call_list = FunctionCallList('hello_world.function_call_list.out', '.')
-    function_call_list.start()
-    main()
-    function_call_list.stop()
+    def add(self, entity):
+        super(ObservableEntityRepo, self).add(entity)
+        self.observer.on_entity(entity)

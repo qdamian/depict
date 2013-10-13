@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.persistence.json.json_serializer import JsonSerializer
-from nose.tools import *
 import json
+from nose.tools import *
 from mock import patch, ANY
+from depict.output.json.json_serializer import JsonSerializer
+
 
 class SimpleObject(object):
     def __init__(self, id_ = 'fake_id', name = 'fake_name'):
@@ -75,6 +76,6 @@ class TestJsonSerializer(object):
 
     def test_serialize_formats_output(self):
         obj = SimpleObject('fake_id', 'fake_name')
-        with patch('depict.persistence.json.json_serializer.dumps') as dumps_mock:
+        with patch('depict.output.json.json_serializer.dumps') as dumps_mock:
             actual_json = JsonSerializer.serialize(obj, 'key')
             dumps_mock.assert_called_once_with(ANY, cls=ANY, indent=4, separators=(',',':'))

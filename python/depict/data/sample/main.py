@@ -32,21 +32,22 @@ class Stopwatch(object):
     def __init__(self):
         self.start_time = time.time()
 
-    def elapsed(self):
-        return time.time() - self.start_time
+    def elapsed_ms(self):
+        return (time.time() - self.start_time) * 1000
 
 def main():
     stopwatch = Stopwatch()
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('--timeout', type=float,
-                     help='Max execution time (sec) that returns success')
+                     help='Max execution time (msec) that returns success')
     args = parser.parse_args()
 
     say_hi()
-    LOGGER.debug('Elapsed time: %s sec', stopwatch.elapsed())
+
+    LOGGER.debug('Elapsed time: %9.2f msec', stopwatch.elapsed_ms())
 
     if args.timeout:
-        if stopwatch.elapsed() > float(args.timeout):
+        if stopwatch.elapsed_ms() > float(args.timeout):
             exit(1)
     exit(0)
 

@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.collection.dynamic.project_modules_filter import \
+                                                         ProjectModulesFilter
 from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 from depict.modeling.class_def_collector import ClassDefCollector
 from depict.modeling.function_call_collector import FunctionCallCollector
@@ -34,7 +36,9 @@ class FunctionCallNotifier(object):
 
         self._setup_static_data_collection()
 
-        self.thread_scoped_tracer = ThreadScopedTracer(self)
+        project_modules_filter = ProjectModulesFilter(
+                                        entity_id_generator.base_path, self)
+        self.thread_scoped_tracer = ThreadScopedTracer(project_modules_filter)
         self.stop = self.thread_scoped_tracer.stop
 
     def start(self):

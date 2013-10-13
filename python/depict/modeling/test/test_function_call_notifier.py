@@ -49,7 +49,7 @@ class TestFunctionCallNotifier():
         function_call_notifier = FunctionCallNotifier(*self.init_args)
 
         # Assert
-        self.thread_scoped_tracer_class.assert_called_once_with(function_call_notifier)
+        self.thread_scoped_tracer_class.assert_called_once_with(ANY)
         self.function_call_collector_class.assert_called_once_with(ANY, ANY)
 
     def test_start_creates_thread_scoped_tracer(self):

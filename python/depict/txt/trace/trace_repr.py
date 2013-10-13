@@ -15,16 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.model.model import Model
+import logging
+
 from depict.model.util.entity_id_generator import EntityIdGenerator
 from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
 from depict.modeling.function_call_notifier import FunctionCallNotifier
-import logging
+from depict.output.model_publisher import ModelPublisher
+from depict.output.observable_model import ObservableModel
+
 
 class TraceRepr(object):
 
     def __init__(self, base_path):
-        self.model = Model()
+        publisher = ModelPublisher()
+        self.model = ObservableModel(publisher)
         self.logger = logging.getLogger(__name__)
         entity_id_generator = EntityIdGenerator(base_path)
         def_collection_orchestrator = DefCollectionOrchestator(base_path,

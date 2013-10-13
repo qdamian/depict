@@ -15,14 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.collection.static.source_code_parser import SourceCodeParser
-from depict.model.util.entity_id_generator import EntityIdGenerator
-from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
-from depict.output.json import Json
-from formic.formic import FileSet
+import logging
+from depict.model.entity.function_call import FunctionCall
+from depict.output.json.json_serializer import JsonSerializer
 
-if __name__ == '__main__':
-    file_set = FileSet(directory='.', include='depict/collection/**/*.py', exclude='depict/collection/**/test*.py')
-    json = Json(file_set, 'collection.json')
+LOGGER = logging.getLogger(__name__)
 
-    json.run()
+class ModelPublisher(object):
+    def __init__(self):
+        self.counter = 0
+
+    # pylint:disable = no-self-use
+    def on_entity(self, entity):
+        LOGGER.info(entity)

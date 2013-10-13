@@ -64,7 +64,7 @@ def dump_sample_program(base_path, dst_path):
 
 def main(argv):
     [parser, args] = parse_args(argv[1:])
-    base_path = path.abspath(path.dirname(path.dirname(sys.argv[0])))
+    base_path = path.abspath(path.dirname(path.dirname(argv[0])))
     if args.list:
         return format_repr(list_repr(base_path))
     elif args.sample:

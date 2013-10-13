@@ -15,31 +15,31 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from nose.tools import assert_equal
+from nose.tools import *
 
 @then(u'I see basic usage information')
 def step_impl(context):
-    assert 'usage' in context.stdout
+    assert_in('usage', context.stdout)
 
 @then(u'I see a link to the user guide')
 def step_impl(context):
-    assert 'https://github.com/qdamian/depict/wiki/User-guide' in context.stdout
+    assert_in('https://github.com/qdamian/depict/wiki/User-guide', context.stdout)
 
 @then(u'I see a copyright notice')
 def step_impl(context):
-    assert 'GPL' in context.stdout
+    assert_in('GPL', context.stdout)
 
 @then(u'I see trace listed')
 def step_impl(context):
-    assert 'depict.txt.trace' in context.stdout
+    assert_in('depict.txt.trace', context.stdout)
 
 @then(u'I see sequence_diagram listed')
 def step_impl(context):
-    assert 'depict.html5.sequence_diagram' in context.stdout
+    assert_in('depict.html5.sequence_diagram', context.stdout)
 
 @then(u'I see movie listed')
 def step_impl(context):
-    assert 'depict.html5.movie' in context.stdout
+    assert_in('depict.html5.movie', context.stdout)
 
 @then(u'it executes successfully')
 def step_impl(context):
@@ -47,10 +47,18 @@ def step_impl(context):
 
 @then(u'I see the function calls printed')
 def step_impl(context):
-    assert 'say_hi' in context.stdout
-    assert 'elapsed' in context.stdout
+    assert_in('say_hi', context.stdout)
+    assert_in('elapsed', context.stdout)
 
 @then(u'I see the class or module each called function belongs to')
 def step_impl(context):
-    assert 'sample.main.say_hi' in context.stdout
-    assert 'Stopwatch.elapsed' in context.stdout
+    assert_in('sample.main.say_hi', context.stdout)
+    assert_in('Stopwatch.elapsed', context.stdout)
+
+@then(u'the execution with depict is no more than {diff}% slower')
+def step_impl(context, diff):
+    without_depict = context.sample_mean_time
+    with_depict = context.depict_sample_mean_time
+    actual_diff = ((with_depict - without_depict) / without_depict) * 100
+    expected_diff = long(diff)
+    assert_less_equal(actual_diff, expected_diff)

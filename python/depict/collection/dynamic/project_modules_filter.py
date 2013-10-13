@@ -15,19 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.persistence.json.json_doc import JsonDoc
-from depict.modeling.static_data_notifier import StaticDataNotifier
-from depict.model.model import Model
+import os
 
-class Json(object):
 
-    def __init__(self, file_set, out_filename):
-        model = Model()
-        self.json_doc = JsonDoc(out_filename, model)
-        self.static_data_notifier = StaticDataNotifier(file_set,
-                                                       self.json_doc,
-                                                       model)
+class ProjectModulesFilter(object):
+    def __init__(self, base_path, observer):
+        self.base_path = base_path
+        self.observer = observer
 
-    def run(self):
-        self.static_data_notifier.run()
-        self.json_doc.generate()
+    def on_call(self, frame_digest):
+        rel_path = os.path.relpath(frame_digest.file_name, self.base_path)
+        if not rel_path.startswith('..'):
+            self.observer.on_call(frame_digest)

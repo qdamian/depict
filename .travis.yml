@@ -3,11 +3,11 @@ python:
   - 2.7
 install:
   # Dependencies
-    - pip install -r requirements.txt --use-mirrors
+    - pip install -r requirements.txt --use-mirrors --quiet
     - npm install
 script:
   # Lint
-    - pylint --rcfile=.pylintrc python/depict/
+    - pylint --errors-only --rcfile=.pylintrc python/depict/
     - npm run-script lint
   # Unit test
     - nosetests --config .noserc python/
@@ -17,7 +17,8 @@ script:
   # Install
     - python python/setup.py install
   # Integration test
-    - behave
+    - behave -t ~performance
 after_success:
   # Report
     - coveralls
+

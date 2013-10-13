@@ -25,9 +25,9 @@ class TestTraceRepr():
     def setUp(self):
         self.original_tracer = sys.gettrace()
 
-        self.model_patcher = patch('depict.txt.trace.trace_repr.Model')
+        self.model_patcher = patch('depict.txt.trace.trace_repr.ObservableModel')
         self.model_class = self.model_patcher.start()
-        self.model = real('Model')
+        self.model = real('ObservableModel')
         self.model_class.return_value = self.model
         
         self.function_call_notifier_patcher = patch('depict.txt.trace.trace_repr.FunctionCallNotifier')

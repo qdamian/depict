@@ -15,13 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-class One:
-    def __init__(self):
-        self.val = 1
+from mock import patch
 
-    @property
-    def value(self):
-        return self.val
+from depict.output.model_publisher import ModelPublisher
+from depict.test.template import real
 
-    def some_func(self):
-        pass
+
+class TestModelPublisher():
+
+    @patch('depict.output.model_publisher.LOGGER')
+    def test_it_logs_each_entity(self, logger):
+        model_publisher = ModelPublisher()
+        entity = real('Function')
+        model_publisher.on_entity(entity)
+        logger.info.assert_called_once_with(entity)
