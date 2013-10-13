@@ -17,11 +17,11 @@
 
 import logging
 
-from depict.model.util.entity_id_generator import EntityIdGenerator
-from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
-from depict.modeling.function_call_notifier import FunctionCallNotifier
-from depict.output.model_publisher import ModelPublisher
-from depict.output.observable_model import ObservableModel
+from depict.core.model.util.entity_id_generator import EntityIdGenerator
+from depict.core.modeling.def_collection_orchestrator import DefCollectionOrchestator
+from depict.core.modeling.function_call_notifier import FunctionCallNotifier
+from depict.core.output.model_publisher import ModelPublisher
+from depict.core.output.observable_model import ObservableModel
 
 
 class TraceRepr(object):

@@ -18,8 +18,8 @@
 from depict.cli.representations_recruiter import RepresentationsRecruiter
 from nose.tools import *
 from mock import patch, MagicMock, Mock, ANY, PropertyMock
-from depict.model.entity.module import Module
-from depict.model.model import Model
+from depict.core.model.entity.module import Module
+from depict.core.model.model import Model
 
 @patch('depict.cli.representations_recruiter.StaticDataNotifier')
 class TestRepresentationsRecruiter(object):

@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.modeling.static_data_notifier import StaticDataNotifier
+from depict.core.modeling.static_data_notifier import StaticDataNotifier
 from formic.formic import FileSet
 import importlib
-from depict.model.model import Model
+from depict.core.model.model import Model
 
 def get_repr_description(mod_name):
     imported_mod = importlib.import_module(mod_name + '.profile')

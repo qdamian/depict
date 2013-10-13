@@ -14,9 +14,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
-from depict.modeling.function_call_collector import FunctionCallCollector
-from depict.output.model_publisher import ModelPublisher
-from depict.output.observable_model import ObservableModel
+from depict.core.modeling.function_call_collector import FunctionCallCollector
+from depict.core.output.model_publisher import ModelPublisher
+from depict.core.output.observable_model import ObservableModel
 
 '''
 This module creates instances of some classes (from depict and other libraries)
@@ -30,22 +30,22 @@ http://www.voidspace.org.uk/python/mock/helpers.html#autospeccing
 
 from astroid.bases import NodeNG
 from copy import deepcopy
-from depict.collection.dynamic.frame_digest import FrameDigest
-from depict.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
-from depict.collection.static.source_code_parser import SourceCodeParser
-from depict.model.entity.class_ import Class_
-from depict.model.entity.function import Function
-from depict.model.entity.function_call import FunctionCall
-from depict.model.entity.method import Method
-from depict.model.entity.module import Module
-from depict.model.entity.thread import Thread
-from depict.model.model import Model
-from depict.model.util.entity_id_generator import EntityIdGenerator
-from depict.model.util.entity_repo import EntityRepo
-from depict.modeling.class_def_collector import ClassDefCollector
-from depict.modeling.def_collection_orchestrator import DefCollectionOrchestator
-from depict.modeling.function_call_notifier import FunctionCallNotifier
-from depict.modeling.function_def_collector import FunctionDefCollector
+from depict.core.collection.dynamic.frame_digest import FrameDigest
+from depict.core.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
+from depict.core.collection.static.source_code_parser import SourceCodeParser
+from depict.core.model.entity.class_ import Class_
+from depict.core.model.entity.function import Function
+from depict.core.model.entity.function_call import FunctionCall
+from depict.core.model.entity.method import Method
+from depict.core.model.entity.module import Module
+from depict.core.model.entity.thread import Thread
+from depict.core.model.model import Model
+from depict.core.model.util.entity_id_generator import EntityIdGenerator
+from depict.core.model.util.entity_repo import EntityRepo
+from depict.core.modeling.class_def_collector import ClassDefCollector
+from depict.core.modeling.def_collection_orchestrator import DefCollectionOrchestator
+from depict.core.modeling.function_call_notifier import FunctionCallNotifier
+from depict.core.modeling.function_def_collector import FunctionDefCollector
 from depict.txt.trace.trace_repr import TraceRepr
 from formic.formic import FileSet
 from mock import create_autospec, MagicMock
