@@ -17,7 +17,7 @@
 
 from depict.core.model.entity.thread import Thread
 from depict.core.modeling.function_call_collector import FunctionCallCollector
-from depict.test.template import fake
+from depict.test.object_factory import fake
 from mock import Mock, patch
 from nose.tools import *
 

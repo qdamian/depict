@@ -18,7 +18,7 @@
 from mock import patch
 
 from depict.core.output.model_publisher import ModelPublisher
-from depict.test.template import real
+from depict.test.object_factory import real
 
 
 class TestModelPublisher():

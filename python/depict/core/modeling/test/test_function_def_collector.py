@@ -19,7 +19,7 @@ from depict.core.model.entity.function import Function
 from depict.core.model.entity.method import Method
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
 from depict.core.modeling.function_def_collector import FunctionDefCollector
-from depict.test.template import fake, real
+from depict.test.object_factory import fake, real
 from mock import Mock, MagicMock
 import astroid
 

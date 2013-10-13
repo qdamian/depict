@@ -21,7 +21,7 @@ from depict.core.model.entity.method import Method
 from depict.core.model.entity.module import Module
 from depict.core.modeling.static_data_notifier import StaticDataNotifier
 from mock import Mock, call, MagicMock, patch
-from depict.test.template import fake, real, unique
+from depict.test.object_factory import fake, real, unique
 
 class TestStaticDataNotifier():
     def setUp(self):

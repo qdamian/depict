@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.test.template import real
+from depict.test.object_factory import real
 
 class TestFunctionCall():
     def test_creation(self):

@@ -19,7 +19,7 @@ from depict.core.modeling.def_collection_orchestrator import DefCollectionOrches
 from depict.core.modeling.def_collection_orchestrator import AlreadyProcessed
 from mock import Mock, patch, ANY
 from nose.tools import *
-from depict.test.template import fake
+from depict.test.object_factory import fake
 
 @patch('depict.core.modeling.def_collection_orchestrator.EntityIdGenerator', autospec=True)
 @patch('depict.core.modeling.def_collection_orchestrator.SourceCodeParser', autospec=True)

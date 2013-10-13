@@ -17,7 +17,7 @@
 
 from depict.core.modeling.class_def_collector import ClassDefCollector
 from depict.core.model.entity.class_ import Class_
-from depict.test.template import fake, real
+from depict.test.object_factory import fake, real
 
 class TestClassDefCollector():
     def setUp(self):

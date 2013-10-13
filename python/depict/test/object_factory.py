@@ -52,6 +52,16 @@ from mock import create_autospec, MagicMock
 import inspect
 import uuid
 
+def fake(class_name, spec_set=True):
+    return create_autospec(spec=globals()['__' + class_name], spec_set=spec_set)
+
+def real(class_name):
+    return deepcopy(globals()['__' + class_name])
+
+def unique(entity):
+    entity.id_ = str(uuid.uuid4())
+    return entity
+
 __base_path = '.'
 __SourceCodeParser = SourceCodeParser(__base_path)
 __EntityIdGenerator = EntityIdGenerator(__base_path)
@@ -75,13 +85,3 @@ __FunctionCall = FunctionCall('function_call_id', __Function, __Thread)
 __FunctionCallCollector = FunctionCallCollector(__EntityIdGenerator, __Model)
 __ModelPublisher = ModelPublisher()
 __ObservableModel = ObservableModel(__ModelPublisher)
-
-def fake(class_name, spec_set=True):
-    return create_autospec(spec=globals()['__' + class_name], spec_set=spec_set)
-
-def real(class_name):
-    return deepcopy(globals()['__' + class_name])
-
-def unique(entity):
-    entity.id_ = str(uuid.uuid4())
-    return entity

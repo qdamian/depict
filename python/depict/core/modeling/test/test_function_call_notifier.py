@@ -17,7 +17,7 @@
 
 from depict.core.modeling.def_collection_orchestrator import AlreadyProcessed
 from depict.core.modeling.function_call_notifier import FunctionCallNotifier
-from depict.test.template import fake, real
+from depict.test.object_factory import fake, real
 from mock import Mock, patch, ANY
 from nose.tools import *
 

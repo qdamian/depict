@@ -20,7 +20,7 @@ from nose.tools import assert_equal
 from mock import Mock
 
 from depict.core.output.observable_entity_repo import ObservableEntityRepo
-from depict.test.template import real
+from depict.test.object_factory import real
 
 
 class TestObservableEntityRepo():

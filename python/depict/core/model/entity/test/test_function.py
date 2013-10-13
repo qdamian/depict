@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.test.template import fake, real, unique
+from depict.test.object_factory import fake, real, unique
 from nose.tools import *
 
 class TestFunction():

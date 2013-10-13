@@ -19,7 +19,7 @@ from depict.core.modeling.module_def_collector import ModuleDefCollector
 from mock import Mock, call
 import unittest
 from depict.core.model.entity.module import Module
-from depict.test.template import fake, real
+from depict.test.object_factory import fake, real
 
 class TestModuleDefCollector(unittest.TestCase):
     def setUp(self):

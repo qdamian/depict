@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.core.model.entity.method import Method
-from depict.test.template import real, unique
+from depict.test.object_factory import real, unique
 from nose.tools import *
 
 class TestClass():

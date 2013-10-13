@@ -16,7 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from depict.core.collection.static.defs_visitor import DefsVisitor
-from depict.test.template import fake
+from depict.test.object_factory import fake
 
 class TestDefsVisitor():
 
