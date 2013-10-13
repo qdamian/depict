@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from mock import Mock, patch, ANY
+from nose.tools import *
+
 from depict.core.modeling.orchestrator import AlreadyProcessed
 from depict.core.modeling.dynamic.driver import Driver
 from depict.test.object_factory import fake, real
-from mock import Mock, patch, ANY
-from nose.tools import *
+
 
 class TestDriver():
     def setUp(self):

@@ -15,12 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.cli.representations_recruiter import RepresentationsRecruiter
 from shutil import copytree
 from os import path
 import argparse
 import sys
 from argparse import RawTextHelpFormatter
+
+from depict.cli.representations_recruiter import RepresentationsRecruiter
+
 
 # pylint:disable = invalid-name
 

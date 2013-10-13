@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.collection.static.source_code_parser import SourceCodeParser
 from depict.core.modeling.static.class_ import Class_
 from depict.core.modeling.orchestrator import Orchestrator
 from depict.core.modeling.static.function import Function

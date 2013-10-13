@@ -15,13 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from mock import Mock, MagicMock
+import astroid
+
 from depict.core.model.entity.function import Function
 from depict.core.modeling.static.function import Function as FunctionModeler
 from depict.core.model.entity.method import Method
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
 from depict.test.object_factory import fake, real
-from mock import Mock, MagicMock
-import astroid
+
 
 class TestFunction():
     def setUp(self):

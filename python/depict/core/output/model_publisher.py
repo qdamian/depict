@@ -16,8 +16,6 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from depict.core.model.entity.function_call import FunctionCall
-from depict.core.output.json.json_serializer import JsonSerializer
 
 LOGGER = logging.getLogger(__name__)
 

@@ -15,12 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+import sys
+
+from astroid.exceptions import AstroidBuildingException
+from astroid.manager import AstroidManager
+
 from depict.core.collection.static.defs_visitor import DefsVisitor
 from depict.core.collection.static.relations_visitor import RelationsVisitor
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
-from astroid.exceptions import AstroidBuildingException
-from astroid.manager import AstroidManager
-import sys
+
 
 class SourceCodeParser(object):
     '''

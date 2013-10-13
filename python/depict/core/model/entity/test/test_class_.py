@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from nose.tools import *
+
 from depict.core.model.entity.method import Method
 from depict.test.object_factory import real, unique
-from nose.tools import *
+
 
 class TestClass():
     def test_creation(self):

@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+import astroid
+
 from depict.core.model.entity.function import Function as FunctionEntity
 from depict.core.model.entity.method import Method
-import astroid
+
 
 class Function(object):
     '''

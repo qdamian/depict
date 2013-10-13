@@ -15,8 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.util.tree import TreeRootNode, TreeNode
 from nose.tools import *
+
+from depict.core.model.util.tree import TreeRootNode, TreeNode
+
 
 class TestTreeNode():
     def test_the_root_node_has_no_parent(self):

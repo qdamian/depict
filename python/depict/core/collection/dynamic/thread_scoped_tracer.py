@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.collection.dynamic.frame_digest import FrameDigest
 import os
 import sys
+
+from depict.core.collection.dynamic.frame_digest import FrameDigest
+
 
 def _get_filename_without_extension(filepath):
     base = os.path.basename(filepath)

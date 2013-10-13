@@ -15,9 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.module import Module
 import unittest
+
 from nose.tools import *
+
+from depict.core.model.entity.module import Module
+
 
 class TestModule(unittest.TestCase):
     def test_creation(self):

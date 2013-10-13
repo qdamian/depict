@@ -15,11 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+import importlib
+
+from formic.formic import FileSet
+
 from depict.core.modeling.static.driver import Driver \
                                         as StaticDataModelingDriver
-from formic.formic import FileSet
-import importlib
 from depict.core.model.model import Model
+
 
 def get_repr_description(mod_name):
     imported_mod = importlib.import_module(mod_name + '.profile')

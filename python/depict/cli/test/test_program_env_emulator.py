@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.cli.program_env_emulator import ProgramEnvEmulator
 from nose.tools import *
-from mock import mock_open, patch, Mock
+from mock import mock_open, patch
+
+from depict.cli.program_env_emulator import ProgramEnvEmulator
+
 
 @patch('__builtin__.open', new=mock_open(None, 'test_var = "test_value"'))
 class TestdepictedProgEnvEmulator():

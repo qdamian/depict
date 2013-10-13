@@ -15,10 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
+import sys
+
 from nose.tools import *
 from mock import Mock
-import sys
+
+from depict.core.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
+
 
 def function1():
     return 1

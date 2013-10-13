@@ -15,12 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.function_call import FunctionCall \
-                                            as FunctionCallEntity
-from depict.core.model.entity.thread import Thread
 import threading
 import time
 import uuid
+
+from depict.core.model.entity.function_call import FunctionCall \
+                                            as FunctionCallEntity
+from depict.core.model.entity.thread import Thread
+
 
 class FunctionCall(object):
 

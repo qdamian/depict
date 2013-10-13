@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.cli.program_env_emulator import ProgramEnvEmulator
-from depict.txt.trace import TraceRepr
 import argparse
 import sys
+
+from depict.cli.program_env_emulator import ProgramEnvEmulator
+from depict.txt.trace import TraceRepr
+
 
 # pylint:disable = exec-used
 

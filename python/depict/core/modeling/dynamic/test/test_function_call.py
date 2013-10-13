@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from mock import Mock, patch
+from nose.tools import *
+
 from depict.core.model.entity.thread import Thread
 from depict.core.modeling.dynamic.function_call import FunctionCall
 from depict.test.object_factory import fake
-from mock import Mock, patch
-from nose.tools import *
+
 
 @patch('depict.core.modeling.dynamic.function_call.threading', autospec=True)
 class TestFunctionCall:

@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.txt.trace.__main__ import main
-from mock import patch, mock_open, Mock
+from mock import patch, Mock
 from nose.tools import *
-import depict
-import os
+
+from depict.txt.trace.__main__ import main
+
 
 @patch('sys.stderr', autospec=True)
 @patch('argparse.ArgumentParser.exit', autospec=True)

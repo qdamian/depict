@@ -15,10 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.util.entity_repo import EntityRepo
-from mock import Mock
 import unittest
+
+from mock import Mock
 from nose.tools import *
+
+from depict.core.model.util.entity_repo import EntityRepo
+
 
 class TestEntityRepo(unittest.TestCase):
     def test_add_one_element(self):

@@ -15,9 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.thread import Thread
 from nose.tools import *
-from depict.core.model.util.tree import TreeRootNode
+
+from depict.core.model.entity.thread import Thread
+
 
 class TestFunction():
     def test_creation(self):

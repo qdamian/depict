@@ -15,11 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.test.object_factory import fake, real
-from depict.txt.trace.trace_repr import TraceRepr
+import sys
+
 from mock import patch, Mock, ANY
 from nose_parameterized import parameterized
-import sys
+
+from depict.test.object_factory import fake, real
+from depict.txt.trace.trace_repr import TraceRepr
+
 
 class TestTraceRepr():
     def setUp(self):

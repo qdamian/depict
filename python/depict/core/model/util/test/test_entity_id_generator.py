@@ -16,8 +16,11 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from depict.core.model.util.entity_id_generator import EntityIdGenerator
+
 from mock import patch
+
+from depict.core.model.util.entity_id_generator import EntityIdGenerator
+
 
 class TestEntityIdGenerator(unittest.TestCase):
     @patch('depict.core.model.util.entity_id_generator.os.path.relpath', autospec=True)

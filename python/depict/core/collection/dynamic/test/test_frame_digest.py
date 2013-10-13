@@ -15,11 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.collection.dynamic.frame_digest import FrameDigest
+import inspect
+
 from mock import Mock, MagicMock, patch
 from nose_parameterized import parameterized
 from nose.tools import *
-import inspect
+
+from depict.core.collection.dynamic.frame_digest import FrameDigest
+
 
 class TestFrameDigest():
 

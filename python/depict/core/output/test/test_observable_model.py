@@ -15,8 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.output.observable_model import ObservableModel
 from mock import Mock
+
+from depict.core.output.observable_model import ObservableModel
 
 
 class TestObservableModel:
