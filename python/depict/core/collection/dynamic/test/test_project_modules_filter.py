@@ -22,22 +22,29 @@ from depict.core.collection.dynamic.project_modules_filter import ProjectModules
 
 class TestProjectModulesFilter():
     def test_it_proxies_function_calls_from_project_modules(self):
+        # Arrange
         observer = Mock()
         base_path = '/path/to/base'
         modules_filter = ProjectModulesFilter(base_path, observer)
         frame_digest = MagicMock()
         frame_digest.file_name = '/path/to/base/and/some/module.py'
-        print 'a'
-        print frame_digest.file_name
-        print 'b'
+
+        # Act
         modules_filter.on_call(frame_digest)
+
+        # Assert
         observer.on_call.assert_called_once_with(frame_digest)
 
     def test_is_filters_out_functions_calls_from_external_modules(self):
+        # Arrange
         observer = Mock()
         base_path = '/path/to/base'
         modules_filter = ProjectModulesFilter(base_path, observer)
         frame_digest = MagicMock()
         frame_digest.file_name = '/path/to/site-packages/and/external/module.py'
+
+        # Act
         modules_filter.on_call(frame_digest)
+
+        # Assert
         assert_equal(observer.on_call.call_count, 0)

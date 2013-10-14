@@ -15,12 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.core.model.entity.entity import Entity
 from depict.core.model.util.tree import TreeRootNode
 
 class Thread(TreeRootNode):
     '''Represent a thread such as the MainThread'''
 
-    def __init__(self, id_):
+    __metaclass__ = Entity
+
+    def __init__(self, id_=None):
         self.name = self.id_ = id_
         super(Thread, self).__init__()
 

@@ -16,6 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import argparse
+import logging
 import sys
 
 from depict.cli.program_env_emulator import ProgramEnvEmulator
@@ -42,8 +43,11 @@ def main(argv):
     trace_repr = Trace('.')
     trace_repr.start()
     sys.argv = sys.argv[1:]
-    exec prog.code in prog.globals, prog.globals
-    trace_repr.stop()
+
+    try:
+        exec prog.code in prog.globals, prog.globals
+    except SystemExit:
+        trace_repr.stop()
     return ''
 
 if __name__ == '__main__':

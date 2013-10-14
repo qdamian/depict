@@ -15,12 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.core.model.entity.entity import Entity
 from depict.core.model.util.tree import TreeNode
 
 class Function(TreeNode):
     '''Represent a function (including methods)'''
 
-    def __init__(self, id_, name, parent):
+    __metaclass__ = Entity
+
+    def __init__(self, id_=None, name=None, parent=None):
         self.id_ = id_
         self.name = name
         super(Function, self).__init__(parent)

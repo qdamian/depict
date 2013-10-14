@@ -30,7 +30,7 @@ class TestTrace():
 
         self.model_patcher = patch('depict.txt.trace.trace.ObservableModel')
         self.model_class = self.model_patcher.start()
-        self.model = real('ObservableModel')
+        self.model = fake('ObservableModel')
         self.model_class.return_value = self.model
         
         self.function_call_notifier_patcher = patch('depict.txt.trace.trace.DynamicModelingDriver')
@@ -60,7 +60,7 @@ class TestTrace():
         self.trace.output = Mock()
 
         # Act
-        self.trace.on_call(function_call)
+        self.trace.handle(function_call)
 
         # Assert
         self.trace.output.assert_called_once_with(msg=function_name, actor=ANY)
@@ -73,7 +73,7 @@ class TestTrace():
         self.trace.output = Mock()
 
         # Act
-        self.trace.on_call(function_call)
+        self.trace.handle(function_call)
 
         # Assert
         self.trace.output.assert_called_once_with(msg=ANY, actor=method_or_module_name)

@@ -15,17 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.entity import Entity
-from depict.core.model.entity.function import Function
+class Entity(type):
+    catalog = {}
 
-class Method(Function):
-    '''Represent a class method'''
-
-    __metaclass__ = Entity
-
-    def __init__(self, id_=None, name=None, class_=None):
-        super(Method, self).__init__(id_, name, class_)
-        self.class_ = class_
-
-    def __repr__(self):
-        return str(self.__dict__)
+    def __new__(meta, name, base, attr):
+        entity_class = super(Entity, meta).__new__(meta, name, base, attr)
+        Entity.catalog[name] = entity_class
+        return entity_class

@@ -30,7 +30,7 @@ def get_repr_description(mod_name):
 
 def get_repr_module_names(file_set):
     model = Model()
-    StaticDataModelingDriver(file_set, None, model).run()
+    StaticDataModelingDriver(file_set, model).run()
     return [mod.name for mod in model.modules.get_all()]
 
 class RepresentationsRecruiter(object):

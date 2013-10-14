@@ -15,12 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+from depict.core.model.entity.entity import Entity
 from depict.core.model.util.tree import TreeRootNode
 
 class Module(TreeRootNode):
     '''Represent a module'''
 
-    def __init__(self, id_, name):
+    __metaclass__ = Entity
+
+    def __init__(self, id_=None, name=None):
         self.id_ = id_
         self.name = name
         self.dependencies = []

@@ -14,10 +14,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
+from depict.core.consolidation.data_source import DataSource
 
 from depict.core.model.entity.function_call import FunctionCall
 from depict.core.collection.static.source_code_parser import SourceCodeParser
-from depict.core.consolidation.data_source import DataSource
+# from depict.core.consolidation.data_source import DataSource
 from depict.core.consolidation.observable_model import ObservableModel
 
 '''
@@ -86,5 +87,5 @@ __StaticModelingDriver = StaticModelingDriver(__FileSet, __Model)
 __DynamicModelingDriver = DynamicModelingDriver(MagicMock(), __EntityIdGenerator, __Orchestrator)
 __FunctionCall = FunctionCall('function_call_id', __Function, __Thread)
 __FunctionCallModeler = FunctionCallModeler(__EntityIdGenerator, __Model)
-__ModelPublisher = DataSource()
-__ObservableModel = ObservableModel(__ModelPublisher)
+__DataSource = DataSource()
+__ObservableModel = ObservableModel(__DataSource)

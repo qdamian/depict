@@ -16,13 +16,19 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from depict.core.consolidation.util.entity_to_json import EntityToJson
+from depict.core.consolidation.data_sink import DataSink
+from depict.core.consolidation.util.handlers import QueueHandler
 
-LOGGER = logging.getLogger(__name__)
 
 class DataSource(object):
     def __init__(self):
-        self.counter = 0
+        self.logger = logging.getLogger(__name__)
+        # Higher level loggers could write to console
+        self.logger.propagate = False
 
-    # pylint:disable = no-self-use
+        queue_handler = QueueHandler(DataSink.queue)
+        self.logger.addHandler(queue_handler)
+
     def on_entity(self, entity):
-        LOGGER.info(entity)
+        self.logger.warning(EntityToJson.convert(entity, 'id_'))

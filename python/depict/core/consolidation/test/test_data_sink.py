@@ -15,17 +15,24 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.model.entity.entity import Entity
-from depict.core.model.entity.function import Function
+from mock import Mock, ANY
 
-class Method(Function):
-    '''Represent a class method'''
+from depict.test.object_factory import fake, real
+from depict.core.consolidation.data_sink import DataSink
+from depict.core.consolidation.data_source import DataSource
 
-    __metaclass__ = Entity
+class TestDataSink():
+    def test_it_handles_one_entry(self):
+        # Arrange
+        data_source = DataSource()
+        entity = real('Function')
+        handler = Mock()
+        data_sink = DataSink(handler)
+        data_sink.start()
 
-    def __init__(self, id_=None, name=None, class_=None):
-        super(Method, self).__init__(id_, name, class_)
-        self.class_ = class_
+        # Act
+        data_source.on_entity(entity)
 
-    def __repr__(self):
-        return str(self.__dict__)
+        # Assert
+        data_sink.stop()
+        handler.handle.assert_any_call(entity)

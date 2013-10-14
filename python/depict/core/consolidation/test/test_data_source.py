@@ -15,17 +15,37 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from mock import patch
+from mock import Mock, sentinel, patch
+from nose.tools import assert_is_instance
 
 from depict.core.consolidation.data_source import DataSource
+from depict.core.consolidation.util.handlers import QueueHandler
 from depict.test.object_factory import real
 
 
 class TestDataSource():
-
-    @patch('depict.core.consolidation.data_source.LOGGER')
-    def test_it_logs_each_entity(self, logger):
-        model_publisher = DataSource()
+    @patch('depict.core.consolidation.data_source.EntityToJson')
+    def test_it_logs_each_entity_of_the_data_model(self, entity_to_json):
+        # Arrange
+        data_source = DataSource()
+        data_source.logger = Mock()
+        data_source.entity_to_json = Mock()
+        entity_to_json.convert.return_value = sentinel.serialized
         entity = real('Function')
-        model_publisher.on_entity(entity)
-        logger.info.assert_called_once_with(entity)
+
+        # Act
+        data_source.on_entity(entity)
+
+        # Assert
+        entity_to_json.convert.assert_called_once_with(entity, 'id_')
+        data_source.logger.warning.assert_called_once_with(sentinel.serialized)
+
+    def test_each_log_entry_is_enqueued(self):
+        # Arrange
+        data_source = DataSource()
+        entity = real('Function')
+
+        # Act
+        data_source.on_entity(entity)
+
+        assert_is_instance(data_source.logger.handlers[0], QueueHandler)
