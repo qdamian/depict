@@ -5,6 +5,8 @@ install:
   # Dependencies
     - pip install -r requirements.txt --use-mirrors --quiet
     - npm install
+    # Workaround https://github.com/travis-ci/travis-cookbooks/issues/155
+    - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
 script:
   # Lint
     - pylint --errors-only --rcfile=.pylintrc python/depict/
