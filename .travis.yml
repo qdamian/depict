@@ -15,6 +15,7 @@ script:
     - nosetests --config .noserc python/
     - npm test
   # Build
+    - rm -rf python/build
     - python python/setup.py sdist
   # Install
     - python python/setup.py install

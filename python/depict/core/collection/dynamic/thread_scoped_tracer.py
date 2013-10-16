@@ -48,11 +48,22 @@ class ThreadScopedTracer(object):
         self.running = False
 
     def _trace_dispatcher(self, frame, event, _):
+        trace_in_scope = self._process(event, frame)
+
+        # Returning None means turn off tracing in the current scope
+        if trace_in_scope:
+            return self._trace_dispatcher
+        else:
+            return None
+
+    def _process(self, event, frame):
+        trace_in_scope = True
         if event == 'call':
-            self._on_call(frame)
+            trace_in_scope = self._on_call(frame)
         elif event == 'return':
-            self._on_return(frame)
-        return self._trace_dispatcher
+            trace_in_scope = self._on_return(frame)
+
+        return trace_in_scope
 
     def _on_call(self, frame):
         frame_digest = FrameDigest(frame)
@@ -60,12 +71,12 @@ class ThreadScopedTracer(object):
             return
 
         try:
-            self.call_handler.on_call(frame_digest)
+            return self.call_handler.on_call(frame_digest)
         except AttributeError:
             pass
 
     def _on_return(self, frame):
         try:
-            self.call_handler.on_return(FrameDigest(frame))
+            return self.call_handler.on_return(FrameDigest(frame))
         except AttributeError:
             pass

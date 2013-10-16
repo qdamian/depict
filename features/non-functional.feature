@@ -22,4 +22,4 @@ Scenario: trace function calls
     Given I dumped the sample program provided by depict
     When I time the sample program
     When I time depict with the trace representation on the sample program
-    Then the execution with depict is no more than 3000% slower
+    Then the execution with depict is no more than 1500% slower

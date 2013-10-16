@@ -36,7 +36,7 @@ class TestThreadScopedTracer():
     def tearDown(self):
         sys.settrace(self.original_tracer)
 
-    def test_notifies_one_function_call(self):
+    def test_it_notifies_one_function_call(self):
         # Arrange
         call_handler = Mock()
         thread_scoped_tracer = ThreadScopedTracer(call_handler)
@@ -52,7 +52,7 @@ class TestThreadScopedTracer():
         actual_function_name = actual_thread_digest.function_name
         assert_equal(actual_function_name, 'function1')
 
-    def test_notifies_two_function_calls(self):
+    def test_it_notifies_two_function_calls(self):
         # Arrange
         call_handler = Mock()
         thread_scoped_tracer = ThreadScopedTracer(call_handler)
@@ -72,7 +72,7 @@ class TestThreadScopedTracer():
         actual_function_name2 = thread_digest2.function_name
         assert_equal(actual_function_name2, 'function2')
 
-    def test_notifies_return_from_function(self):
+    def test_it_notifies_the_return_from_a_function(self):
         # Arrange
         call_handler = Mock()
         thread_scoped_tracer = ThreadScopedTracer(call_handler)
@@ -86,7 +86,7 @@ class TestThreadScopedTracer():
         actual_function_name = thread_digest.function_name
         assert_equal(actual_function_name, 'function1')
 
-    def test_does_not_notify_after_stop(self):
+    def test_it_does_not_notify_after_stop(self):
         # Arrange
         call_handler = Mock()
         thread_scoped_tracer = ThreadScopedTracer(call_handler)

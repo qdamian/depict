@@ -16,7 +16,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from mock import Mock, MagicMock
-from nose.tools import assert_equal
+from nose.tools import *
 from depict.core.collection.dynamic.project_modules_filter import ProjectModulesFilter
 
 
@@ -30,9 +30,10 @@ class TestProjectModulesFilter():
         frame_digest.file_name = '/path/to/base/and/some/module.py'
 
         # Act
-        modules_filter.on_call(frame_digest)
+        return_value = modules_filter.on_call(frame_digest)
 
         # Assert
+        assert_true(return_value)
         call_handler.on_call.assert_called_once_with(frame_digest)
 
     def test_is_filters_out_functions_calls_from_external_modules(self):
@@ -44,7 +45,8 @@ class TestProjectModulesFilter():
         frame_digest.file_name = '/path/to/site-packages/and/external/module.py'
 
         # Act
-        modules_filter.on_call(frame_digest)
+        return_value = modules_filter.on_call(frame_digest)
 
         # Assert
+        assert_false(return_value)
         assert_equal(call_handler.on_call.call_count, 0)

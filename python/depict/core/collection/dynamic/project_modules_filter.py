@@ -31,4 +31,5 @@ class ProjectModulesFilter(object):
     def on_call(self, frame_digest):
         rel_path = os.path.relpath(frame_digest.file_name, self.base_path)
         if not rel_path.startswith('..'):
-            self.call_handler.on_call(frame_digest)
+            return self.call_handler.on_call(frame_digest)
+        return False

@@ -53,6 +53,7 @@ class Driver(object):
         self._model_entities_from(frame_digest.file_name)
         function_call = self.function_call_modeler.on_call(frame_digest)
         self.observer.on_call(function_call)
+        return True
 
     def _setup_static_data_modeling(self):
         self.orchestrator.include(ModuleModeler)
