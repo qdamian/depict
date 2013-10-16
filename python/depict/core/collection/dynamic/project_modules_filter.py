@@ -20,14 +20,15 @@ import os
 
 class ProjectModulesFilter(object):
     '''
-    Decorate a ThreadScopedTracer proxying function calls to functions from
-    the project's modules and discarding functions calls to external libraries.
+    Decorate a 'call handler' proxying function calls to functions of the
+    project's modules and discarding functions to functions of external
+    libraries.
     '''
-    def __init__(self, base_path, observer):
+    def __init__(self, base_path, call_handler):
         self.base_path = base_path
-        self.observer = observer
+        self.call_handler = call_handler
 
     def on_call(self, frame_digest):
         rel_path = os.path.relpath(frame_digest.file_name, self.base_path)
         if not rel_path.startswith('..'):
-            self.observer.on_call(frame_digest)
+            self.call_handler.on_call(frame_digest)

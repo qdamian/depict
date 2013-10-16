@@ -27,13 +27,14 @@ def _get_filename_without_extension(filepath):
 
 class ThreadScopedTracer(object):
     '''
-    Trace function calls & returns using the system's trace function.
-
-    Somewhat similar to trace.Trace or bdb.Bdb but with responsibility limited
-    to dispatching based on event type.
+    Trace function calls & returns using the system's trace function and notify
+    each of these events to a 'call handler'. A call handler may be an object
+    that knows how to process these events (e.g. creating an entity in the
+    data model) or may be a filter object that chooses to forward or discard
+    them.
     '''
-    def __init__(self, observer):
-        self.observer = observer
+    def __init__(self, call_handler):
+        self.call_handler = call_handler
         self.filename = _get_filename_without_extension(__file__)
         self.stop = self.__stop_trace__
         self.running = False
@@ -59,12 +60,12 @@ class ThreadScopedTracer(object):
             return
 
         try:
-            self.observer.on_call(frame_digest)
+            self.call_handler.on_call(frame_digest)
         except AttributeError:
             pass
 
     def _on_return(self, frame):
         try:
-            self.observer.on_return(FrameDigest(frame))
+            self.call_handler.on_return(FrameDigest(frame))
         except AttributeError:
             pass
