@@ -27,3 +27,8 @@ representations.
 As a user I want to know the class or module that each called function belongs
 to so that I can interpret the sequence of function calls as an interaction
 between actors.
+
+# modules
+
+As a user I want to see the module that each called function belongs to so that
+I can filter the output based on the modules hierarchy.

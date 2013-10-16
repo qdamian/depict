@@ -63,7 +63,7 @@ class TestTrace():
         self.trace.handle(function_call)
 
         # Assert
-        self.trace.output.assert_called_once_with(msg=function_name, actor=ANY)
+        self.trace.output.assert_called_once_with(module=ANY, msg=function_name, actor=ANY)
 
     @parameterized.expand([('Foo',), ('foo.bar',)])
     def test_it_outputs_the_name_of_actors(self, method_or_module_name):
@@ -76,7 +76,7 @@ class TestTrace():
         self.trace.handle(function_call)
 
         # Assert
-        self.trace.output.assert_called_once_with(msg=ANY, actor=method_or_module_name)
+        self.trace.output.assert_called_once_with(module=ANY, msg=ANY, actor=method_or_module_name)
 
     def test_it_provides_a_stop_method_that_starts_tracing_calls(self):
         # Arranged in setUp

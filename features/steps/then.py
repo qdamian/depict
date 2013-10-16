@@ -52,7 +52,7 @@ def step_impl(context):
 
 @then(u'I see the class or module each called function belongs to')
 def step_impl(context):
-    assert_in('sample.main.say_hi', context.stdout)
+    assert_in('main.say_hi', context.stdout)
     assert_in('Stopwatch.elapsed', context.stdout)
 
 @then(u'the execution with depict is no more than {diff}% slower')
@@ -62,3 +62,9 @@ def step_impl(context, diff):
     actual_diff = ((with_depict - without_depict) / without_depict) * 100
     expected_diff = long(diff)
     assert_less_equal(actual_diff, expected_diff)
+
+@then(u'I see the module name for each function call')
+def step_impl(context):
+    assert_in('main', context.stdout)
+    assert_in('util.stopwatch', context.stdout)
+    assert_in('util.stopwatch', context.stdout)

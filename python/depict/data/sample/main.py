@@ -17,23 +17,16 @@
 
 import logging
 import sys
-import time
 import argparse
-
-DESCRIPTION = "This is depict's sample program"
+from util.stopwatch import Stopwatch
 
 logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 LOGGER = logging.getLogger(__name__)
 
+DESCRIPTION = "This is depict's sample program"
+
 def say_hi():
     LOGGER.debug(DESCRIPTION)
-
-class Stopwatch(object):
-    def __init__(self):
-        self.start_time = time.time()
-
-    def elapsed_ms(self):
-        return (time.time() - self.start_time) * 1000
 
 def main():
     stopwatch = Stopwatch()

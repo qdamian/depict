@@ -17,6 +17,7 @@
 
 from nose.tools import *
 from mock import mock_open, patch
+import os
 
 from depict.cli.program_env_emulator import ProgramEnvEmulator
 
@@ -24,7 +25,7 @@ from depict.cli.program_env_emulator import ProgramEnvEmulator
 @patch('__builtin__.open', new=mock_open(None, 'test_var = "test_value"'))
 class TestdepictedProgEnvEmulator():
 
-    def test_generates_global_variables_to_emulate_main_namespace(self):
+    def test_it_generates_global_variables_to_emulate_the_main_namespace(self):
         # Arrange
         argv = ['path/to/representation/__main__.py', 'expected_program_name.py', 'args']
 
@@ -37,7 +38,7 @@ class TestdepictedProgEnvEmulator():
         assert_equal(program_env_emulator.globals['__package__'], None)
         assert_equal(program_env_emulator.globals['__cached__'], None)
 
-    def test_compiles_the_program(self):
+    def test_it_compiles_the_program(self):
         # Arrange
         argv = ['path/to/representation/__main__.py', 'expected_program_name.py', 'args']
 
@@ -48,3 +49,15 @@ class TestdepictedProgEnvEmulator():
         # Assert
         assert_equal(test_var, 'test_value')
         assert_equal(program_env_emulator.code.co_filename, 'expected_program_name.py')
+
+    @patch('depict.cli.program_env_emulator.sys')
+    def test_it_adds_the_program_path_to_sys_path(self, sys_mock):
+        # Arrange
+        argv = ['path/to/repr/__main__.py', 'path/to/passed/program.py', 'args']
+        sys_mock.path = ['fake/path/1', 'fake/path/2']
+
+        # Act
+        ProgramEnvEmulator(argv)
+
+        # Assert
+        assert_equal(sys_mock.path[0], os.path.abspath('path/to/passed'))

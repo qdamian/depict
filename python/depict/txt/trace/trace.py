@@ -17,6 +17,8 @@
 
 import logging
 from depict.core.model.entity.function_call import FunctionCall
+from depict.core.model.entity.class_ import Class_
+from depict.core.model.entity.module import Module
 from depict.core.consolidation.data_sink import DataSink
 
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
@@ -36,7 +38,6 @@ class Trace(object):
         self.model = ObservableModel(data_source)
         self.data_sink = DataSink(self)
 
-        self.logger = logging.getLogger(__name__)
         entity_id_generator = EntityIdGenerator(base_path)
         modeling_orchestrator = Orchestrator(base_path, self.model)
         self.dynamic_modeling_driver = DynamicModelingDriver(self,
@@ -45,12 +46,21 @@ class Trace(object):
 
     def handle(self, entity):
         if isinstance(entity, FunctionCall):
+            module_name = 'depict.%s' % self._get_module_name(entity)
             function_name = entity.function.name
             actor_name = entity.function.parent.name
-            self.output(msg=function_name, actor=actor_name)
+            self.output(module=module_name, msg=function_name, actor=actor_name)
 
-    def output(self, msg, actor):
-        self.logger.info('%s.%s' % (actor, msg))
+    def output(self, module, msg, actor):
+        logger = logging.getLogger(module)
+        logger.info('%s.%s' % (actor, msg))
+
+    def _get_module_name(self, function_call):
+        parent = function_call.function.parent
+        if isinstance(parent, Class_):
+            return parent.module.name
+        elif isinstance(parent, Module):
+            return parent.name # Modules
 
     def start(self):
         self.data_sink.start()

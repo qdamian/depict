@@ -55,3 +55,6 @@ python/sample
 
 # PyCharm
 .idea
+
+# Travis local runner
+.travis-solo

@@ -15,22 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import sys
+import time
 
+class Stopwatch(object):
+    def __init__(self):
+        self.start_time = time.time()
 
-class ProgramEnvEmulator(object):
-
-    def __init__(self, argv):
-        program_name = argv[1]
-        self.globals = { '__file__': program_name,
-                         '__name__': '__main__',
-                         '__package__': None,
-                         '__cached__': None
-                        }
-
-        self.base_path = os.path.dirname(os.path.abspath(program_name))
-        sys.path = [self.base_path] + sys.path
-
-        with open(program_name, 'r') as program_file:
-            self.code = compile(program_file.read(), program_name, 'exec')
+    def elapsed_ms(self):
+        return (time.time() - self.start_time) * 1000

@@ -40,7 +40,7 @@ def main(argv):
         return parser.format_help()
 
     prog = ProgramEnvEmulator(argv)
-    trace_repr = Trace('.')
+    trace_repr = Trace(prog.base_path)
     trace_repr.start()
     sys.argv = sys.argv[1:]
 
