@@ -2,6 +2,7 @@ set -e
 
 if [[ -z "$TRAVIS_BRANCH" ]]; then
     exit 1
+fi
 
 git config --global user.email "qdamian@gmail.com"
 git config --global user.name "Travis"
