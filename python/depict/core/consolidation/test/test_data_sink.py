@@ -25,7 +25,7 @@ class TestDataSink():
     def test_it_handles_one_entry(self):
         # Arrange
         data_source = DataSource()
-        entity = real('Function')
+        entity = real('Thread')
         handler = Mock()
         data_sink = DataSink(handler)
         data_sink.start()
@@ -36,3 +36,7 @@ class TestDataSink():
         # Assert
         data_sink.stop()
         handler.handle.assert_any_call(entity)
+
+    # TO DO: Test references
+
+    # TO DO: Test missing references
