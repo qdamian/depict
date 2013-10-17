@@ -1,6 +1,9 @@
 language: python
 python:
   - 2.7
+env: 
+  global: 
+    secure: YFz8YwSqTgG8nGQxmiMYR1JkcfTsCzUJGssf+bfTzJGwK/mcBx/pJE5fD7iktEwsIlPaYlfnM4mKzjjfAVjD5Cmx5aB6BsD5KZmwqlZq9VU6GhYjA3glS0Dnlk7kX80+4UI+YZtOfGroQzeu4TUczrSBbRt8rG1zz/4E+zHi2e0=
 install:
   # Dependencies
     - pip install -r requirements.txt --use-mirrors --quiet
@@ -24,4 +27,5 @@ script:
 after_success:
   # Report
     - coveralls
-
+  # Update gh-pages
+    - bash update-gh-pages.sh
