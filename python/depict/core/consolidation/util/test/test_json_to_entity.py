@@ -14,6 +14,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
+from mock import patch, ANY
+
 from depict.core.model.entity.function import Function
 
 from nose.tools import assert_is_instance, assert_equal, assert_raises
@@ -22,7 +24,7 @@ from depict.core.model.entity.module import Module
 
 from depict.core.model.entity.thread import Thread
 from depict.core.consolidation.util.entity_to_json import EntityToJson
-from depict.test.object_factory import real
+from depict.test.object_factory import real, unique
 from depict.core.consolidation.util import json_to_entity
 from depict.core.consolidation.util.test.test_entity_to_json import SimpleObject
 
@@ -85,3 +87,20 @@ class TestJsonDeserializer():
         assert_is_instance(actual_function, Function)
         assert_is_instance(actual_function.parent, Module)
         assert_equal(actual_function.parent, actual_module)
+
+    @patch('depict.core.consolidation.util.json_to_entity.LOGGER')
+    def test_it_logs_an_exception_if_an_invalid_reference_is_found(self,
+                                                                   logger):
+            # Arrange
+            module1 = unique(real('Module'))
+            module2 = unique(real('Module'))
+            function = real('Function')
+            function.parent = module1
+            json_module2 = EntityToJson.convert(module2, 'id_')
+            json_function = EntityToJson.convert(function, 'id_')
+
+            # Act
+            json_to_entity.convert(json_module2)
+            json_to_entity.convert(json_function)
+
+            logger.exception.assert_called_once_with(ANY, ANY, ANY)

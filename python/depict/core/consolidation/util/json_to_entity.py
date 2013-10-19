@@ -16,7 +16,11 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
+import logging
 from depict.core.model.entity.entity import Entity
+
+
+LOGGER = logging.getLogger(__name__)
 
 known_entities = {}
 
@@ -56,5 +60,9 @@ def _revive_references(obj, id_):
         candidate = obj[attr]
         if isinstance(candidate, dict):
             if id_ in candidate:
-                referenced = known_entities[candidate[id_]]
-                obj[attr] = referenced
+                try:
+                    referenced = known_entities[candidate[id_]]
+                    obj[attr] = referenced
+                except KeyError:
+                    LOGGER.exception('Could not find reference %s for %s',
+                                     id_, obj)
