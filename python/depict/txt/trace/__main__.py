@@ -45,7 +45,7 @@ def main(argv):
     sys.argv = sys.argv[1:]
 
     try:
-        exec prog.code in prog.globals, prog.globals
+        execfile(prog.abs_path, prog.globals)
     except SystemExit:
         trace_repr.stop()
     return ''

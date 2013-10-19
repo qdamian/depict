@@ -23,6 +23,8 @@ class ProgramEnvEmulator(object):
 
     def __init__(self, argv):
         program_name = argv[1]
+        self.abs_path = os.path.abspath(program_name)
+
         self.globals = { '__file__': program_name,
                          '__name__': '__main__',
                          '__package__': None,
@@ -31,6 +33,3 @@ class ProgramEnvEmulator(object):
 
         self.base_path = os.path.dirname(os.path.abspath(program_name))
         sys.path = [self.base_path] + sys.path
-
-        with open(program_name, 'r') as program_file:
-            self.code = compile(program_file.read(), program_name, 'exec')

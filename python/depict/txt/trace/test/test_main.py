@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from mock import patch, Mock
+from mock import patch, Mock, sentinel
 from nose.tools import *
 
 from depict.txt.trace.__main__ import main
@@ -28,26 +28,31 @@ from depict.txt.trace.__main__ import main
 class TestMain():
 
     def test_it_returns_the_usage_message_when_no_options_are_passed(self, _1,
-                                                                  _2, _3,
-                                                          _4):
+                                                                  _2, _3, _4):
         msg = main(['fake call to module'])
         assert_in('usage', msg)
 
     def test_it_returns_the_usage_message_if_the_user_asks_for_help(self, _1,
-                                                                  _2,
-                                                              _3, _4):
+                                                                  _2, _3, _4):
         msg = main(['fake call to module', '--help'])
         assert_in('usage', msg)
 
+    @patch('__builtin__.execfile')
     def test_it_runs_the_program_when_passed_as_positional_argument(
-            self, _1, prog_env_emu_class_mock, _3, _4):
+            self, execfile, _1, prog_env_emu_class_mock, _3, _4):
         prog_env_emu_mock = Mock()
-        prog_env_emu_mock.code = 'raise TEST_EXCEPTION()'
-        prog_env_emu_mock.globals = { 'TEST_EXCEPTION': ZeroDivisionError }
+        prog_env_emu_mock.globals = {'TEST_EXCEPTION': ZeroDivisionError}
+        prog_env_emu_mock.abs_path = 'fake/path/to/my_program.py'
         prog_env_emu_class_mock.return_value = prog_env_emu_mock
-        assert_raises(ZeroDivisionError, main, ['fake call to module', 'my_program.py'])
 
-    def test_it_can_be_called_with_any_options_that_are_passed_to_the_called_program(self, _1, prog_env_emu_class_mock, _3, _4):
+        main(['fake call to module', 'my_program.py'])
+
+        execfile.assert_called_once_with('fake/path/to/my_program.py',
+                                         prog_env_emu_mock.globals)
+
+    @patch('__builtin__.execfile')
+    def test_it_can_be_called_with_any_options_that_are_passed_to_the_called_program(self,
+            execfile, _1, prog_env_emu_class_mock, _3, _4):
         prog_env_emu_mock = Mock()
         prog_env_emu_mock.code = 'pass'
         prog_env_emu_mock.globals = {}

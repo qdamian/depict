@@ -38,20 +38,9 @@ class TestdepictedProgEnvEmulator():
         assert_equal(program_env_emulator.globals['__package__'], None)
         assert_equal(program_env_emulator.globals['__cached__'], None)
 
-    def test_it_compiles_the_program(self):
-        # Arrange
-        argv = ['path/to/representation/__main__.py', 'expected_program_name.py', 'args']
-
-        # Act
-        program_env_emulator = ProgramEnvEmulator(argv)
-        exec program_env_emulator.code
-
-        # Assert
-        assert_equal(test_var, 'test_value')
-        assert_equal(program_env_emulator.code.co_filename, 'expected_program_name.py')
-
     @patch('depict.cli.program_env_emulator.sys')
-    def test_it_adds_the_program_path_to_sys_path(self, sys_mock):
+    @patch('__builtin__.execfile')
+    def test_it_adds_the_program_path_to_sys_path(self, exec_file, sys_mock):
         # Arrange
         argv = ['path/to/repr/__main__.py', 'path/to/passed/program.py', 'args']
         sys_mock.path = ['fake/path/1', 'fake/path/2']
