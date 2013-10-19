@@ -14,22 +14,3 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
-
-import os
-
-
-class ProjectModulesFilter(object):
-    '''
-    Decorate a 'call handler' proxying function calls to functions of the
-    project's modules and discarding functions to functions of external
-    libraries.
-    '''
-    def __init__(self, base_path, call_handler):
-        self.base_path = base_path
-        self.call_handler = call_handler
-
-    def on_call(self, frame_digest):
-        rel_path = os.path.relpath(frame_digest.file_name, self.base_path)
-        if not rel_path.startswith('..'):
-            return self.call_handler.on_call(frame_digest)
-        return False

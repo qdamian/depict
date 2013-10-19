@@ -16,6 +16,7 @@
 # along with Depict.  If not, see <http://www.gnu.org/licenses/>.
 
 from nose.tools import *
+import re
 
 @then(u'I see basic usage information')
 def step_impl(context):
@@ -68,3 +69,7 @@ def step_impl(context):
     assert_in('main', context.stdout)
     assert_in('util.stopwatch', context.stdout)
     assert_in('util.stopwatch', context.stdout)
+
+@then(u'I see two function calls')
+def step_impl(context):
+    assert_equal(len(re.findall('say_hi', context.stdout)), 2)

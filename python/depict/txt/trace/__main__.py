@@ -22,22 +22,20 @@ import sys
 from depict.cli.program_env_emulator import ProgramEnvEmulator
 from depict.txt.trace import Trace
 
-
-# pylint:disable = exec-used
-
-def parse_args(argv):
+def main(argv):
     description = 'Trace the program execution'
     parser = argparse.ArgumentParser(prog='python -m depict.txt.trace',
                                      description=description)
     parser.add_argument('args', nargs='*',
                         help='program read from script file')
-    args = parser.parse_args(argv)
-    return [parser, args]
 
-def main(argv):
-    [parser, args] = parse_args(argv[1:])
-    if not args.args:
-        return parser.format_help()
+    [namespace, extra] = parser.parse_known_args(argv[1:])
+
+    try:
+        if namespace.help:
+            return parser.format_help()
+    except AttributeError:
+        pass
 
     prog = ProgramEnvEmulator(argv)
     trace_repr = Trace(prog.base_path)

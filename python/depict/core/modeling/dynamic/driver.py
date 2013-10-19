@@ -15,8 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from depict.core.collection.dynamic.project_modules_filter import \
-                                                         ProjectModulesFilter
+from depict.core.collection.dynamic.filter.calls_per_time_period import \
+    CallsPerTimePeriod
+
+from depict.core.collection.dynamic.filter.project_modules import \
+                                                         ProjectModules
 from depict.core.collection.dynamic.thread_scoped_tracer import ThreadScopedTracer
 from depict.core.modeling.dynamic.function_call import FunctionCall \
                                                             as FunctionCallModeler
@@ -36,8 +39,10 @@ class Driver(object):
 
         self._setup_static_data_modeling()
 
-        project_modules_filter = ProjectModulesFilter(
-            entity_id_generator.base_path, self)
+        one_call_per_second_filter = CallsPerTimePeriod(1, 1, self)
+
+        project_modules_filter = ProjectModules(entity_id_generator.base_path,
+                                                one_call_per_second_filter)
 
         self.thread_scoped_tracer = ThreadScopedTracer(project_modules_filter)
         self.stop = self.thread_scoped_tracer.stop

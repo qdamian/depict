@@ -28,7 +28,6 @@ from depict.core.consolidation.data_source import DataSource
 from depict.core.consolidation.observable_model import ObservableModel
 from depict.core.modeling.orchestrator import Orchestrator
 
-
 class Trace(object):
     '''
     Trace representation.

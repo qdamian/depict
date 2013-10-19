@@ -17,15 +17,15 @@
 
 from mock import Mock, MagicMock
 from nose.tools import *
-from depict.core.collection.dynamic.project_modules_filter import ProjectModulesFilter
+from depict.core.collection.dynamic.filter.project_modules import ProjectModules
 
 
-class TestProjectModulesFilter():
+class TestProjectModules():
     def test_it_proxies_function_calls_from_project_modules(self):
         # Arrange
         call_handler = Mock()
         base_path = '/path/to/base'
-        modules_filter = ProjectModulesFilter(base_path, call_handler)
+        modules_filter = ProjectModules(base_path, call_handler)
         frame_digest = MagicMock()
         frame_digest.file_name = '/path/to/base/and/some/module.py'
 
@@ -40,7 +40,7 @@ class TestProjectModulesFilter():
         # Arrange
         call_handler = Mock()
         base_path = '/path/to/base'
-        modules_filter = ProjectModulesFilter(base_path, call_handler)
+        modules_filter = ProjectModules(base_path, call_handler)
         frame_digest = MagicMock()
         frame_digest.file_name = '/path/to/site-packages/and/external/module.py'
 

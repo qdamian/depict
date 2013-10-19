@@ -57,3 +57,8 @@ def time_sample_program(cmd):
         stdout = proc.stdout.read()
         time.append(float(re.findall('Elapsed time: (.*) msec', stdout)[0]))
     return sum(time) / len(time)
+
+@when(u'I trace an execution that calls a function three times in two seconds')
+def step_impl(context):
+    proc = call('python -m depict.txt.trace ' + context.sample_program_main + ' --repeat 2')
+    context.stdout = proc.stdout.read()

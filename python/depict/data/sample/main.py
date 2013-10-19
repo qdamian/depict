@@ -18,6 +18,7 @@
 import logging
 import sys
 import argparse
+import time
 from util.stopwatch import Stopwatch
 
 logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
@@ -33,9 +34,16 @@ def main():
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('--timeout', type=float,
                      help='Max execution time (msec) that returns success')
+    parser.add_argument('--repeat', type=int,
+                     help='Say hi 3 times')
     args = parser.parse_args()
 
     say_hi()
+
+    if args.repeat:
+        for _ in range(args.repeat):
+            time.sleep(0.5)
+            say_hi()
 
     LOGGER.debug('Elapsed time: %9.2f msec', stopwatch.elapsed_ms())
 
