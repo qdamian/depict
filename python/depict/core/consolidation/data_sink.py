@@ -15,21 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-import multiprocessing
+import Queue
 from depict.core.consolidation.util import json_to_entity
 from depict.core.consolidation.util.handlers import QueueListener
-
+from depict.core.model.entity.thread import Thread
 
 
 class DataSink(object):
-    queue = multiprocessing.Queue()
+    queue = Queue.Queue()
 
     def __init__(self, handler):
         self.queue_listener = None
         self.handler = handler
 
     def start(self):
-        self._empty_queue()
         self.queue_listener = QueueListener(DataSink.queue, self)
         self.queue_listener.start()
 
@@ -40,7 +39,3 @@ class DataSink(object):
     def handle(self, log_entry):
         entity = json_to_entity.convert(log_entry.msg)
         self.handler.handle(entity)
-
-    def _empty_queue(self):
-        while not DataSink.queue.empty():
-            DataSink.queue.get()
