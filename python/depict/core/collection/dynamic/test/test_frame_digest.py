@@ -29,7 +29,7 @@ class TestFrameDigest():
     @parameterized.expand([('module1',), ('module2',)])
     def test_it_learns_the_module_name_from_the_frame(self, expected_module_name):
         # Arrange
-        frame_mock = Mock()
+        frame_mock = MagicMock()
         frame_mock.f_globals = MagicMock()
         frame_mock.f_globals.__getitem__.return_value = expected_module_name
         frame_digest = FrameDigest(frame_mock)
@@ -44,7 +44,7 @@ class TestFrameDigest():
     def test_file_name_returns_full_path_to_file(self, abspath_mock):
         # Arrange
         abspath_mock.return_value = 'absolute/path/to/file'
-        frame_mock = Mock()
+        frame_mock = MagicMock()
         frame_mock.f_code.co_filename = 'path/to/file'
         frame_digest = FrameDigest(frame_mock)
 
@@ -58,7 +58,7 @@ class TestFrameDigest():
     @parameterized.expand([('func1',), ('func2',)])
     def test_it_learns_the_function_name_from_the_frame(self, expected_function_name):
         # Arrange
-        frame_mock = Mock()
+        frame_mock = MagicMock()
         frame_mock.f_code.co_name = expected_function_name
         frame_digest = FrameDigest(frame_mock)
 
@@ -71,7 +71,7 @@ class TestFrameDigest():
     @parameterized.expand([(1,), (10,)])
     def test_line_number_returns_source_code_line_number(self, expected_lineno):
         # Arrange
-        frame_mock = Mock()
+        frame_mock = MagicMock()
         frame_mock.f_lineno = expected_lineno
         frame_digest = FrameDigest(frame_mock)
 

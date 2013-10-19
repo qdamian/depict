@@ -26,20 +26,12 @@ class FrameDigest(object):
     '''
 
     def __init__(self, frame):
-        self.frame = frame
-
-    @property
-    def module_name(self):
-        return self.frame.f_globals['__name__']
+        # Not storing the frame as an attribute to allow its garbage collection
+        self.module_name = frame.f_globals['__name__']
+        self.function_name = frame.f_code.co_name
+        self.line_number = frame.f_lineno
+        self._file_name = frame.f_code.co_filename
 
     @property
     def file_name(self):
-        return os.path.abspath(self.frame.f_code.co_filename)
-
-    @property
-    def function_name(self):
-        return self.frame.f_code.co_name
-
-    @property
-    def line_number(self):
-        return self.frame.f_lineno
+        return os.path.abspath(self._file_name)
