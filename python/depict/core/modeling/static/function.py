@@ -18,7 +18,7 @@
 import astroid
 
 from depict.core.model.entity.function import Function as FunctionEntity
-from depict.core.model.entity.method import Method
+from depict.core.model.entity.method import Method as MethodEntity
 
 
 class Function(object):
@@ -44,7 +44,7 @@ class Function(object):
         class_id = self.entity_id_gen.create(node.parent.parent.file,
                                              node.parent.lineno)
         class_ = self.model.classes.get_by_id(class_id)
-        function = Method(id_, node.name, class_)
+        function = MethodEntity(id_, node.name, class_)
         class_.add_method(function)
         return function
 

@@ -29,7 +29,7 @@ class CallsPerTimePeriod(object):
         self.calls_per_period = calls_per_period
         self.period = period
         self.call_handler = call_handler
-        self.called = {}
+        self.call_count = {}
         flusher_thread = threading.Thread(target=self._flusher_thread)
         flusher_thread.setDaemon(True)
         flusher_thread.start()
@@ -37,12 +37,12 @@ class CallsPerTimePeriod(object):
     def on_call(self, frame_digest):
         func_name = frame_digest.function_name
         try:
-            if self.called[func_name] >= self.calls_per_period:
+            if self.call_count[func_name] >= self.calls_per_period:
                 return False
             else:
-                self.called[frame_digest.function_name] += 1
+                self.call_count[frame_digest.function_name] += 1
         except KeyError:
-            self.called[frame_digest.function_name] = 1
+            self.call_count[frame_digest.function_name] = 1
 
         self.call_handler.on_call(frame_digest)
         return True
@@ -53,4 +53,4 @@ class CallsPerTimePeriod(object):
             self._flush()
 
     def _flush(self):
-        self.called = {}
+        self.call_count = {}
