@@ -26,7 +26,7 @@
 require.config({
     baseUrl: "../scripts/src",
     paths: {
-        'd3': '../d3' 
+        'd3': '../3rdparty/d3/d3'
     },
     shim: {
         d3: {
