@@ -55,7 +55,7 @@ class Driver(object):
         if frame_digest.function_name == '<module>':
             return
 
-        self._model_entities_from(frame_digest.file_name)
+        self._model_static_entities_from(frame_digest.file_name)
         function_call = self.function_call_modeler.on_call(frame_digest)
         self.observer.on_call(function_call)
         return True
@@ -65,7 +65,7 @@ class Driver(object):
         self.orchestrator.include(ClassModeler)
         self.orchestrator.include(FunctionModeler)
 
-    def _model_entities_from(self, file_name):
+    def _model_static_entities_from(self, file_name):
         try:
             self.orchestrator.process(file_name)
         except AlreadyProcessed:

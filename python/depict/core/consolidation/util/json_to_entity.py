@@ -20,49 +20,52 @@ import logging
 from depict.core.model.entity.entity import Entity
 
 
-LOGGER = logging.getLogger(__name__)
+class JsonToEntity(object):
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        self.known_entities = {}
 
-known_entities = {}
+    def convert(self, json_serialized_object, id_='id_'):
+        '''
+        Raises KeyError if a reference is not found.
+        '''
+        obj_attr = self._get_object_attributes(json_serialized_object)
+        self._revive_references(obj_attr, id_)
+        entity_class = self._identify_object_class(obj_attr)
+        entity = self._instantiate_entity(entity_class, obj_attr)
+        if entity:
+            self.known_entities[entity.id_] = entity
+        return entity
 
-def convert(json_serialized_object, id_='id_'):
-    obj_attr = _get_object_attributes(json_serialized_object)
-    _revive_references(obj_attr, id_)
-    entity_class = _identify_object_class(obj_attr)
-    entity = _instantiate_entity(entity_class, obj_attr)
-    if entity:
-        global known_entities
-        known_entities[entity.id_] = entity
-    return entity
+    def _get_object_attributes(self, json_serialized_object):
+        try:
+            return json.loads(json_serialized_object)
+        except TypeError:
+            raise ValueError('%s is not a valid JSON string' %
+                             json_serialized_object)
 
-def _get_object_attributes(json_serialized_object):
-    try:
-        return json.loads(json_serialized_object)
-    except TypeError:
-        raise ValueError('%s is not a valid JSON string' %
-                         json_serialized_object)
+    def _identify_object_class(self, obj_attribute):
+        try:
+            return Entity.catalog[obj_attribute['type']]
+        except KeyError:
+            raise ValueError('%(type)s is not an entity type %(known_types)s' %
+                             {'type': obj_attribute['type'],
+                              'known_types': Entity.catalog})
 
-def _identify_object_class(obj_attribute):
-    try:
-        return Entity.catalog[obj_attribute['type']]
-    except KeyError:
-        raise ValueError('%(type)s is not an entity type %(known_types)s' %
-                         {'type': obj_attribute['type'],
-                          'known_types': Entity.catalog})
+    def _instantiate_entity(self, entity_class, obj_attribute):
+        entity = entity_class()
+        for attr in obj_attribute:
+            setattr(entity, attr, obj_attribute[attr])
+        return entity
 
-def _instantiate_entity(entity_class, obj_attribute):
-    entity = entity_class()
-    for attr in obj_attribute:
-        setattr(entity, attr, obj_attribute[attr])
-    return entity
-
-def _revive_references(obj, id_):
-    for attr in obj:
-        candidate = obj[attr]
-        if isinstance(candidate, dict):
-            if id_ in candidate:
+    def _revive_references(self, obj, id_):
+        for attr in obj:
+            candidate = obj[attr]
+            if isinstance(candidate, dict) and id_ in candidate:
                 try:
-                    referenced = known_entities[candidate[id_]]
+                    referenced = self.known_entities[candidate[id_]]
                     obj[attr] = referenced
                 except KeyError:
-                    LOGGER.exception('Could not find reference %s for %s',
-                                     id_, obj)
+                    self.logger.exception('Could not find reference %s for %s',
+                                          id_, obj)
+                    raise

@@ -17,17 +17,16 @@
 
 import logging
 from depict.core.consolidation.util.entity_to_json import EntityToJson
-from depict.core.consolidation.data_sink import DataSink
 from depict.core.consolidation.util.handlers import QueueHandler
 
 
 class DataSource(object):
-    def __init__(self):
+    def __init__(self, queue):
         self.logger = logging.getLogger(__name__)
         # Higher level loggers could write to console
         self.logger.propagate = False
 
-        queue_handler = QueueHandler(DataSink.queue)
+        queue_handler = QueueHandler(queue)
         self.logger.addHandler(queue_handler)
 
     def on_entity(self, entity):

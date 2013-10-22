@@ -15,21 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-import Queue
-from depict.core.consolidation.util import json_to_entity
 from depict.core.consolidation.util.handlers import QueueListener
-from depict.core.model.entity.thread import Thread
+from depict.core.consolidation.util.json_to_entity import JsonToEntity
 
 
-class DataSink(object):
-    queue = Queue.Queue()
-
-    def __init__(self, handler):
-        self.queue_listener = None
+class JsonDataSink(object):
+    def __init__(self, queue, handler):
         self.handler = handler
+        self.queue = queue
+        self.queue_listener = None
 
     def start(self):
-        self.queue_listener = QueueListener(DataSink.queue, self)
+        self.queue_listener = QueueListener(self.queue, self)
         self.queue_listener.start()
 
     def stop(self):
@@ -37,5 +34,23 @@ class DataSink(object):
             self.queue_listener.stop()
 
     def handle(self, log_entry):
-        entity = json_to_entity.convert(log_entry.msg)
-        self.handler.handle(entity)
+        self.handler.handle(log_entry.msg)
+
+class EntityDataSink(object):
+    def __init__(self, queue, handler):
+        self.handler = handler
+        self.json_data_sink = JsonDataSink(queue, self)
+        self.json_to_entity = JsonToEntity()
+
+    def start(self):
+        self.json_data_sink.start()
+
+    def stop(self):
+        self.json_data_sink.stop()
+
+    def handle(self, json_serialized_entity):
+        try:
+            entity = self.json_to_entity.convert(json_serialized_entity)
+            self.handler.handle(entity)
+        except KeyError:
+            pass

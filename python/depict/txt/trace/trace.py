@@ -15,11 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+import Queue
 import logging
 from depict.core.model.entity.function_call import FunctionCall
 from depict.core.model.entity.class_ import Class_
 from depict.core.model.entity.module import Module
-from depict.core.consolidation.data_sink import DataSink
+from depict.core.consolidation.data_sink import EntityDataSink
 
 from depict.core.model.util.entity_id_generator import EntityIdGenerator
 from depict.core.modeling.dynamic.driver import Driver \
@@ -33,9 +34,10 @@ class Trace(object):
     Trace representation.
     '''
     def __init__(self, base_path):
-        data_source = DataSource()
+        queue = Queue.Queue()
+        data_source = DataSource(queue)
         self.model = ObservableModel(data_source)
-        self.data_sink = DataSink(self)
+        self.data_sink = EntityDataSink(queue, self)
 
         entity_id_generator = EntityIdGenerator(base_path)
         modeling_orchestrator = Orchestrator(base_path, self.model)

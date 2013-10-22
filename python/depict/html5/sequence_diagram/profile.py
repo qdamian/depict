@@ -15,4 +15,4 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-DESCRIPTION = 'Generate a call sequence diagram'
+DESCRIPTION = 'Generate a js-sequence-diagram'

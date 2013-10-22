@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
+import Queue
+
 from mock import Mock, sentinel, patch
 from nose.tools import assert_is_instance
 
@@ -27,7 +29,7 @@ class TestDataSource():
     @patch('depict.core.consolidation.data_source.EntityToJson')
     def test_it_logs_each_entity_of_the_data_model(self, entity_to_json):
         # Arrange
-        data_source = DataSource()
+        data_source = DataSource(Queue.Queue())
         data_source.logger = Mock()
         data_source.entity_to_json = Mock()
         entity_to_json.convert.return_value = sentinel.serialized
@@ -42,7 +44,7 @@ class TestDataSource():
 
     def test_each_log_entry_is_enqueued(self):
         # Arrange
-        data_source = DataSource()
+        data_source = DataSource(Queue.Queue())
         entity = real('Function')
 
         # Act

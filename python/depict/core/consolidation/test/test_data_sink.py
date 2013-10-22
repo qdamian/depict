@@ -15,27 +15,47 @@
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 
-from mock import Mock, ANY
+import Queue
+from mock import Mock
+from nose.tools import *
 
-from depict.test.object_factory import fake, real
-from depict.core.consolidation.data_sink import DataSink
+from depict.test.object_factory import real
+from depict.core.consolidation.data_sink import EntityDataSink
 from depict.core.consolidation.data_source import DataSource
 
-class TestDataSink():
+class TestEntityDataSink():
+    def setUp(self):
+        queue = Queue.Queue()
+        self.data_source = DataSource(queue)
+        self.handler = Mock()
+        self.data_sink = EntityDataSink(queue, self.handler)
+        self.data_sink.start()
+
     def test_it_handles_one_entry(self):
         # Arrange
-        data_source = DataSource()
         entity = real('Thread')
-        handler = Mock()
-        data_sink = DataSink(handler)
-        data_sink.start()
 
         # Act
-        data_source.on_entity(entity)
+        self.data_source.on_entity(entity)
 
         # Assert
-        data_sink.stop()
-        handler.handle.assert_any_call(entity)
+        self.data_sink.stop()
+        self.handler.handle.assert_any_call(entity)
+        assert_equal(self.handler.handle.call_count, 1)
+
+    def test_it_(self):
+        # Arrange
+        module = real('Module')
+        function = real('Function')
+
+        # Act
+        self.data_source.on_entity(function)
+        self.data_source.on_entity(module)
+        self.data_source.on_entity(function)
+
+        # Assert
+        self.data_sink.stop()
+        assert_equal(self.handler.handle.call_count, 2)
 
     # TO DO: Test references
 

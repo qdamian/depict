@@ -19,11 +19,12 @@ import argparse
 import sys
 
 from depict.cli.program_env_emulator import ProgramEnvEmulator
-from depict.txt.trace.trace import Trace
-from depict.txt.trace.profile import DESCRIPTION
+from depict.html5.sequence_diagram.sequence_diagram import SequenceDiagram
+from depict.html5.sequence_diagram.profile import DESCRIPTION
 
 def main(argv):
-    parser = argparse.ArgumentParser(prog='python -m depict.txt.trace',
+    parser = argparse.ArgumentParser(prog='python -m depict.html5'
+                                          '.sequence_diagram',
                                      description=DESCRIPTION)
     parser.add_argument('args', nargs='*',
                         help='program read from script file')
@@ -37,14 +38,15 @@ def main(argv):
         pass
 
     prog = ProgramEnvEmulator(argv)
-    trace_repr = Trace(prog.base_path)
-    trace_repr.start()
+    seq_diag = SequenceDiagram(prog.base_path)
+    seq_diag.start()
     sys.argv = sys.argv[1:]
 
     try:
         execfile(prog.abs_path, prog.globals)
     except SystemExit:
-        trace_repr.stop()
+        seq_diag.wait()
+        seq_diag.stop()
     return ''
 
 if __name__ == '__main__':
