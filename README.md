@@ -29,14 +29,17 @@ Like pyreverse, depict allows to limit the scope of the representation to a part
 Alternatives
 ------------
 
+[pycallgraph][pycallgraph] is a module that creates call graph visualizations for Python applications. 
+
 [pyreverse][pyreverse] is a Python Reverse engineering tool. It's able to generate UML like diagram from Python source code.
 
 [disptrace][disptrace] is a great project that traces a program and creates an HTML5 document displaying called functions.
 
-[andypatterns][andypatterns] A reverse engineering tool for Python source code. Requires wxPython
+[andypatterns][andypatterns] is a reverse engineering tool for Python source code. Requires wxPython
 
 [pytrace][pytrace] allows to record and view function calls, arguments and return values
 
+[pycallgraph]: http://pycallgraph.slowchop.com/en/master/ "pycallgraph"
 [pyreverse]: http://www.logilab.org/2560 "pyreverse"
 [disptrace]: https://github.com/atsuoishimoto/disptrace "disptrace"
 [andypatterns]: http://www.andypatterns.com/index.php/products/pynsource/ "andypatterns"
