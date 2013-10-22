@@ -1,3 +1,4 @@
+#region GPLv3 notice
 # Copyright 2013 Damian Quiroga
 #
 # This file is part of Depict.

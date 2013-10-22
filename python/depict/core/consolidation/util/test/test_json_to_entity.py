@@ -1,3 +1,4 @@
+#region GPLv3 notice
 # Copyright 2013 Damian Quiroga
 #
 # This file is part of depict.
@@ -14,6 +15,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
 from mock import patch, ANY, Mock
 from nose.tools import assert_is_instance, assert_equal, assert_raises
 from nose_parameterized import parameterized

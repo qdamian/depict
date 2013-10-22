@@ -1,3 +1,4 @@
+#region GPLv3 notice
 # Copyright 2013 Damian Quiroga
 #
 # This file is part of depict.
@@ -14,6 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
 
 from depict.core.model.entity.entity import Entity
 from depict.core.model.entity.function import Function
