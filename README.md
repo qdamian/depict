@@ -12,19 +12,11 @@ Not yet useful in any way.
 Description
 -----------
 
-> /dɪˈpɪkt/: to represent or show something in a picture or story
+An HTML5 app that lets you pick modules or classes of a python program of you interest and see some diagrams representing their relations and interactions.
 
-depict has two components:
-
-* A python module to model the structure and behavior of a program based on the program's source code and data gathered during the program execution.
-
-* An HTML application to display a graphical representation of that model.
+It uses [examine].
 
 See some [alternatives](https://github.com/qdamian/depict#alternatives) below.
-
-Like disptrace, depict uses HTML5 as the prefered type of output format, and provides collapse/expand capabilities to choose which part of the repesentation is displayed.
-
-Like pyreverse, depict allows to limit the scope of the representation to a part of the program, e.g. a group of classes.
 
 Alternatives
 ------------
@@ -39,6 +31,7 @@ Alternatives
 
 [pytrace][pytrace] allows to record and view function calls, arguments and return values
 
+[examine]: https://github.com/qdamian/examine "examine"
 [pycallgraph]: http://pycallgraph.slowchop.com/en/master/ "pycallgraph"
 [pyreverse]: http://www.logilab.org/2560 "pyreverse"
 [disptrace]: https://github.com/atsuoishimoto/disptrace "disptrace"
