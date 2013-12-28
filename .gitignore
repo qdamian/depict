@@ -50,9 +50,6 @@ cover
 python/AUTHORS
 python/ChangeLog
 
-# others
-python/sample
-
 # PyCharm
 .idea
 

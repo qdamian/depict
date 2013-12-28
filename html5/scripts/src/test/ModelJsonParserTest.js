@@ -19,54 +19,18 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 
 
 (function() {
-  define(["chai", "sinon", "Squire", "model/Module"], function(chai, sinon, Squire, Module) {
-    var fakeJsonData, should;
+  define(["chai", "Squire", "model/Module"], function(chai, Squire, Module) {
+    var should;
     should = chai.should();
-    fakeJsonData = [
-      {
-        id_: "fake_id1",
-        type: "Module"
-      }, {
-        id_: "fake_id2",
-        type: "Module",
-        dep: [
-          {
-            id_: "fake_id1",
-            type: "Module"
-          }
-        ]
-      }
-    ];
     return describe("ModelJsonParser", function() {
-      return describe("constructor", function() {
-        it("should create objects based on their type", function() {
-          var callbackSpy, jsonStub;
-          jsonStub = sinon.stub().callsArgWith(1, void 0, fakeJsonData);
-          callbackSpy = sinon.stub();
-          return new Squire().mock("d3", Squire.Helpers.returns({
-            json: jsonStub
-          })).require(["ModelJsonParser", "mocks"], function(ModelJsonParser, mocks) {
+      return describe("parse", function() {
+        return it("should be able to create one object", function() {
+          return new Squire().require(["ModelJsonParser"], function(ModelJsonParser) {
             var moduleJsonParser, obj;
-            moduleJsonParser = new ModelJsonParser("fake_file.json", "id_", callbackSpy);
-            obj = callbackSpy.args[0][0];
-            (obj[0] instanceof Module).should.equal(true);
-            obj[0].id_.should.equal("fake_id1");
-            (obj[1] instanceof Module).should.equal(true);
-            return obj[1].id_.should.equal("fake_id2");
-          });
-        });
-        return it("should revive references", function() {
-          var callbackSpy, jsonStub;
-          jsonStub = sinon.stub().callsArgWith(1, void 0, fakeJsonData);
-          callbackSpy = sinon.stub();
-          return new Squire().mock("d3", Squire.Helpers.returns({
-            json: jsonStub
-          })).require(["ModelJsonParser", "mocks"], function(ModelJsonParser, mocks) {
-            var moduleJsonParser, obj;
-            moduleJsonParser = new ModelJsonParser("fake_file.json", "id_", callbackSpy);
-            obj = callbackSpy.args[0][0];
-            obj[1].dep[0].should.equal(obj[0]);
-            return (obj[1].dep[0] instanceof Module).should.equal(true);
+            moduleJsonParser = new ModelJsonParser("id_");
+            obj = moduleJsonParser.parse("{\n    \"id_\":\"../aa.py\",\n    \"name\":\"aa\",\n    \"parent\":null,\n    \"dependencies\":[],\n    \"branch_depth\":0,\n    \"type\":\"Module\",\n    \"children\":[]\n}");
+            (obj instanceof Module).should.equal(true);
+            return obj.name.should.equal("aa");
           });
         });
       });

@@ -1,0 +1,24 @@
+Feature: Search
+    Background:
+        Given Chrome as the default browser
+
+    Scenario: no match
+        Given a browser
+        And my program has modules aa, ab, ba, bb
+        When I open the app
+        And I start to fill in "search" with "c"
+        Then I see no options
+
+    Scenario: single match
+        Given a browser
+        And my program has modules aa, ab, ba, bb
+        When I open the app
+        And I start to fill in "search" with "ab"
+        Then I see options ab
+
+    Scenario: multiple match
+        Given a browser
+        And my program has modules aa, ab, ba, bb
+        When I open the app
+        And I start to fill in "search" with "b"
+        Then I see options ab, ba, bb

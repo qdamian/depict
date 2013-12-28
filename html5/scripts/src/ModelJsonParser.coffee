@@ -17,38 +17,17 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["d3"], (d3) ->
+window.define ->
   "use strict"
 
-  ModelJsonParser = (jsonFile, id, callback) ->
+  ModelJsonParser = (id) ->
     @id = id
-    @_createObjectsFromJsonFile(jsonFile, id, callback)
     return
 
-  _indexObjects = (id, objects) ->
-    index = {}
-    for obj in objects
-      index[obj[id]] = obj
-    return index
+  ModelJsonParser::parse = (json) ->
+    data = JSON.parse(json)
+    if data
+      typeModule = require("scripts/src/model/#{data.type}")
+      return new typeModule(data)
 
-  _reviveReferences = (id, index, object) ->
-    for own key, value of object
-      if value instanceof Array or value instanceof Object
-        object[key] = _reviveReferences(id, index, object[key])
-      if index[value]
-        if not (object == index[value])
-          object = index[value]
-    return object
-
-  ModelJsonParser::_createObjectsFromJsonFile = (jsonFile, id, callback) ->
-    _processData = (error, data) ->
-      objects = []
-      if data then for item in data
-        typeModule = require("model/#{item.type}")
-        objects.push(new typeModule(item))
-      index = _indexObjects(id, objects)
-      objects = _reviveReferences(id, index, objects)
-      callback(objects)
-    d3.json(jsonFile, _processData)
-
-  ModelJsonParser
+  return ModelJsonParser
