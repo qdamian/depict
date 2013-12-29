@@ -55,3 +55,7 @@ python/ChangeLog
 
 # Travis local runner
 .travis-solo
+
+# pbr - setuptools
+AUTHORS
+ChangeLog

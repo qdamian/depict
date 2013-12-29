@@ -15,6 +15,11 @@ script:
   # Unit test
     - nosetests --config .noserc python/depict
     - npm test
+  # Build
+    - rm -rf build
+    - python setup.py sdist
+  # Install
+    - python setup.py install
   # Functional test
     - behave test/integration/features
     - behave test/system/features
