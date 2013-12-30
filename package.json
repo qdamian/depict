@@ -5,6 +5,10 @@
   "dependencies": {
     "requirejs": ">=2.1.4"
   },
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/qdamian/depict"
+  },
   "devDependencies": {
     "grunt": ">=0.4.1",
     "grunt-cli": ">=0.1.7",
