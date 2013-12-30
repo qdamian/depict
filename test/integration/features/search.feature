@@ -1,6 +1,6 @@
 Feature: Search
     Background:
-        Given Chrome as the default browser
+        Given Firefox as the default browser
 
     Scenario: no match
         Given a browser

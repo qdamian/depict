@@ -56,14 +56,6 @@ class TestWebSocket(object):
         except:
             pass
 
-    def test_web_socket_server_accepts_connections(self):
-        self.ws_client.opened = Mock()
-
-        self.ws_client.connect()
-        sleep(0.01)
-
-        self.ws_client.opened.assert_called_once_with()
-
     def test_wait_for_web_socket_connection(self):
         thread = threading.Thread(target=ws_user_mock, args=(self.web_server,))
         thread.start()
