@@ -1,12 +1,16 @@
 language: python
 python:
-  - 2.7
+    - 2.7
+before_install:
+  # Start x session for splinter. Ref http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
 install:
   # Dependencies
     - pip install -r requirements.txt --use-mirrors --quiet
     - pip install -r dissect-requirement.txt --index-url=https://testpypi.python.org/pypi --extra-index-url=https://pypi.python.org/pypi
     - npm install
-    # Workaround https://github.com/travis-ci/travis-cookbooks/issues/155
+  # Workaround https://github.com/travis-ci/travis-cookbooks/issues/155
     - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
 script:
   # Lint
