@@ -17,9 +17,9 @@ script:
     - npm test
   # Build
     - rm -rf build
-    - python setup.py sdist
+    - python python/setup.py sdist
   # Install
-    - python setup.py install
+    - python python/setup.py install
   # Functional test
     - behave test/integration/features
     - behave test/system/features

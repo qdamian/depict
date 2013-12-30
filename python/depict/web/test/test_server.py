@@ -89,10 +89,3 @@ class TestWebSocket(object):
         self.web_server.on_web_socket_opened(socket)
         self.web_server.send_message('hi')
         socket.send.assert_called_once_with('hi')
-
-class TestHttpServer(object):
-
-    def test_serves_index(self):
-        app = TestApp(WebApp)
-        response = app.get('http://localhost:8080/index.html').status
-        assert_equal(response, "200 OK")

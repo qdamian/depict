@@ -24,8 +24,7 @@ import bottle
 
 
 APP = bottle.Bottle()
-root = os.path.join(os.path.dirname(__file__), "..", "..", "..",
-                    "html5")
+root = os.path.join(os.path.dirname(__file__), "..", "html5")
 
 @APP.route('/')
 def serve_index():

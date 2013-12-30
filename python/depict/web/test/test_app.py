@@ -17,19 +17,5 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-from nose.tools import assert_equal
-from webtest.app import TestApp
-
-from depict.web.app import APP
-
-
 class TestWebApp(object):
-    def test_root_gets_index(self):
-        # Arrange
-        app = TestApp(APP)
-
-        # Act
-        response = app.get('/')
-
-        # Assert
-        assert_equal(response.status, '200 OK')
+    pass
