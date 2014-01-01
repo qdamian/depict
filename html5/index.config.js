@@ -36,9 +36,7 @@ require.config({
 });
 
 require([
-    'scripts/src/ModelJsonParser',
-    'scripts/src/model/Module',
     'scripts/src/data/Receiver',
-], function(ModelJsonParser, Module, DataReceiver) {
+], function(DataReceiver) {
         var dataReceiver = new DataReceiver();
 });

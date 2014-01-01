@@ -28,7 +28,6 @@ window.define ["scripts/src/ModelJsonParser", \
       console.log "websocket opened"
 
     @socket.onmessage = (msg) ->
-      console.log "msg received" + msg.data
       moduleJsonParser = new ModelJsonParser("id_")
       entity = moduleJsonParser.parse(msg.data)
       try

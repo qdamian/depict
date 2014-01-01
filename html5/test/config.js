@@ -24,14 +24,14 @@
  */
 
 require.config({
-    baseUrl: '../scripts/src',
+    baseUrl: '..',
     paths: {
-        'chai': '../../../node_modules/chai/chai',
-        'chai-jquery': '../../../node_modules/chai-jquery/chai-jquery',
-        'd3': '../../../node_modules/d3/d3',
-        'jquery': '../../../node_modules/jquery-browser/lib/jquery',
-        'sinon': '../../../node_modules/sinon/pkg/sinon',
-        'Squire': '../../../node_modules/squirejs/src/Squire'
+        'chai': '../node_modules/chai/chai',
+        'chai-jquery': '../node_modules/chai-jquery/chai-jquery',
+        'd3': '../node_modules/d3/d3',
+        'jquery': '../node_modules/jquery-browser/lib/jquery',
+        'sinon': '../node_modules/sinon/pkg/sinon',
+        'Squire': '../node_modules/squirejs/src/Squire'
     },
     shim: {
         'd3': {
@@ -48,7 +48,7 @@ require.config({
 });
 
 require([
-    'test/ModelJsonParserTest',
+    'scripts/src/test/ModelJsonParserTest',
 ], function() {
     if (typeof mochaPhantomJS !== "undefined") { mochaPhantomJS.run(); }
     else { mocha.run(); }

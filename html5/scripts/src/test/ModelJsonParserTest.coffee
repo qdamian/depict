@@ -19,31 +19,52 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 
 define ["chai",
         "Squire",
-        "model/Module"], (chai,
-                          Squire,
-                          Module) ->
+        "scripts/src/model/Module",
+        "scripts/src/model/Function",
+        "scripts/src/ModelJsonParser"], (chai,
+                                         Squire,
+                                         Module,
+                                         Function,
+                                         ModelJsonParser) ->
 
-  should = chai.should()
+  assert = chai.assert
 
   describe "ModelJsonParser", ->
     describe "parse", ->
-      it "should be able to create one object", ->
-        new Squire().require ["ModelJsonParser"], (ModelJsonParser) ->
-          # Arrange
-          moduleJsonParser = new ModelJsonParser("id_")
+      it "should create a Module object if type is Module", ->
+        # Arrange
+        moduleJsonParser = new ModelJsonParser("id_")
 
-          # Act
-          obj = moduleJsonParser.parse("""
-            {
-                "id_":"../aa.py",
-                "name":"aa",
-                "parent":null,
-                "dependencies":[],
-                "branch_depth":0,
-                "type":"Module",
-                "children":[]
-            }
-          """)
+        # Act
+        obj = moduleJsonParser.parse("""
+          {
+            "id_":"../aa.py",
+            "name":"aa",
+            "parent":null,
+            "dependencies":[],
+            "branch_depth":0,
+            "type":"Module",
+            "children":[]
+          }
+        """)
 
-          (obj instanceof Module).should.equal true
-          obj.name.should.equal "aa"
+        # Assert
+        assert.instanceOf(obj, Module)
+        assert.equal(obj.name, "aa")
+
+      it "should create a Function object if type is Function", ->
+        # Arrange
+        moduleJsonParser = new ModelJsonParser("id_")
+
+        # Act
+        obj = moduleJsonParser.parse("""
+          {
+            "id_": "aa.py:1",
+            "name": "fake_function_name",
+            "type": "Function"
+          }
+        """)
+
+        # Assert
+        assert.instanceOf(obj, Function)
+        assert.equal(obj.name, "fake_function_name")

@@ -34,3 +34,14 @@ def step_impl(context, modules):
             }
         ''' % mod.strip()
         context.data_sender.send_message(msg)
+
+@given(u'my program has functions a_func')
+def step_impl(context):
+    msg = '''
+            {
+                "id_":"../aa.py",
+                "name":"a_func",
+                "type":"Function"
+            }
+          '''
+    context.data_sender.send_message(msg)

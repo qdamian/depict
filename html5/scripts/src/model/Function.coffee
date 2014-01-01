@@ -17,17 +17,11 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["scripts/src/model/Module",
-               "scripts/src/model/Function"], (Module,
-                                               Function) ->
-  class ModelJsonParser
+window.define [], ->
+  Function = (values) ->
+    @name = ""
+    for prop of values
+      this[prop] = values[prop]
+    return
 
-    constructor: (id) ->
-      @id = id
-      return
-
-    parse: (json) ->
-      data = JSON.parse(json)
-      if data
-        typeModule = require("scripts/src/model/#{data.type}")
-        return new typeModule(data)
+  Function

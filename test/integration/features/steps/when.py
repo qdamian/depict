@@ -23,7 +23,7 @@ def step_impl(context):
     context.execute_steps(u'When I visit "http://localhost:8080"')
 
 
-@when(u'I start to fill in "{element_name}" with "{fill_text}"')
+@when(u'I start to fill in {element_name} with {fill_text}')
 def step_impl(context, element_name, fill_text):
     browser = context.browser
     browser.find_by_css(".selectize-input").click()

@@ -17,7 +17,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-from nose.tools import assert_equal
+from nose.tools import *
 
 
 def get_options(context):
@@ -36,3 +36,9 @@ def step_impl(context, options):
     expected_options = options.split(", ")
     actual_options = get_options(context)
     assert_equal(set(actual_options), set(expected_options))
+
+@then(u'I see ab among the available options')
+def step_imp(context):
+    expected_options = set(['ab'])
+    actual_options = set(get_options(context))
+    assert_true(expected_options.issubset(actual_options))
