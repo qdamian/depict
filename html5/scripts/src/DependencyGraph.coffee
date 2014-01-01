@@ -38,7 +38,6 @@ collide = (node) ->
     x1 > nx2 or x2 < nx1 or y1 > ny2 or y2 < ny1
 
 window.define ["d3"], (d3) ->
-  "use strict"
   DependencyGraph = (container, width, height) ->
     @svg = d3.select(container)
          .append("svg")

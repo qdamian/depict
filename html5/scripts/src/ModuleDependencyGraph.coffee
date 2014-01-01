@@ -18,7 +18,6 @@ along with depict.  If not, see <http://www.gnu.org/licenses/>.
 ###
 
 window.define ["DependencyGraph", "model/Module"], (DependencyGraph, Module) ->
-  "use strict"
   ModuleDependencyGraph = (container, width, height) ->
     @dependencyGraph = new DependencyGraph(container, width, height)
     return

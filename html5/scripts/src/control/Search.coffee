@@ -17,12 +17,12 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define [], ->
-  Module = (values) ->
-    @name = ""
-    @dependencies = []
-    for prop of values
-      this[prop] = values[prop]
-    return
+window.define ->
+  class Search
 
-  Module
+    constructor: () ->
+
+    @add = (name) ->
+      search_control = $("#search")[0].selectize
+      search_control.addOption({ text: name, value: name })
+      search_control.refreshItems()

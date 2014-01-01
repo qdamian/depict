@@ -48,10 +48,7 @@ require.config({
 });
 
 require([
-    'test/DependencyGraphTest',
-    'test/ModuleDependencyGraphTest',
     'test/ModelJsonParserTest',
-    'model/test/ModuleTest',
 ], function() {
     if (typeof mochaPhantomJS !== "undefined") { mochaPhantomJS.run(); }
     else { mocha.run(); }

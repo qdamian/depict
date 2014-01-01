@@ -17,8 +17,10 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["scripts/src/ModelJsonParser"], (ModelJsonParser) ->
-  "use strict"
+window.define ["scripts/src/ModelJsonParser", \
+               "scripts/src/control/Search"], \
+                (ModelJsonParser, \
+                 Search) ->
   Receiver = () ->
     @socket = new WebSocket "ws://localhost:9876/"
 
@@ -30,11 +32,7 @@ window.define ["scripts/src/ModelJsonParser"], (ModelJsonParser) ->
       moduleJsonParser = new ModelJsonParser("id_")
       entity = moduleJsonParser.parse(msg.data)
       try
-        name = entity.name
-        console.log "name is " + name
-        selectize_tags = $("#search")[0].selectize
-        selectize_tags.addOption({ text: name, value: name })
-        selectize_tags.refreshItems()
+        Search.add(entity.name)
       catch e
         console.log e
 
