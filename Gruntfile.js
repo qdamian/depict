@@ -2,7 +2,7 @@
  * @licstart  The following is the entire license notice for the
  *  JavaScript code in this page.
  *
- * Copyright 2013 Damian Quiroga
+ * Copyright 2014 Damian Quiroga
  *
  * This file is part of Depict.
  *

@@ -1,5 +1,5 @@
 ###
-Copyright 2013, Damian Quiroga
+Copyright 2014, Damian Quiroga
 
 This file is part of depict.
 
