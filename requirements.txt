@@ -1,15 +1,9 @@
-# implementation
-cherrypy
 ws4py
 bottle
-
-# testing
-behave
 behaving
-coverage
+WebTest
 mock
 pylint
 python-coveralls
 nose
 nose-parameterized
-WebTest
