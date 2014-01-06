@@ -1,6 +1,7 @@
 depict
 ======
 
+[![Workflow](https://badge.waffle.io/qdamian/depict.png?label=ready)](https://waffle.io/qdamian/depict)
 [![Build Status](https://travis-ci.org/qdamian/depict.png?branch=master)](https://travis-ci.org/qdamian/depict)
 [![Coverage Status](https://coveralls.io/repos/qdamian/depict/badge.png?branch=master)](https://coveralls.io/r/qdamian/depict?branch=master)
 
