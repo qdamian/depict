@@ -23,10 +23,18 @@ def step_impl(context):
     context.execute_steps(u'When I visit "http://localhost:8080"')
 
 
-@when(u'I start to fill in {element_name} with {fill_text}')
-def step_impl(context, element_name, fill_text):
-    browser = context.browser
+@when(u'I search {fill_text}')
+def step_impl(context, fill_text):
+    fill_search_with(context.browser, '\b%s' % fill_text)
+
+
+@when(u'I hit Enter')
+def step_impl(context):
+    fill_search_with(context.browser, '\n')
+
+
+def fill_search_with(browser, text):
     browser.find_by_css(".selectize-input").click()
-    control = browser.find_by_css("#%s + .selectize-control" % element_name)[0]
+    control = browser.find_by_css("#search + .selectize-control")[0]
     input_box = control.find_by_css("input")[0]
-    input_box.value = "\b%s" % fill_text
+    input_box.value = text

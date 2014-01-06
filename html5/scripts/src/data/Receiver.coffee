@@ -17,31 +17,24 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["scripts/src/ModelJsonParser", \
-               "scripts/src/control/Search"], \
-                (ModelJsonParser, \
-                 Search) ->
-  Receiver = () ->
-    @socket = new WebSocket "ws://localhost:9876/"
+window.define ["scripts/src/ModelJsonParser"],\
+               (ModelJsonParser) ->
 
-    @socket.onopen = () ->
-      console.log "websocket opened"
+  class Receiver
 
-    @socket.onmessage = (msg) ->
-      moduleJsonParser = new ModelJsonParser("id_")
-      entity = moduleJsonParser.parse(msg.data)
-      try
-        Search.add(entity.name)
-      catch e
-        console.log e
+    constructor: (callback) ->
+      @callback = callback
 
-    # @socket.onclose = (e) ->
-    #      console.log "websocket closed"
+      @onMessage= (msg) ->
+        moduleJsonParser = new ModelJsonParser("id_")
+        entity = moduleJsonParser.parse(msg.data)
+        try
+          @callback.on_msg(entity.name)
+        catch e
+          console.log e
 
-    # @socket.onerror = (e) ->
-    #   console.log "websocket onerror"
-    #  console.log e
+      @socket = new WebSocket "ws://localhost:9876/"
+      @socket.onmessage = (msg) =>
+        @onMessage msg
 
-    return
-
-  Receiver
+      return this

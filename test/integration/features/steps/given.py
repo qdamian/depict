@@ -18,10 +18,12 @@
 #endregion
 
 from behaving.web.steps import *
+import string
 
-@given(u'my program has modules {modules}')
-def step_impl(context, modules):
-    for mod in modules.split(','):
+@given(u'my program has the entities {entities}')
+def step_impl(context, entities):
+    entities = string.replace(entities, ' and ', ', ')
+    for ent in entities.split(','):
         msg = '''
             {
                 "id_":"../aa.py",
@@ -32,7 +34,7 @@ def step_impl(context, modules):
                 "type":"Module",
                 "children":[]
             }
-        ''' % mod.strip()
+        ''' % ent.strip()
         context.data_sender.send_message(msg)
 
 @given(u'my program has functions a_func')

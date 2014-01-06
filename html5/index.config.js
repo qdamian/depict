@@ -26,17 +26,27 @@
 require.config({
     baseUrl: ".",
     paths: {
-        'd3': '3rdparty/d3/d3'
+        'd3': '3rdparty/d3/d3',
+        'jquery': '3rdparty/jquery/jquery',
+        'selectize': '3rdparty/selectize/selectize',
     },
     shim: {
         'd3': {
             exports: 'd3'
+        },
+        'jquery' : {
+            exports: '$'
+        },
+        "selectize" : {
+            deps: ['jquery'],
         }
     }
 });
 
 require([
+    'scripts/src/control/Search',
     'scripts/src/data/Receiver',
-], function(DataReceiver) {
-        var dataReceiver = new DataReceiver();
+], function(SearchControl, DataReceiver) {
+        var searchControl = new SearchControl();
+        var dataReceiver = new DataReceiver(searchControl);
 });

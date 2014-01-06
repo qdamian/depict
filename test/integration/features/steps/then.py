@@ -18,20 +18,32 @@
 #endregion
 
 from nose.tools import assert_equal
+import string
 
-def get_options(context):
-    browser = context.browser
-    control = browser.find_by_css("#search + .selectize-control")
-    options = [x.text for x in control.find_by_css(".selectize-dropdown-content").find_by_css("div")]
-    return options
 
 @then(u'I see no options')
 def step_impl(context):
     options = get_options(context)
     assert_equal(options, [])
 
+
 @then(u'I see options {options}')
 def step_impl(context, options):
+    options = string.replace(options, ' and ', ', ')
     expected_options = options.split(", ")
     actual_options = get_options(context)
     assert_equal(set(actual_options), set(expected_options))
+
+
+@then(u'I see {entity} added to the canvas')
+def step_impl(context, entity):
+    browser = context.browser
+    entity_element = browser.find_by_css('#entity_%s' % entity)
+    assert entity_element
+
+
+def get_options(context):
+    browser = context.browser
+    control = browser.find_by_css("#search + .selectize-control")
+    options = [x.text for x in control.find_by_css(".selectize-dropdown-content").find_by_css("div")]
+    return options

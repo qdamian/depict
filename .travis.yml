@@ -27,8 +27,8 @@ script:
   # Install
     - python python/setup.py install
   # Functional test
-    - behave test/integration/features
-    - behave test/system/features
+    - behave test/integration/features --tags=~extended
+    - behave test/system/features --tags=~extended
 after_success:
   # Report
     - coveralls

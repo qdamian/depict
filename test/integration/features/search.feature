@@ -1,31 +1,25 @@
-Feature: Search
+Feature: Entities search
     Background:
         Given Firefox as the default browser
-
-    Scenario: no match
         Given a browser
-        And my program has modules aa, ab, ba, bb
+
+    @search_no_match @extended
+    Scenario: no match
+        Given my program has the entities aa, ab, ba and bb
         When I open the app
-        And I start to fill in search with c
+        And I search c
         Then I see no options
 
+    @search_single_match
     Scenario: single match
-        Given a browser
-        And my program has modules aa, ab, ba, bb
+        Given my program has the entities aa, ab, ba and bb
         When I open the app
-        And I start to fill in search with ab
+        And I search ab
         Then I see options ab
 
+    @search_multiple_match
     Scenario: multiple match
-        Given a browser
-        And my program has modules aa, ab, ba, bb
+        Given my program has the entities aa, ab, ba and bb
         When I open the app
-        And I start to fill in search with b
-        Then I see options ab, ba, bb
-
-    Scenario: functions
-        Given a browser
-        And my program has functions a_func
-        When I open the app
-        And I start to fill in search with a_func
-        Then I see options a_func
+        And I search b
+        Then I see options ab, ba and bb
