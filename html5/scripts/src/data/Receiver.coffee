@@ -22,8 +22,7 @@ window.define ["scripts/src/ModelJsonParser"],\
 
   class Receiver
 
-    constructor: (callback) ->
-      @callback = callback
+    constructor: (@callback) ->
 
       @onMessage= (msg) ->
         moduleJsonParser = new ModelJsonParser("id_")

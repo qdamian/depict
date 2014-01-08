@@ -54,6 +54,7 @@ require.config({
 require([
     'scripts/src/test/ModelJsonParserTest',
     'scripts/src/control/test/SearchTest',
+    'scripts/src/data/test/ReceiverTest',
 ], function() {
     if (typeof mochaPhantomJS !== "undefined") { mochaPhantomJS.run(); }
     else { mocha.run(); }
