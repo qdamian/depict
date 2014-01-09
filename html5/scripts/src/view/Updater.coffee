@@ -17,18 +17,11 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["jquery", "selectize"], ($, _) ->
+window.define [], () ->
 
-  class Search
+  class Updater
 
-    constructor: () ->
-      $("body").append('<select id="search"/>')
-      $("#search").selectize create: false
-      @search_control = $("#search")[0].selectize
+    constructor: (@search_control) ->
 
-    add: (name) ->
-      @search_control.addOption({text: name, value: name})
-      @search_control.refreshOptions()
-
-    get: (name) ->
-      @search_control.getOption(name)
+    on_msg: (msg) ->
+      @search_control.add msg

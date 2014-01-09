@@ -45,8 +45,10 @@ require.config({
 
 require([
     'scripts/src/control/Search',
+    'scripts/src/view/Updater',
     'scripts/src/data/Receiver',
-], function(SearchControl, DataReceiver) {
+], function(SearchControl, ViewUpdater, DataReceiver) {
         var searchControl = new SearchControl();
-        var dataReceiver = new DataReceiver(searchControl);
+        var viewUpdater = new ViewUpdater(searchControl);
+        var dataReceiver = new DataReceiver(viewUpdater);
 });

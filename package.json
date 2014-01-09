@@ -5,9 +5,9 @@
   "dependencies": {
     "requirejs": ">=2.1.4"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/qdamian/depict"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/qdamian/depict"
   },
   "devDependencies": {
     "grunt": ">=0.4.1",
@@ -25,7 +25,8 @@
     "grunt-contrib-coffee": "~0.7.0",
     "jquery": "~1.8.3",
     "grunt-contrib-jshint": "~0.6.4",
-    "grunt-coffeelint": "0.0.7"
+    "grunt-coffeelint": "0.0.7",
+    "sinon-chai": "~2.4.0"
   },
   "scripts": {
     "lint": "grunt lint",

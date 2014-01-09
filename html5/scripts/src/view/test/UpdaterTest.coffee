@@ -17,18 +17,26 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["jquery", "selectize"], ($, _) ->
+define ["chai",
+        "sinon-chai",
+        "scripts/src/view/Updater"],\
+        (chai,
+         sinonChai
+         Updater) ->
 
-  class Search
+  describe "Updater", ->
 
-    constructor: () ->
-      $("body").append('<select id="search"/>')
-      $("#search").selectize create: false
-      @search_control = $("#search")[0].selectize
+    chai.use sinonChai
 
-    add: (name) ->
-      @search_control.addOption({text: name, value: name})
-      @search_control.refreshOptions()
+    describe "on_msg", ->
 
-    get: (name) ->
-      @search_control.getOption(name)
+      it "should add an entry to the search control", ->
+        # Given
+        search = { add: sinon.spy() }
+        updater = new Updater search
+
+        # When
+        updater.on_msg "foo"
+
+        # Then
+        search.add.should.have.been.calledWith "foo"
