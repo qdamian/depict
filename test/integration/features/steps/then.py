@@ -38,8 +38,9 @@ def step_impl(context, options):
 @then(u'I see {entity} added to the canvas')
 def step_impl(context, entity):
     browser = context.browser
-    entity_element = browser.find_by_css('#entity_%s' % entity)
-    assert entity_element
+    entity_id = '#entity_%s' % entity
+    entity_element = browser.find_by_css(entity_id)
+    assert entity_element, "Couldn't find element matching %s" % entity_id
 
 
 def get_options(context):

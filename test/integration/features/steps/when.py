@@ -25,16 +25,20 @@ def step_impl(context):
 
 @when(u'I search {fill_text}')
 def step_impl(context, fill_text):
-    fill_search_with(context.browser, '\b%s' % fill_text)
+    click_on_search(context.browser)
+    type_in_search(context.browser, '\b%s' % fill_text)
 
 
 @when(u'I hit Enter')
 def step_impl(context):
-    fill_search_with(context.browser, '\n')
+    type_in_search(context.browser, '\n')
 
 
-def fill_search_with(browser, text):
+def click_on_search(browser):
     browser.find_by_css(".selectize-input").click()
+
+
+def type_in_search(browser, text):
     control = browser.find_by_css("#search + .selectize-control")[0]
     input_box = control.find_by_css("input")[0]
     input_box.value = text

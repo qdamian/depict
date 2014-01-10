@@ -21,9 +21,17 @@ window.define ["jquery", "selectize"], ($, _) ->
 
   class Search
 
+    onOptionSelected: (value) ->
+      # TODO: move somewhere else
+      $('#canvas').append('<div id="entity_' + value + '"></div>')
+
     constructor: () ->
       $("body").append('<select id="search"/>')
-      $("#search").selectize create: false
+      $("#search").selectize(
+        create: false
+        onItemAdd: (value) => @onOptionSelected(value)
+      )
+
       @search_control = $("#search")[0].selectize
 
     add: (name) ->
