@@ -17,26 +17,33 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["jquery", "selectize"], ($, _) ->
+define ["jquery", "selectize"], ($, _) ->
+
+
+  do init_selectize_js = ->
+    $('<link>',
+      rel: 'stylesheet'
+      href: '3rdparty/selectize/selectize.css'
+    ).prependTo 'head:first-child'
+
 
   class Search
 
-    onOptionSelected: (value) ->
-      # TODO: move somewhere else
-      $('#canvas').append('<div id="entity_' + value + '"></div>')
-
     constructor: () ->
-      $("body").append('<select id="search"/>')
-      $("#search").selectize(
+      search = $('<select>', id: 'search').prependTo 'body'
+      search.selectize
         create: false
-        onItemAdd: (value) => @onOptionSelected(value)
-      )
+        onItemAdd: (value) => @onOptionSelected value
 
-      @search_control = $("#search")[0].selectize
+      @control = $('#search')[0].selectize
 
     add: (name) ->
-      @search_control.addOption({text: name, value: name})
-      @search_control.refreshOptions()
+      @control.addOption {text: name, value: name}
+      @control.refreshOptions()
 
     get: (name) ->
-      @search_control.getOption(name)
+      @control.getOption(name)
+
+    onOptionSelected: (value) ->
+      # TODO: move somewhere else
+      $('#canvas').append '<div id="entity_' + value + '"></div>'
