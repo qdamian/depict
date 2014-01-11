@@ -68,16 +68,22 @@ module.exports = function(grunt) {
         dest: '.',
         ext: '.js'
       }
+    },
+    sass: {
+      compile: {
+        files: {
+            'html5/css/main.css': 'html5/css/main.scss'
+        }
+      }
     }
   });
 
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-coffee');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-coffeelint');
+  require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('lint', ['coffee',
+  grunt.registerTask('compile', ['coffee',
+                                 'sass']);
+
+  grunt.registerTask('lint', ['compile',
                               'coffeelint',
                               'jshint']);
 

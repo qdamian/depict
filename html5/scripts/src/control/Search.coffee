@@ -28,6 +28,13 @@ define (require) ->
       href: '3rdparty/selectize/selectize.css'
     ).prependTo 'head:first-child'
 
+  # TODO move somewhere else
+  do style_entities = ->
+    $('<link>',
+      rel: 'stylesheet'
+      href: 'css/main.css'
+    ).prependTo 'head:first-child'
+
   class Search
 
     constructor: () ->
@@ -47,4 +54,4 @@ define (require) ->
 
     onOptionSelected: (value) ->
       # TODO: move somewhere else
-      $('#canvas').append '<div id="entity_' + value + '"></div>'
+      $('#canvas').append '<div class=entity id="entity_' + value + '"></div>'
