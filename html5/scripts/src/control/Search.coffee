@@ -17,15 +17,16 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-define ["jquery", "selectize"], ($, _) ->
+define (require) ->
 
+  $ = require 'jquery'
+  require 'selectize'
 
   do init_selectize_js = ->
     $('<link>',
       rel: 'stylesheet'
       href: '3rdparty/selectize/selectize.css'
     ).prependTo 'head:first-child'
-
 
   class Search
 

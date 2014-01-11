@@ -17,10 +17,10 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-define ["chai",
-        "scripts/src/control/Search"],\
-        (chai,
-        Search) ->
+define (require) ->
+
+  chai = require 'chai'
+  Search = require 'scripts/src/control/Search'
 
   describe "Search", ->
 

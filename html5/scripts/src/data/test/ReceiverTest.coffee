@@ -17,7 +17,11 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-define ['chai', 'sinon', 'Squire'], (chai, sinon, Squire) ->
+define (require) ->
+
+  chai = require 'chai'
+  sinon = require 'sinon'
+  Squire = require 'Squire'
 
   should = chai.should()
 
