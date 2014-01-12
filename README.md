@@ -15,7 +15,7 @@ Description
 
 An HTML5 app that lets you pick modules or classes of a python program of you interest and see some diagrams representing their relations and interactions.
 
-It uses [examine].
+It uses [dissect].
 
 See some [alternatives](https://github.com/qdamian/depict#alternatives) below.
 
@@ -32,7 +32,7 @@ Alternatives
 
 [pytrace][pytrace] allows to record and view function calls, arguments and return values
 
-[examine]: https://github.com/qdamian/examine "examine"
+[dissect]: https://github.com/qdamian/dissect "dissect"
 [pycallgraph]: http://pycallgraph.slowchop.com/en/master/ "pycallgraph"
 [pyreverse]: http://www.logilab.org/2560 "pyreverse"
 [disptrace]: https://github.com/atsuoishimoto/disptrace "disptrace"
