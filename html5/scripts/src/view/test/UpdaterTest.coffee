@@ -17,16 +17,15 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-define ["chai",
-        "sinon-chai",
-        "scripts/src/view/Updater"],\
-        (chai,
-         sinonChai
-         Updater) ->
+define (require) ->
 
-  describe "Updater", ->
+  chai = require 'chai'
+  sinonChai = require 'sinon-chai'
+  Updater = require 'scripts/src/view/Updater'
 
-    chai.use sinonChai
+  chai.use sinonChai
+
+  describe "view.Updater", ->
 
     describe "on_msg", ->
 

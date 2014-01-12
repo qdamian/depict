@@ -25,7 +25,7 @@ define (require) ->
 
   should = chai.should()
 
-  describe 'Receiver', ->
+  describe 'data.Receiver', ->
 
     describe 'onMessage', ->
 

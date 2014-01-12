@@ -20,9 +20,9 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 define (require) ->
 
   chai = require 'chai'
-  Search = require 'scripts/src/control/Search'
+  DefaultVisualiz = require 'scripts/src/visualiz/Default'
 
-  describe 'control.Search', ->
+  describe 'visualiz.Default', ->
 
     should = chai.should()
 
@@ -35,36 +35,23 @@ define (require) ->
 
     describe 'add', ->
 
-      it 'should create a new available option', ->
+      it 'should add an element to the canvas when an option is selected', ->
+        $('#canvas #entity_val1').length.should.equal 0
         # Given
-        search = new Search()
-        search.get('val1').text().should.equal ''
+        visualiz = new DefaultVisualiz()
 
         # When
-        search.add('val1')
+        visualiz.on_search_option_chosen 'val1'
 
         # Then
-        search.get('val1').text().should.equal 'val1'
+        $('#canvas #entity_val1').length.should.equal 1
 
-      it 'should preserve existing options', ->
+      it 'should support slash characters in the entities ids', ->
         # Given
-        search = new Search()
-        search.add('val1')
+        visualiz = new DefaultVisualiz()
 
         # When
-        search.add('val2')
+        visualiz.on_search_option_chosen 'path/to/val1'
 
         # Then
-        search.get('val1').text().should.equal 'val1'
-        search.get('val2').text().should.equal 'val2'
-
-      it 'should notify the event when an option is chosen', ->
-        # Given
-        callback = sinon.spy()
-        search = new Search({on_search_option_chosen: callback})
-
-        # When
-        search.onOptionSelected 'val1'
-
-        # Then
-        callback.args[0][0].should.equal 'val1'
+        $('#canvas #entity_path_to_val1').length.should.equal 1

@@ -47,8 +47,10 @@ require([
     'scripts/src/control/Search',
     'scripts/src/view/Updater',
     'scripts/src/data/Receiver',
-], function(SearchControl, ViewUpdater, DataReceiver) {
-        var searchControl = new SearchControl();
+    'scripts/src/visualiz/Default',
+], function(SearchControl, ViewUpdater, DataReceiver, DefaultVisualiz) {
+        var defaultVisualiz = new DefaultVisualiz();
+        var searchControl = new SearchControl(defaultVisualiz);
         var viewUpdater = new ViewUpdater(searchControl);
         var dataReceiver = new DataReceiver(viewUpdater);
 });

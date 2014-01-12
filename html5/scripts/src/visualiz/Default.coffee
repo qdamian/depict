@@ -20,30 +20,19 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 define (require) ->
 
   $ = require 'jquery'
-  require 'selectize'
 
-  do init_selectize_js = ->
+  do style_entities = ->
     $('<link>',
       rel: 'stylesheet'
-      href: '3rdparty/selectize/selectize.css'
+      href: 'css/main.css'
     ).prependTo 'head:first-child'
 
-  class Search
+  class Default
 
-    constructor: (@controller) ->
-      search = $('<select>', id: 'search').prependTo 'body'
-      search.selectize
-        create: false
-        onItemAdd: (value) => @onOptionSelected value
+    constructor: () ->
 
-      @control = $('#search')[0].selectize
-
-    add: (name) ->
-      @control.addOption {text: name, value: name}
-      @control.refreshOptions()
-
-    get: (name) ->
-      @control.getOption(name)
-
-    onOptionSelected: (value) ->
-      @controller.on_search_option_chosen value
+    on_search_option_chosen: (value) ->
+      $('<div>',
+        class: 'entity'
+        id: 'entity_' + value.replace(/\//g, "_")
+      ).appendTo '#canvas'
