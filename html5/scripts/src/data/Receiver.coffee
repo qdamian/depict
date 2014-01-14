@@ -28,7 +28,7 @@ window.define ["scripts/src/ModelJsonParser"],\
         moduleJsonParser = new ModelJsonParser("id_")
         entity = moduleJsonParser.parse(msg.data)
         try
-          @callback.on_msg(entity.name)
+          @callback.on_msg entity
         catch e
           console.log e
 

@@ -19,11 +19,10 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 
 define (require) ->
 
-  Module = (values) ->
-    @name = ""
-    @dependencies = []
-    for prop of values
-      this[prop] = values[prop]
-    return
+  class Module
 
-  Module
+    constructor: (values) ->
+      @name = ""
+      @dependencies = []
+      for prop of values
+        this[prop] = values[prop]

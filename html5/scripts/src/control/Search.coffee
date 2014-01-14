@@ -35,11 +35,13 @@ define (require) ->
       search.selectize
         create: false
         onItemAdd: (value) => @onOptionSelected value
-
       @control = $('#search')[0].selectize
 
-    add: (name) ->
-      @control.addOption {text: name, value: name}
+    add: (group, name) ->
+      if not group or not name
+        throw SyntaxError("Missing values")
+      @control.addOptionGroup group, label: group
+      @control.addOption {text: name, value: name, optgroup: group}
       @control.refreshOptions()
 
     get: (name) ->

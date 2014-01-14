@@ -29,9 +29,9 @@ define (require) ->
 
     describe 'onMessage', ->
 
-      it 'should invoke the callback', ->
+      it 'should invoke the callback passing the received entity', (done) ->
 
-        parser_stub = {parse: -> {name: 'fake_name'}}
+        parser_stub = {parse: -> 'fake_entity'}
         parser_stub_constructor = Squire.Helpers.constructs(parser_stub)
 
         new Squire()
@@ -46,5 +46,5 @@ define (require) ->
             receiver.onMessage 'dummy_msg'
 
             # Then
-            callback.args[0][0].should.equal 'fake_name'
-
+            callback.args[0][0].should.equal 'fake_entity'
+            done()

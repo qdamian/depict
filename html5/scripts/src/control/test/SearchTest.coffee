@@ -41,7 +41,7 @@ define (require) ->
         search.get('val1').text().should.equal ''
 
         # When
-        search.add('val1')
+        search.add 'dummyGroup', 'val1'
 
         # Then
         search.get('val1').text().should.equal 'val1'
@@ -49,22 +49,30 @@ define (require) ->
       it 'should preserve existing options', ->
         # Given
         search = new Search()
-        search.add('val1')
+        search.add 'dummyGroup', 'val1'
 
         # When
-        search.add('val2')
+        search.add 'dummyGroup', 'val2'
 
         # Then
         search.get('val1').text().should.equal 'val1'
         search.get('val2').text().should.equal 'val2'
 
-      it 'should notify the event when an option is chosen', ->
+      it 'should raise an exception if no group is provided', ->
         # Given
-        callback = sinon.spy()
-        search = new Search({on_search_option_chosen: callback})
+        search = new Search()
+        aBadCall = -> search.add undefined, 'val1'
 
-        # When
-        search.onOptionSelected 'val1'
+        # When/Then
+        (aBadCall).should.throw(SyntaxError)
 
-        # Then
-        callback.args[0][0].should.equal 'val1'
+    it 'should notify the event when an option is chosen', ->
+      # Given
+      callback = sinon.spy()
+      search = new Search({on_search_option_chosen: callback})
+
+       # When
+      search.onOptionSelected 'val1'
+
+       # Then
+      callback.args[0][0].should.equal 'val1'

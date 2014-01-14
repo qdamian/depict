@@ -47,5 +47,5 @@ def step_impl(context, entity):
 def get_options(context):
     browser = context.browser
     control = browser.find_by_css("#search + .selectize-control")
-    options = [x.text for x in control.find_by_css(".selectize-dropdown-content").find_by_css("div")]
+    options = [x.text for x in control.find_by_css(".selectize-dropdown-content").find_by_css("div .option")]
     return options

@@ -34,5 +34,5 @@ define (require) ->
     on_search_option_chosen: (value) ->
       $('<div>',
         class: 'entity'
-        id: 'entity_' + value.replace(/\//g, "_")
+        id: 'entity_' + value.replace /\//g, "_"
       ).appendTo '#canvas'

@@ -17,11 +17,12 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define [], () ->
+define (require) ->
 
   class Updater
 
     constructor: (@search_control) ->
 
-    on_msg: (msg) ->
-      @search_control.add msg
+    on_msg: (entity) ->
+      console.log entity
+      @search_control.add entity.type, entity.name

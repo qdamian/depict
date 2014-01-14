@@ -17,26 +17,24 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-define ["chai",
-        "Squire",
-        "scripts/src/model/Module",
-        "scripts/src/model/Function",
-        "scripts/src/ModelJsonParser"], (chai,
-                                         Squire,
-                                         Module,
-                                         Function,
-                                         ModelJsonParser) ->
+define (require) ->
+
+  chai = require 'chai'
+  Squire = require 'Squire'
+  Module = require 'scripts/src/model/Module'
+  Function = require 'scripts/src/model/Function'
+  ModelJsonParser = require 'scripts/src/ModelJsonParser'
 
   assert = chai.assert
 
-  describe "ModelJsonParser", ->
-    describe "parse", ->
-      it "should create a Module object if type is Module", ->
+  describe 'ModelJsonParser', ->
+    describe 'parse', ->
+      it 'should create a Module object if type is Module', ->
         # Arrange
-        moduleJsonParser = new ModelJsonParser("id_")
+        moduleJsonParser = new ModelJsonParser 'id_'
 
         # Act
-        obj = moduleJsonParser.parse("""
+        obj = moduleJsonParser.parse('''
           {
             "id_":"../aa.py",
             "name":"aa",
@@ -46,25 +44,25 @@ define ["chai",
             "type":"Module",
             "children":[]
           }
-        """)
+        ''')
 
         # Assert
-        assert.instanceOf(obj, Module)
-        assert.equal(obj.name, "aa")
+        assert.instanceOf obj, Module
+        assert.equal obj.name, 'aa'
 
-      it "should create a Function object if type is Function", ->
+      it 'should create a Function object if type is Function', ->
         # Arrange
-        moduleJsonParser = new ModelJsonParser("id_")
+        moduleJsonParser = new ModelJsonParser('id_')
 
         # Act
-        obj = moduleJsonParser.parse("""
+        obj = moduleJsonParser.parse('''
           {
             "id_": "aa.py:1",
             "name": "fake_function_name",
             "type": "Function"
           }
-        """)
+        ''')
 
         # Assert
-        assert.instanceOf(obj, Function)
-        assert.equal(obj.name, "fake_function_name")
+        assert.instanceOf obj, Function
+        assert.equal obj.name, 'fake_function_name'

@@ -19,10 +19,9 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 
 define (require) ->
 
-  Function = (values) ->
-    @name = ""
-    for prop of values
-      this[prop] = values[prop]
-    return
+  class Function
 
-  Function
+    constructor: (values) ->
+      @name = ""
+      for prop of values
+        this[prop] = values[prop]

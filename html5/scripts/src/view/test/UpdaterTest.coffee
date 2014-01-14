@@ -25,17 +25,17 @@ define (require) ->
 
   chai.use sinonChai
 
-  describe "view.Updater", ->
+  describe 'view.Updater', ->
 
-    describe "on_msg", ->
+    describe 'on_msg', ->
 
-      it "should add an entry to the search control", ->
+      it 'should add an entry to the search control', ->
         # Given
         search = { add: sinon.spy() }
         updater = new Updater search
 
         # When
-        updater.on_msg "foo"
+        updater.on_msg { type: 'function', name: 'foo' }
 
         # Then
-        search.add.should.have.been.calledWith "foo"
+        search.add.should.have.been.calledWith 'function', 'foo'

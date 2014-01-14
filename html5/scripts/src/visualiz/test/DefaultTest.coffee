@@ -27,11 +27,11 @@ define (require) ->
     should = chai.should()
 
     beforeEach ->
-      @html = $('html').clone(true, true)
+      @html = $('html').clone true, true
       return undefined # jshint
 
     afterEach ->
-      $('html').replaceWith(@html)
+      $('html').replaceWith @html
 
     describe 'add', ->
 
