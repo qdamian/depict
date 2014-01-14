@@ -7,11 +7,15 @@ before_install:
     - "sh -e /etc/init.d/xvfb start"
 install:
   # Dependencies
+    - date
     - pip install -r requirements.txt --use-mirrors
+    - date
     - pip install -r dissect-requirement.txt --use-mirrors
                                              --index-url=https://testpypi.python.org/pypi
                                              --extra-index-url=https://pypi.python.org/pypi
+    - date
     - npm install
+    - date
   # Workaround https://github.com/travis-ci/travis-cookbooks/issues/155
     - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
 script:
@@ -30,6 +34,7 @@ script:
     - behave test/integration/features --tags=~extended
     - behave test/system/features --tags=~extended
 after_success:
+    - date
   # Report
     - coveralls
   # Update gh-pages
