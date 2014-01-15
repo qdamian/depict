@@ -8,6 +8,10 @@ before_install:
 install:
   # Dependencies
     - date
+    - test -d pip.cache || git clone git://github.com/qdamian/depict.pip.cache pip.cache
+    - date
+    - pip install --no-index --find-links=pip.cache -r requirements.txt
+    - date
     - pip install -r requirements.txt --use-mirrors
     - date
     - pip install -r dissect-requirement.txt --use-mirrors
