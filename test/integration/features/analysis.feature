@@ -3,6 +3,7 @@ Feature: Program analysis
         Given Firefox as the default browser
         And a browser
 
+    @functions
     Scenario: functions
         Given my program has functions a_func
         When I open the app

@@ -17,67 +17,23 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 # endregion
 
-from random import random
-import threading
-from time import sleep
-from mock import *
-from nose.tools import *
-from ws4py.client.threadedclient import WebSocketClient
-from ws4py.websocket import EchoWebSocket
-from webtest import TestApp
-from depict.web.app import APP as WebApp
-from depict.web.server import Server as WebServer
+from depict.web.server import Server
+from mock import patch
 
 
-def ws_user_mock(server):
-    server.wait_for_web_socket_opened()
+class TestServer(object):
 
+    @patch('depict.web.server.HTTPServerController')
+    @patch('depict.web.server.WebSocketController')
+    def test_the_http_server_and_web_socket_use_consecutive_ports(self,
+                                web_socket_controller, http_server_controller):
+        # Given
+        server = Server()
+        http_server_controller.return_value.http_port = 1000
 
-class TestWebSocket(object):
+        # When
+        server.start()
 
-    def __init__(self):
-        self.web_server = None
-        self.ws_client = None
-
-    def setUp(self):
-        WebServer.HTTP_PORT = int(random() * 1000) + 1024
-        WebServer.WS_PORT = WebServer.HTTP_PORT + 1
-        WebServer.WS_CLASS = EchoWebSocket
-        self.web_server = WebServer()
-        self.web_server.start(quiet=True)
-        self.ws_client = WebSocketClient('ws://localhost:%s' %
-                                         WebServer.WS_PORT,
-                                         protocols=['http-only', 'chat'])
-
-    def tearDown(self):
-        try:
-            self.ws_client.close()
-            self.web_server.stop()
-        except:
-            pass
-
-    def test_wait_for_web_socket_connection(self):
-        thread = threading.Thread(target=ws_user_mock, args=(self.web_server,))
-        thread.start()
-        thread.join(timeout=0.1)
-        assert_true(thread.isAlive())
-        self.web_server.on_web_socket_opened(self)
-        thread.join()
-        assert_false(thread.isAlive())
-
-    def test_wait_for_web_socket_again_after_closed(self):
-        self.web_server.on_web_socket_opened(self)
-        self.web_server.on_web_socket_closed()
-        thread = threading.Thread(target=ws_user_mock, args=(self.web_server,))
-        thread.start()
-        thread.join(timeout=0.1)
-        assert_true(thread.isAlive())
-        self.web_server.on_web_socket_opened(self)
-        thread.join()
-        assert_false(thread.isAlive())
-
-    def test_send_message_sends_it_using_the_web_socket(self):
-        socket = Mock()
-        self.web_server.on_web_socket_opened(socket)
-        self.web_server.send_message('hi')
-        socket.send.assert_called_once_with('hi')
+        # Then
+        http_server_controller.return_value.start.assert_called_once_with()
+        web_socket_controller.return_value.start.assert_called_once_with(1001)

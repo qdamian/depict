@@ -18,7 +18,6 @@
 #endregion
 
 from behaving import environment as behaving_env
-from depict.data.sender import Sender as DataSender
 
 def before_all(context):
     behaving_env.before_all(context)
@@ -32,10 +31,11 @@ def before_feature(context, feature):
 def after_feature(context, feature):
     behaving_env.after_feature(context, feature)
 
-
 def before_scenario(context, scenario):
     behaving_env.before_scenario(context, scenario)
-
+    context.cleanup_tasks = []
 
 def after_scenario(context, scenario):
     behaving_env.after_scenario(context, scenario)
+    for task in context.cleanup_tasks:
+        task()

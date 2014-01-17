@@ -20,7 +20,8 @@
 
 @when(u'I open the app')
 def step_impl(context):
-    context.execute_steps(u'When I visit "http://localhost:8080"')
+    http_port = context.data_sender.server.http_port
+    context.execute_steps(u'When I visit "http://localhost:%s"' % http_port)
 
 
 @when(u'I search {fill_text}')

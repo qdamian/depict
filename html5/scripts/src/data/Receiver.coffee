@@ -32,7 +32,9 @@ window.define ["scripts/src/ModelJsonParser"],\
         catch e
           console.log e
 
-      @socket = new WebSocket "ws://localhost:9876/"
+      http_port = +location.port or 80
+      ws_port = http_port + 1
+      @socket = new WebSocket "ws://localhost:#{ws_port}/"
       @socket.onmessage = (msg) =>
         @onMessage msg
 

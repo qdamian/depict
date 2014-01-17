@@ -20,7 +20,9 @@
 from behaving.web.steps import *
 
 
-@given(u'my program has modules aa, ab, ba, bb')
+@given(u'my program has modules aa_mod, ab_mod, ba_mod, bb_mod')
+@given(u'my program has functions aa_func, ab_func, ba_func, bb_func')
+@given(u'my program spawns four threads')
 def step_impl(context):
     context.program_path = os.path.abspath(
-        os.path.join('test', 'system', 'data', 'four_modules', 'main.py'))
+        os.path.join('test', 'system', 'data', 'one', 'main.py'))

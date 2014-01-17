@@ -17,77 +17,26 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 # endregion
 
-import threading
+from depict.web.http_server_controller import HTTPServerController
+from depict.web.web_socket_controller import WebSocketController
 
-from wsgiref.simple_server import make_server
-import bottle
-from ws4py.server.wsgirefserver import WSGIServer, WebSocketWSGIRequestHandler
-from ws4py.server.wsgiutils import WebSocketWSGIApplication
-from depict.web.app import APP
-from depict.web.socket import Socket as WebSocket
-
-class HTTPServer(bottle.ServerAdapter):
-
-    def run(self, handler):
-        self.server = make_server(
-            self.host, self.port, handler, **self.options)
-        self.server.serve_forever()
 
 class Server(object):
-    """
-    Serve static content and manage a web socket.
-    """
-
-    HTTP_PORT = 8080
-    WS_PORT = 9876
-    WS_CLASS = WebSocket
-
     def __init__(self):
-        self.web_socket_opened = threading.Event()
-        self.web_socket = None
-        self.http_thread = None
-        self.ws_thread = None
+        self.web_server = HTTPServerController()
+        self.web_socket = WebSocketController()
 
     def start(self, quiet=False):
-        ws_app = WebSocketWSGIApplication(handler_cls=Server.WS_CLASS)
-        self.ws_server = make_server(host='localhost',
-                                     port=Server.WS_PORT,
-                                     server_class=WSGIServer,
-                                     handler_class=WebSocketWSGIRequestHandler,
-                                     app=ws_app)
-        self.ws_server.initialize_websockets_manager()
-        self.http_thread = threading.Thread(target=self._start_http_server,
-                                            args=(quiet,))
-        self.http_thread.start()
-        self.ws_thread = threading.Thread(target=self._start_ws_server)
-        self.ws_thread.start()
-
-    def _start_http_server(self, quiet):
-        self.http_server = HTTPServer('localhost', Server.HTTP_PORT)
-        APP.run(server=self.http_server, quiet=quiet)
-
-    def _start_ws_server(self):
-        self.WS_CLASS.USER = self
-        self.ws_server.serve_forever()
+        self.web_server.start()
+        self.web_socket.start(self.web_server.http_port + 1)
 
     def stop(self):
-        # if self.web_socket:
-        #     self.web_socket.close_connection()
-        self.http_server.server.shutdown()
-        self.ws_server.shutdown()
-        self.ws_thread.join()
-        self.http_thread.join()
+        self.web_socket.stop()
+        self.web_server.stop()
 
     def send_message(self, msg):
-        self.web_socket.send(msg)
+        self.web_socket.send_async(msg)
 
-    def wait_for_web_socket_opened(self):
-        self.web_socket_opened.wait()
-
-    def on_web_socket_opened(self, web_socket):
-        self.web_socket = web_socket
-        self.web_socket_opened.set()
-
-    def on_web_socket_closed(self):
-        self.web_socket_opened.clear()
-        self.web_socket = None
+    @property
+    def http_port(self):
+        return self.web_server.http_port

@@ -19,9 +19,10 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 
 define (require) ->
 
-  class Updater
+  class Thread
 
-    constructor: (@search_control) ->
-
-    on_msg: (entity) ->
-      @search_control.add entity.type, entity.name
+    constructor: (values) ->
+      @name = ""
+      @dependencies = []
+      for prop of values
+        this[prop] = values[prop]

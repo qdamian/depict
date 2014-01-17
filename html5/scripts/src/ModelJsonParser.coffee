@@ -21,6 +21,7 @@ define (require) ->
 
   Module = require 'scripts/src/model/Module'
   Function = require 'scripts/src/model/Function'
+  Thread = require 'scripts/src/model/Thread'
 
   class ModelJsonParser
 

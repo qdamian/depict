@@ -3,7 +3,7 @@ Feature: Entities search
         Given Firefox as the default browser
         Given a browser
 
-    @search_no_match @extended
+    @search_no_match @superseded @by_search_single_match
     Scenario: no match
         Given my program has the entities aa, ab, ba and bb
         When I open the app

@@ -20,9 +20,20 @@
 from depict.data.retriever import Retriever as DataRetriever
 from depict.data.sender import Sender as DataSender
 
-def depict(filepath):
-    sender = DataSender()
-    sender.start()
+class Depict(object):
 
-    retriever = DataRetriever(filepath, sender.send_message)
-    retriever.run()
+    def __init__(self, filepath):
+        self.filepath = filepath
+        self.sender = DataSender()
+
+    def start(self):
+        self.sender.start()
+        retriever = DataRetriever(self.filepath, self.sender.send_message)
+        retriever.run()
+
+    def stop(self):
+        self.sender.stop()
+
+    @property
+    def http_port(self):
+        return self.sender.server.http_port

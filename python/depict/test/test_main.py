@@ -18,7 +18,7 @@
 #endregion
 
 from mock import patch
-from depict.main import depict
+from depict.main import Depict
 
 @patch('depict.main.DataRetriever')
 @patch('depict.main.DataSender')
@@ -26,7 +26,7 @@ class TestMain(object):
     def test_it_passes_data_from_retriever_to_sender(self, data_sender,
                                                      data_retriever):
         # Act
-        depict("fake/file")
+        Depict("fake/file").start()
 
         # Assert
         data_retriever.assert_called_once_with("fake/file",
@@ -35,7 +35,7 @@ class TestMain(object):
     def test_it_starts_retrieving_data(self, data_sender,
                                        data_retriever):
         # Act
-        depict("dummy_file")
+        Depict("dummy)file").start()
 
         # Assert
         data_retriever.return_value.run.assert_called_once_with()
@@ -43,7 +43,7 @@ class TestMain(object):
     def test_it_starts_sending_data(self, data_sender,
                                       data_retriever):
         # Act
-        depict("dummy_file")
+        Depict("dummy)file").start()
 
         # Assert
         data_sender.return_value.start.assert_called_once_with()

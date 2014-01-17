@@ -17,8 +17,6 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-import logging
-import threading
 from depict.web.server import Server as WebServer
 
 class Sender(object):
@@ -30,11 +28,6 @@ class Sender(object):
         self.server.start()
 
     def send_message(self, data):
-        thread = threading.Thread(target=self._do_send, args=(data,))
-        thread.start()
-
-    def _do_send(self, data):
-        self.server.wait_for_web_socket_opened()
         self.server.send_message(data)
 
     def stop(self):
