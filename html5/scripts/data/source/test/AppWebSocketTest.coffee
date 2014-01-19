@@ -25,7 +25,7 @@ define (require) ->
 
   should = chai.should()
 
-  describe 'data.Receiver', ->
+  describe 'data.source.AppWebSocket', ->
 
     describe 'onMessage', ->
 
@@ -35,16 +35,16 @@ define (require) ->
         parser_stub_constructor = Squire.Helpers.constructs(parser_stub)
 
         new Squire()
-          .mock('scripts/src/ModelJsonParser', parser_stub_constructor)
-          .require ['scripts/src/data/Receiver', 'mocks'], (Receiver, mocks) ->
+          .mock('scripts/ModelJsonParser', parser_stub_constructor)
+          .require ['scripts/data/source/AppWebSocket'], \
+            (AppWebSocket, mocks) ->
+              # Given
+              callback = sinon.spy()
+              appWebSocket = new AppWebSocket({on_msg: callback})
 
-            # Given
-            callback = sinon.spy()
-            receiver = new Receiver({on_msg: callback})
+              # When
+              appWebSocket.onMessage 'dummy_msg'
 
-            # When
-            receiver.onMessage 'dummy_msg'
-
-            # Then
-            callback.args[0][0].should.equal 'fake_entity'
-            done()
+              # Then
+              callback.args[0][0].should.equal 'fake_entity'
+              done()

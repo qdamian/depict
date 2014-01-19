@@ -19,9 +19,9 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 
 define (require) ->
 
-  Module = require 'scripts/src/model/Module'
-  Function = require 'scripts/src/model/Function'
-  Thread = require 'scripts/src/model/Thread'
+  Module = require 'scripts/model/Module'
+  Function = require 'scripts/model/Function'
+  Thread = require 'scripts/model/Thread'
 
   class ModelJsonParser
 
@@ -30,5 +30,5 @@ define (require) ->
     parse: (json) ->
       data = JSON.parse(json)
       if data
-        typeModule = require("scripts/src/model/#{data.type}")
+        typeModule = require("scripts/model/#{data.type}")
         return new typeModule(data)

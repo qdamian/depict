@@ -53,11 +53,11 @@ require.config({
 });
 
 require([
-    'scripts/src/test/ModelJsonParserTest',
-    'scripts/src/control/test/SearchTest',
-    'scripts/src/view/test/UpdaterTest',
-    'scripts/src/data/test/ReceiverTest',
-    'scripts/src/visualiz/test/DefaultTest',
+    'scripts/test/ModelJsonParserTest',
+    'scripts/control/test/SearchTest',
+    'scripts/view/test/UpdaterTest',
+    'scripts/data/source/test/AppWebSocketTest',
+    'scripts/visualiz/test/DefaultTest',
 ], function() {
     if (typeof mochaPhantomJS !== "undefined") { mochaPhantomJS.run(); }
     else { mocha.run(); }

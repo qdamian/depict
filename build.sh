@@ -1,2 +1,2 @@
 #!/bin/sh
-travis-solo --overwrite '{"env": "secure="}'
+travis-solo --overwrite '{"env": ""}'

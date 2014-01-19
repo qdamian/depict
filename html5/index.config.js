@@ -44,13 +44,13 @@ require.config({
 });
 
 require([
-    'scripts/src/control/Search',
-    'scripts/src/view/Updater',
-    'scripts/src/data/Receiver',
-    'scripts/src/visualiz/Default',
-], function(SearchControl, ViewUpdater, DataReceiver, DefaultVisualiz) {
+    'scripts/control/Search',
+    'scripts/view/Updater',
+    'scripts/data/source/AppWebSocket',
+    'scripts/visualiz/Default',
+], function(SearchControl, ViewUpdater, AppWebSocket, DefaultVisualiz) {
         var defaultVisualiz = new DefaultVisualiz();
         var searchControl = new SearchControl(defaultVisualiz);
         var viewUpdater = new ViewUpdater(searchControl);
-        var dataReceiver = new DataReceiver(viewUpdater);
+        var appWebSocket = new AppWebSocket(viewUpdater);
 });

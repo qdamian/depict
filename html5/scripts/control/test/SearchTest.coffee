@@ -20,7 +20,7 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 define (require) ->
 
   chai = require 'chai'
-  Search = require 'scripts/src/control/Search'
+  Search = require 'scripts/control/Search'
 
   describe 'control.Search', ->
 

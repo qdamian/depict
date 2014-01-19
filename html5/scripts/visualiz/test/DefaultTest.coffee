@@ -20,7 +20,7 @@ along with depict. If not, see <http://www.gnu.org/licenses/>.
 define (require) ->
 
   chai = require 'chai'
-  DefaultVisualiz = require 'scripts/src/visualiz/Default'
+  DefaultVisualiz = require 'scripts/visualiz/Default'
 
   describe 'visualiz.Default', ->
 

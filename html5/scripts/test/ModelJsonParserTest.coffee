@@ -21,9 +21,9 @@ define (require) ->
 
   chai = require 'chai'
   Squire = require 'Squire'
-  Module = require 'scripts/src/model/Module'
-  Function = require 'scripts/src/model/Function'
-  ModelJsonParser = require 'scripts/src/ModelJsonParser'
+  Module = require 'scripts/model/Module'
+  Function = require 'scripts/model/Function'
+  ModelJsonParser = require 'scripts/ModelJsonParser'
 
   assert = chai.assert
 

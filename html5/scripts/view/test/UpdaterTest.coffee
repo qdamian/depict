@@ -17,25 +17,25 @@ You should have received a copy of the GNU General Public License
 along with depict. If not, see <http://www.gnu.org/licenses/>.
 ###
 
-window.define ["scripts/src/ModelJsonParser"],\
-               (ModelJsonParser) ->
+define (require) ->
 
-  class Receiver
+  chai = require 'chai'
+  sinonChai = require 'sinon-chai'
+  Updater = require 'scripts/view/Updater'
 
-    constructor: (@callback) ->
+  chai.use sinonChai
 
-      @onMessage= (msg) ->
-        moduleJsonParser = new ModelJsonParser("id_")
-        entity = moduleJsonParser.parse(msg.data)
-        try
-          @callback.on_msg entity
-        catch e
-          console.log e
+  describe 'view.Updater', ->
 
-      http_port = +location.port or 80
-      ws_port = http_port + 1
-      @socket = new WebSocket "ws://localhost:#{ws_port}/"
-      @socket.onmessage = (msg) =>
-        @onMessage msg
+    describe 'on_msg', ->
 
-      return this
+      it 'should add an entry to the search control', ->
+        # Given
+        search = { add: sinon.spy() }
+        updater = new Updater search
+
+        # When
+        updater.on_msg { type: 'function', name: 'foo' }
+
+        # Then
+        search.add.should.have.been.calledWith 'function', 'foo'

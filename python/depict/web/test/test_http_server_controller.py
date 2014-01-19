@@ -18,7 +18,7 @@
 # endregion
 
 import socket
-from nose.tools import assert_equal
+from nose.tools import *
 from depict.web.http_server_controller import HTTPServerController
 from mock import patch
 
@@ -36,6 +36,7 @@ class TestHttpServerController(object):
         controller.start()
 
         # Then
+        assert_true(controller.http_port_bound.wait(1))
         bound_port = http_adapter.call_args[0][1]
         assert_equal(bound_port % 2, 0)
 
