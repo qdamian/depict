@@ -1,6 +1,9 @@
 language: python
 python:
     - 2.7
+env:
+  global:
+    secure: YFz8YwSqTgG8nGQxmiMYR1JkcfTsCzUJGssf+bfTzJGwK/mcBx/pJE5fD7iktEwsIlPaYlfnM4mKzjjfAVjD5Cmx5aB6BsD5KZmwqlZq9VU6GhYjA3glS0Dnlk7kX80+4UI+YZtOfGroQzeu4TUczrSBbRt8rG1zz/4E+zHi2e0=
 before_install:
   # Start x session for splinter. Ref http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
     - "export DISPLAY=:99.0"
