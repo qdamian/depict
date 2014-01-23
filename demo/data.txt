@@ -1,0 +1,232 @@
+{
+    "id_":"aa_mod.py",
+    "name":"aa_mod",
+    "parent":null,
+    "dependencies":[],
+    "branch_depth":0,
+    "type":"Module",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"aa_mod.py:1",
+    "name":"aa_func",
+    "parent":{
+        "id_":"aa_mod.py",
+        "type":"Module"
+    },
+    "branch_depth":1,
+    "type":"Function",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"Thread-3",
+    "name":"Thread-3",
+    "parent":null,
+    "branch_depth":0,
+    "type":"Thread",
+    "children":[]
+}
+
+---
+
+
+{
+    "function":{
+        "id_":"aa_mod.py:1",
+        "type":"Function"
+    },
+    "id_":"aa_mod.py:1@1390447641.28-17df6414-1168-4a1b-bed5-11b26cd910a1",
+    "parent":{
+        "id_":"Thread-3",
+        "type":"Thread"
+    },
+    "branch_depth":1,
+    "type":"FunctionCall",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"ba_mod.py",
+    "name":"ba_mod",
+    "parent":null,
+    "dependencies":[],
+    "branch_depth":0,
+    "type":"Module",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"ba_mod.py:1",
+    "name":"ba_func",
+    "parent":{
+        "id_":"ba_mod.py",
+        "type":"Module"
+    },
+    "branch_depth":1,
+    "type":"Function",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"Thread-4",
+    "name":"Thread-4",
+    "parent":null,
+    "branch_depth":0,
+    "type":"Thread",
+    "children":[]
+}
+
+---
+
+
+{
+    "function":{
+        "id_":"ba_mod.py:1",
+        "type":"Function"
+    },
+    "id_":"ba_mod.py:1@1390447641.29-b68953a0-a9d1-48e9-b5da-9b2d0dd6a3f0",
+    "parent":{
+        "id_":"Thread-4",
+        "type":"Thread"
+    },
+    "branch_depth":1,
+    "type":"FunctionCall",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"ab_mod.py",
+    "name":"ab_mod",
+    "parent":null,
+    "dependencies":[],
+    "branch_depth":0,
+    "type":"Module",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"ab_mod.py:1",
+    "name":"ab_func",
+    "parent":{
+        "id_":"ab_mod.py",
+        "type":"Module"
+    },
+    "branch_depth":1,
+    "type":"Function",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"Thread-5",
+    "name":"Thread-5",
+    "parent":null,
+    "branch_depth":0,
+    "type":"Thread",
+    "children":[]
+}
+
+---
+
+
+{
+    "function":{
+        "id_":"ab_mod.py:1",
+        "type":"Function"
+    },
+    "id_":"ab_mod.py:1@1390447641.3-7d24ca54-3815-4c7d-9dd3-6d0b94176541",
+    "parent":{
+        "id_":"Thread-5",
+        "type":"Thread"
+    },
+    "branch_depth":1,
+    "type":"FunctionCall",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"bb_mod.py",
+    "name":"bb_mod",
+    "parent":null,
+    "dependencies":[],
+    "branch_depth":0,
+    "type":"Module",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"bb_mod.py:1",
+    "name":"bb_func",
+    "parent":{
+        "id_":"bb_mod.py",
+        "type":"Module"
+    },
+    "branch_depth":1,
+    "type":"Function",
+    "children":[]
+}
+
+---
+
+
+{
+    "id_":"Thread-6",
+    "name":"Thread-6",
+    "parent":null,
+    "branch_depth":0,
+    "type":"Thread",
+    "children":[]
+}
+
+---
+
+
+{
+    "function":{
+        "id_":"bb_mod.py:1",
+        "type":"Function"
+    },
+    "id_":"bb_mod.py:1@1390447641.31-ecdbe5ef-ee7b-4f71-872e-701eefae4e37",
+    "parent":{
+        "id_":"Thread-6",
+        "type":"Thread"
+    },
+    "branch_depth":1,
+    "type":"FunctionCall",
+    "children":[]
+}
+
+---
+
+
