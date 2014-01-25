@@ -46,11 +46,13 @@ require.config({
 require([
     'scripts/control/Search',
     'scripts/view/Updater',
+    'scripts/data/source/File',
     'scripts/data/source/AppWebSocket',
     'scripts/visualiz/Default',
-], function(SearchControl, ViewUpdater, AppWebSocket, DefaultVisualiz) {
+], function(SearchControl, ViewUpdater, File, AppWebSocket, DefaultVisualiz) {
         var defaultVisualiz = new DefaultVisualiz();
         var searchControl = new SearchControl(defaultVisualiz);
         var viewUpdater = new ViewUpdater(searchControl);
+        var file = new File(viewUpdater);
         var appWebSocket = new AppWebSocket(viewUpdater);
 });

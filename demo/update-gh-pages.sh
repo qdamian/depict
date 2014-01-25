@@ -19,6 +19,7 @@ function update_html5_files {
     ! test -d demo || git rm -rf demo
     cd -
     cp -r html5 $GH_PAGES_PATH/demo
+    python demo/generate_data.py > $GH_PAGES_PATH/demo/data.txt
 }
 
 function publish_changes {

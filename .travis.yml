@@ -13,7 +13,6 @@ install:
     - test -d pip.cache || git clone git://github.com/qdamian/depict.pip.cache pip.cache
     - pip install --no-index --find-links=pip.cache -r requirements.txt --quiet
     - pip install -r requirements.txt --use-mirrors --quiet
-    - pip install Pygments Jinja2 docutils # tmp workaround for md5 errors from http://e.pypi.python.org
     - pip install 'dissect >=0.0.dev0' --use-mirrors
                                        --index-url=https://testpypi.python.org/pypi
                                        --extra-index-url=https://pypi.python.org/pypi
@@ -39,4 +38,4 @@ after_success:
   # Report
   #  - coveralls
   # Update gh-pages
-    - bash update-gh-pages.sh
+    - bash demo/update-gh-pages.sh

@@ -57,6 +57,7 @@ require([
     'scripts/control/test/SearchTest',
     'scripts/view/test/UpdaterTest',
     'scripts/data/source/test/AppWebSocketTest',
+    'scripts/data/source/test/FileTest',
     'scripts/visualiz/test/DefaultTest',
 ], function() {
     if (typeof mochaPhantomJS !== "undefined") { mochaPhantomJS.run(); }
