@@ -37,6 +37,6 @@ script:
     - behave test/system/features --tags=~superseded
 after_success:
   # Report
-    - coveralls
+  #  - coveralls
   # Update gh-pages
     - bash update-gh-pages.sh
