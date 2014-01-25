@@ -1,11 +1,5 @@
 #!/bin/bash
 
-function silently_quit_if_not_in_travis {
-    if [[ -z "$TRAVIS_BRANCH" ]]; then
-        exit 1
-    fi
-}
-
 function setup_git {
     echo Setting git user
     git config --global user.email "qdamian@gmail.com"
@@ -36,7 +30,7 @@ function publish_changes {
 
 set -e
 
-silently_quit_if_not_in_travis
 setup_git
 clone_gh_pages
 update_html5_files
+publish_changes
