@@ -8,7 +8,7 @@ depict
 Status of the project
 ---------------------
 
-Not yet useful in any way.
+Not yet useful in any way. [Demo](http://qdamian.github.io/depict/demo/)
 
 Description
 -----------
