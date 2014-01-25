@@ -39,17 +39,3 @@ class TestHttpServerController(object):
         assert_true(controller.http_port_bound.wait(1))
         bound_port = http_adapter.call_args[0][1]
         assert_equal(bound_port % 2, 0)
-
-
-    def test_start_retries_the_port_binding_on_socket_error(self, app,
-                                                            http_adapter):
-        # Given
-        controller = HTTPServerController()
-        app.run.side_effect = [socket.error,
-                               controller.http_port_bound.set()]
-
-        # When
-        controller.start()
-
-        # Then
-        assert_equal(http_adapter.call_count, 2)
