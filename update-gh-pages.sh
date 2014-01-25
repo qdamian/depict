@@ -1,5 +1,7 @@
 #!/bin/bash
 
+GH_PAGES_PATH=$HOME/gh-pages
+
 function setup_git {
     echo Setting git user
     git config --global user.email "qdamian@gmail.com"
@@ -8,22 +10,21 @@ function setup_git {
 
 function clone_gh_pages {
     echo Cloning gh-pages
-    cd $HOME
-    ! test -d gh-pages || rm -rf gh-pages
-    git clone --branch=gh-pages https://${GH_TOKEN}@github.com/qdamian/depict gh-pages
-    cd gh-pages
+    rm -rf $GH_PAGES_PATH
+    git clone --branch=gh-pages https://${GH_TOKEN}@github.com/qdamian/depict $GH_PAGES_PATH
 }
 
 function update_html5_files {
-    echo Updating HTML5 files
-    ! test -d test || git rm -f demo
-    git checkout origin/HEAD -- html5
-    mv html5 demo
-    git add demo
+    cd $GH_PAGES_PATH
+    ! test -d demo || git rm -rf demo
+    cd -
+    cp -r html5 $GH_PAGES_PATH/demo
 }
 
 function publish_changes {
     echo Publishing changes
+    cd $GH_PAGES_PATH
+    git add demo
     git commit -m "Travis build $TRAVIS_BUILD_NUMBER, updating gh-pages"
     git push origin gh-pages
 }
