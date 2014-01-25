@@ -24,7 +24,8 @@ function update_html5_files {
 function publish_changes {
     echo Publishing changes
     cd $GH_PAGES_PATH
-    git add demo
+    # --force in git-add means 'Allow adding otherwise ignored files'
+    git add --force demo
     git commit -m "Travis build $TRAVIS_BUILD_NUMBER, updating gh-pages"
     git push origin gh-pages
 }
