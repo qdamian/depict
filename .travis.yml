@@ -11,7 +11,7 @@ before_install:
 install:
   # Dependencies
     - test -d pip.cache || git clone git://github.com/qdamian/depict.pip.cache pip.cache
-    - pip install --no-index --find-links=pip.cache -r requirements.txt --quiet
+    - pip install --no-index --find-links=pip.cache -r requirements.txt -r dev-requirements.txt --quiet
     - pip install -r requirements.txt --use-mirrors --quiet
     - pip install 'dissect >=0.0.dev0' --use-mirrors
                                        --index-url=https://testpypi.python.org/pypi
@@ -21,19 +21,24 @@ install:
     - sudo rm -rf /dev/shm && sudo ln -s /run/shm /dev/shm
 script:
   # Lint
-    - pylint --errors-only --rcfile=.pylintrc python/depict/
+    - pylint --errors-only --rcfile=.pylintrc depict/
     - npm run-script lint
   # Unit test
-    - nosetests --config .noserc python/depict
+    - nosetests --config .noserc depict
     - npm test
   # Build
     - rm -rf build
-    - python python/setup.py sdist
+    # setuptools/distutils only include files under version control. adding JS, css, etc.
+    - git ls-files --others --exclude-from=.git/info/exclude depict/html5/ > ignored_files
+    - cat ignored_files | xargs git add --force
+    - python setup.py build
+    - cat ignored_files | xargs git reset || true
+    - rm -f ignored_files
   # Install
-    - python python/setup.py install
+    - python setup.py install
   # Functional test
-    - behave test/integration/features --tags=~superseded
-    - behave test/system/features --tags=~superseded
+    - cd test && behave integration/features --tags=~superseded
+    - cd test && behave system/features --tags=~superseded
 after_success:
   # Report
   #  - coveralls

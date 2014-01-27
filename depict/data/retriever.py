@@ -18,7 +18,7 @@
 #endregion
 
 import dissect
-from dissect.consolidation.util.entity_to_json import EntityToJson
+from dissect.consolidation.util import entity_to_json
 
 
 class Retriever(object):
@@ -30,4 +30,4 @@ class Retriever(object):
         dissect.run(self.filepath, self.on_entity)
 
     def on_entity(self, entity):
-        self.callback(EntityToJson.convert(entity, 'id_'))
+        self.callback(entity_to_json.convert(entity, 'id_'))

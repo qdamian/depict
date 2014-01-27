@@ -25,4 +25,4 @@ from behaving.web.steps import *
 @given(u'my program spawns four threads')
 def step_impl(context):
     context.program_path = os.path.abspath(
-        os.path.join('test', 'system', 'data', 'one', 'main.py'))
+        os.path.join('system', 'data', 'one', 'main.py'))

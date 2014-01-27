@@ -29,7 +29,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     shell: {
       'mocha-phantomjs': {
-        command: 'mocha-phantomjs html5/test/runner.html',
+        command: 'mocha-phantomjs depict/html5/test/runner.html',
         options: {
           stdout: true,
           stderr: true,
@@ -48,11 +48,11 @@ module.exports = function(grunt) {
         },
       },
       files: {
-        src: ['html5/**/test/*.js']
+        src: ['depict/html5/**/test/*.js']
       },
     },
     coffeelint: {
-      app: ['html5/**/*.coffee'],
+      app: ['depict/html5/**/*.coffee'],
     },
     watch: {
       jsFiles: {
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
       glob_to_multiple: {
         expand: true,
         cwd: '.',
-        src: ['html5/scripts/**/*.coffee', 'html5/test/**/*.coffee'],
+        src: ['depict/html5/scripts/**/*.coffee', 'depict/html5/test/**/*.coffee'],
         dest: '.',
         ext: '.js'
       }
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
     sass: {
       compile: {
         files: {
-            'html5/css/main.css': 'html5/css/main.scss'
+            'depict/html5/css/main.css': 'depict/html5/css/main.scss'
         }
       }
     }

@@ -36,7 +36,7 @@ class TestRetriever(object):
         dissect.run.assert_called_once_with("fake/file", ANY)
 
 
-    @patch('depict.data.retriever.EntityToJson')
+    @patch('depict.data.retriever.entity_to_json')
     def test_it_converts_each_entity_to_json(self, entity2json, dissect):
         # Arrange
         retriever = Retriever("dummy/file", Mock())
@@ -48,7 +48,7 @@ class TestRetriever(object):
         # Assert
         entity2json.convert.assert_called_once_with(function, 'id_')
 
-    @patch('depict.data.retriever.EntityToJson')
+    @patch('depict.data.retriever.entity_to_json')
     def test_it_calls_back_with_each_entity_in_json(self, entity2json, dissect):
         # Arrange
         callback = Mock()

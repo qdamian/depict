@@ -17,6 +17,8 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+from __future__ import absolute_import
+
 from behaving import environment as behaving_env
 from depict.data.sender import Sender as DataSender
 from functools import wraps

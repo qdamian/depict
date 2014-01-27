@@ -1,12 +1,12 @@
 [run]
 branch = True
-include = python/depict/*
-omit = python/depict/collection/dynamic/*
-omit = python/depict/core/consolidation/util/handlers.py
+include = depict/*
+omit = depict/collection/dynamic/*
+omit = depict/core/consolidation/util/handlers.py
 
 [report]
-omit = python/depict/collection/dynamic/*
-omit = python/depict/core/consolidation/util/handlers.py
+omit = depict/collection/dynamic/*
+omit = depict/core/consolidation/util/handlers.py
 
 [paths]
-source = python/depict/*
+source = depict/*

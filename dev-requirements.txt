@@ -1,0 +1,8 @@
+bottle
+behaving
+WebTest
+mock
+pylint
+python-coveralls
+nose
+nose-parameterized

@@ -17,6 +17,7 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+from __future__ import absolute_import
 from depict.main import Depict
 
 @when(u'I run depict on it')

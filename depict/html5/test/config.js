@@ -26,12 +26,12 @@
 require.config({
     baseUrl: '..',
     paths: {
-        'chai': '../node_modules/chai/chai',
-        'chai-jquery': '../node_modules/chai-jquery/chai-jquery',
-        'd3': '../node_modules/d3/d3',
-        'sinon': '../node_modules/sinon/pkg/sinon',
-        'sinon-chai': '../node_modules/sinon-chai/lib/sinon-chai',
-        'Squire': '../node_modules/squirejs/src/Squire',
+        'chai': '../../node_modules/chai/chai',
+        'chai-jquery': '../../node_modules/chai-jquery/chai-jquery',
+        'd3': '../../node_modules/d3/d3',
+        'sinon': '../../node_modules/sinon/pkg/sinon',
+        'sinon-chai': '../../node_modules/sinon-chai/lib/sinon-chai',
+        'Squire': '../../node_modules/squirejs/src/Squire',
         'jquery': '3rdparty/jquery/jquery',
         'selectize': '3rdparty/selectize/selectize',
     },
