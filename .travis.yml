@@ -37,8 +37,8 @@ script:
   # Install
     - python setup.py install
   # Functional test
-    - cd test && behave integration/features --tags=~superseded
-    - cd test && behave system/features --tags=~superseded
+    - behave test/integration/features --tags=~superseded
+    - behave test/system/features --tags=~superseded
 after_success:
   # Report
   #  - coveralls
