@@ -18,7 +18,7 @@
 #endregion
 
 from __future__ import absolute_import
-from depict.main import Depict
+from depict import Depict
 
 @when(u'I run depict on it')
 def step_impl(context):

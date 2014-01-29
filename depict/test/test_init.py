@@ -18,11 +18,11 @@
 #endregion
 
 from mock import patch
-from depict.main import Depict
+from depict import Depict
 
-@patch('depict.main.DataRetriever')
-@patch('depict.main.DataSender')
-class TestMain(object):
+@patch('depict.DataRetriever')
+@patch('depict.DataSender')
+class TestDepict(object):
     def test_it_passes_data_from_retriever_to_sender(self, data_sender,
                                                      data_retriever):
         # Act
