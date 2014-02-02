@@ -17,19 +17,26 @@
 # along with depict.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+from contextlib import contextmanager
+
 from depict.data.retriever import Retriever as DataRetriever
 from depict.data.sender import Sender as DataSender
 
 class Depict(object):
 
-    def __init__(self, filepath):
-        self.filepath = filepath
+    def __init__(self):
         self.sender = DataSender()
-
-    def start(self):
         self.sender.start()
-        retriever = DataRetriever(self.filepath, self.sender.send_message)
-        retriever.run()
+
+    def run(self, file_path):
+        retriever = DataRetriever(self.sender.send_message)
+        retriever.run(file_path)
+
+    @contextmanager
+    def trace(self, root_dir_path):
+        retriever = DataRetriever(self.sender.send_message)
+        with retriever.trace(root_dir_path) as tracer:
+            yield tracer
 
     def stop(self):
         self.sender.stop()

@@ -27,10 +27,10 @@ from depict.data.retriever import Retriever
 class TestRetriever(object):
     def test_it_runs_dissect_on_the_file(self, dissect):
         # Arrange
-        retriever = Retriever("fake/file", Mock())
+        retriever = Retriever(Mock())
 
         # Act
-        retriever.run()
+        retriever.run("fake/file")
 
         # Assert
         dissect.run.assert_called_once_with("fake/file", ANY)
@@ -39,7 +39,7 @@ class TestRetriever(object):
     @patch('depict.data.retriever.entity_to_json')
     def test_it_converts_each_entity_to_json(self, entity2json, dissect):
         # Arrange
-        retriever = Retriever("dummy/file", Mock())
+        retriever = Retriever(Mock())
         function = Function(id_='func1', name='function1')
 
         # Act
@@ -52,7 +52,7 @@ class TestRetriever(object):
     def test_it_calls_back_with_each_entity_in_json(self, entity2json, dissect):
         # Arrange
         callback = Mock()
-        retriever = Retriever("dummy/file", callback)
+        retriever = Retriever(callback)
         function = Function(id_='func1', name='function1')
         entity2json.convert.return_value = 'fake json'
 

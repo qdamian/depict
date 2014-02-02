@@ -31,7 +31,7 @@ script:
     # setuptools/distutils only include files under version control. adding JS, css, etc.
     - git ls-files --others --exclude-from=.git/info/exclude depict/html5/ > ignored_files
     - cat ignored_files | xargs git add --force
-    - python setup.py build
+    - python setup.py sdist
     - cat ignored_files | xargs git reset || true
     - rm -f ignored_files
   # Install

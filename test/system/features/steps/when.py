@@ -22,8 +22,8 @@ from depict import Depict
 
 @when(u'I run depict on it')
 def step_impl(context):
-    context.depict = Depict(context.program_path)
-    context.depict.start()
+    context.depict = Depict()
+    context.depict.run(context.program_path)
     context.cleanup_tasks.append(context.depict.stop)
 
 @when(u'I open the app')

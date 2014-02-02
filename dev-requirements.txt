@@ -1,4 +1,3 @@
-bottle
 behaving
 WebTest
 mock

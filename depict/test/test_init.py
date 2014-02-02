@@ -26,24 +26,22 @@ class TestDepict(object):
     def test_it_passes_data_from_retriever_to_sender(self, data_sender,
                                                      data_retriever):
         # Act
-        Depict("fake/file").start()
+        Depict().run("fake/file")
 
         # Assert
-        data_retriever.assert_called_once_with("fake/file",
-                                       data_sender.return_value.send_message)
+        data_retriever.assert_called_once_with(
+                data_sender.return_value.send_message)
 
-    def test_it_starts_retrieving_data(self, data_sender,
-                                       data_retriever):
+    def test_it_starts_retrieving_data(self, data_sender, data_retriever):
         # Act
-        Depict("dummy)file").start()
+        Depict().run("fake/file")
 
         # Assert
-        data_retriever.return_value.run.assert_called_once_with()
+        data_retriever.return_value.run.assert_called_once_with("fake/file")
 
-    def test_it_starts_sending_data(self, data_sender,
-                                      data_retriever):
+    def test_it_starts_sending_data(self, data_sender, data_retriever):
         # Act
-        Depict("dummy)file").start()
+        Depict().run("fake/file")
 
         # Assert
         data_sender.return_value.start.assert_called_once_with()
